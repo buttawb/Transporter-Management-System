@@ -1,0 +1,661 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+  View
+{% endblock %}
+
+{% block content %}
+
+<body class="watermark">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- page content -->
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Employee {{ driver.D_Number }}</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          
+          <div class="x_panel">
+            <div class="x_title">
+              
+        
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-6 text-left">
+                  <br>
+                  <br>
+                   <h2><small>{{ driver.D_Name }}'s Profile</small></h2>
+                  {% comment %} <img src="/static/images/logo.png" alt="" class="img-circle img-fluid" width="80" height="80"> {% endcomment %}
+                  </div> 
+                <div class="col-md-6 text-right">
+                  <img src="/static/images/pso.png" alt="" class="img-circle img-fluid" width="100" height="100">
+              </div>
+               
+                
+              </div>
+            </div>
+            
+                
+              </small></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li>
+                  <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-3 col-sm-3 profile_left">
+                <div class="profile_img">
+                  <div id="crop-avatar">
+                    <!-- Current avatar -->
+                    <img class="img-responsive avatar-view" 
+         src="{% if driver.D_Image %}{{ driver.D_Image.url }}{% else %}/static/images/user.png{% endif %}" 
+         alt="Avatar" title="Change the avatar" width="200" height="200" />
+                      
+                  </div>
+                </div>
+                <h3 style="color: #7A1818;">{{ driver.D_Name }}</h3>
+
+                <ul class="list-unstyled user_data">
+                  <br />
+
+                  <li>
+                    <i class="fa fa-hand-o-up user-profile-icon"></i> <br /> {{ driver.Father_Name }}
+                  </li>
+
+                  <li>
+                    <i class="fa fa-calendar user-profile-icon"></i> <br /> {{ driver.DOB }}
+                  </li>
+
+                  <li>
+                    <i class="fa fa-map-marker user-profile-icon"></i> <br /> {{ driver.Address }}
+                  </li>
+
+                  <li>
+                    <i class="fa fa-phone user-profile-icon"></i> <br /> {{ driver.Cell_Phone_Num }}
+                  </li>
+
+                  <li>
+                    <i class="fa fa-credit-card user-profile-icon"></i> <br /> {{ driver.CNIC }}
+                  </li>
+                  <li>
+                    <i class="fa fa-graduation-cap user-profile-icon"></i> <br /> {{ driver.Education }}
+                  </li>
+                  <li>
+                    <i class="fa fa-briefcase user-profile-icon"></i> <br /> {{ driver.Experience }} Year(s) Experience
+                  </li>
+                </ul>
+                <br>
+                <a href="{% url 'editdriver' driver_id=driver.D_ID %}">
+                  <button type="button" class="btn custom-button">
+                      <i class="fa fa-edit m-right-xs"></i> Edit Profile
+                  </button>
+              </a>
+              
+                <br>
+                <br />
+                <br />
+
+                <!-- start skills -->
+                <h4>Skills</h4>
+                <ul class="list-unstyled user_data">
+                  <li>
+                    <p>Total Violations <a href="{% url 'add_driver_violation' driver.D_ID %}">
+                      <i class="fa fa-plus"></i>
+                  </a></p>
+                    <div class="progress progress_sm">
+                      <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div> 
+                    
+                    </div>
+                    
+                  </li>
+                  <li>
+                    <p>Total Tool Box Meetings Attended <a href="{% url 'add_tbm' driver.D_ID %}">
+                      <i class="fa fa-plus"></i>
+                  </a></p>
+                    <div class="progress progress_sm">
+                      <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
+                    </div>
+                  </li>
+                  <li>
+                    <p>Total Drill & Trainings Attended <a href="{% url 'add_driver_training' driver.D_ID %}">
+                      <i class="fa fa-plus"></i>
+                  </a></p>
+                    <div class="progress progress_sm">
+                      <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
+                    </div>
+                  </li>
+                 
+                </ul>
+                <!-- end of skills -->
+              </div>
+              <div class="col-md-9 col-sm-9">
+                
+                <div class="profile_title">
+                  
+                  <div class="col-md-12">
+                    
+                    <div class="col-md-12">
+                      <br>
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2>Personal Information</h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                              <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        
+                        <div class="x_content">
+                          <div class="col-md-6">
+                            <ul class="list-unstyled timeline">
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a><span style="color: #7A1818;">License Type</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    
+                                    <p class="excerpt">
+                                      HTV
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a><span style="color: #7A1818; "><span>Motorway Trained</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                    {{ driver.DDC_Issue_Date }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>License Number</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                      {{ driver.License_No }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a><span style="color: #7A1818;">Medical Health</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                      
+                                      {{ driver.Medical_Health }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>Joining Date</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                      {{ driver.Joining_Date }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>HTV License<br></span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt">
+                                      <span style="font-style: italic; color: #888;">Issued On: </span> {{ driver.HTV_License_Issue_Date }}
+                                      <br>
+                                      <span style="font-style: italic; color: #888;">Expires On: </span> {{ driver.HTV_License_Expiry_Date }}
+                                  </p>
+                                  
+                                    
+                                  </div>
+                                </div>
+                              </li>
+
+                              
+                              
+                              
+                              
+
+
+
+                              {% comment %} <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a><span style="color: #7A1818;">Salary Increment On</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    
+                                    <p class="excerpt">
+                                      <br>
+                                      {{ driver.Salary_Increment_Date }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li> {% endcomment %}
+
+
+
+
+
+                            </ul>
+                          </div>
+
+                          
+                          
+
+
+
+                          <div class="col-md-6">
+                            <ul class="list-unstyled timeline">
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>Blood Group<br></span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt">
+                                      {{ driver.Blood_Group }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                              
+                              
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>HTV License Expiry<br></span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                      {{ driver.HTV_License_Expiry_Date }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                               <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a><span style="color: #7A1818;">Salary Increment On</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                    
+                                      {{ driver.Salary_Increment_Date }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>Medical Provided By</span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt" style="line-height: 3.5;">
+                                      {{ driver.Lab_Name }}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+
+
+
+                              <li>
+                                <div class="block">
+                                  <div class="tags">
+                                    <a ><span style="color: #7A1818;"><span>Medical Report<br></span></a>
+                                  </div>
+                                  <div class="block_content">
+                                    
+                                    <p class="excerpt">
+                                      
+                                      <span style="font-style: italic; color: #888;">Issued On: </span> {{ driver.Report_Date }}
+                                      <br>
+                                      <span style="font-style: italic; color: #888;">Expires On: </span> <span class="badge badge-danger" style="font-size: 0.9em; padding: 0.5em;">
+                                        {{ driver.Expiry_Date }}
+                                    </span>
+                                  </p>
+                                  
+                                    
+                                  </div>
+                                </div>
+                              </li>
+
+
+
+  
+                            </ul>
+                          </div>
+
+                          
+                          
+
+
+
+
+
+
+                          
+                        </div>
+                      </div>
+                    </div>
+
+               
+
+                    
+
+
+                  </div>
+                  
+                </div>
+                <!-- start of user-activity-graph -->
+
+                <!-- end of user-activity-graph -->
+                <br>
+                <br>
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                      <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Training & Drill</a>
+                    </li>
+                    <li role="presentation" class="">
+                      <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Tool Box Meetings Attended</a>
+                    </li>
+                    <li role="presentation" class="">
+                      <a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Rewards</a>
+                    </li>
+                  </ul>
+                  <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="home-tab">
+                      <!-- start recent activity -->
+                      <ul class="messages">
+                        <div class="col-md-12 col-sm-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2>Monthly Training and Drill<small><br />Attended</small></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                  <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Offered Month</th>
+                                    <th>Trainings</th>
+                                    <th>Drills</th>
+                                    <th>Attendance Date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for drill in driver_attendance %}
+                                    <tr>
+                                      <th scope="row">1</th>
+                                      <td>January</td>
+                                      <td>Company Policies</td>
+                                      <td>First Aid</td>
+
+                                      <td>{{ drill.train1_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">2</th>
+                                      <td>Feburary</td>
+                                      <td>Product Knowledge</td>
+                                      <td>Fire Drill</td>
+
+                                      <td>{{ drill.train2_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">3</th>
+                                      <td>March</td>
+                                      <td>Vehicle Inspection</td>
+                                      <td>Law and Order Situation</td>
+
+                                      <td>{{ drill.train3_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">4</th>
+                                      <td>April</td>
+                                      <td>Journey Management</td>
+                                      <td>Breakdown Maintainance</td>
+
+                                      <td>{{ drill.train4_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">5</th>
+                                      <td>May</td>
+                                      <td>Emergency Response</td>
+                                      <td>Fire Evacuation</td>
+
+                                      <td>{{ drill.train5_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">6</th>
+                                      <td>June</td>
+                                      <td>Internal DDC</td>
+                                      <td>Road Accident</td>
+
+                                      <td>{{ drill.train6_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">7</th>
+                                      <td>July</td>
+                                      <td>Vehicle Roll Over Prevention</td>
+                                      <td>Heat Stroke</td>
+
+                                      <td>{{ drill.train7_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">8</th>
+                                      <td>August</td>
+                                      <td>ABS Brake System</td>
+                                      <td>Spill</td>
+
+                                      <td>{{ drill.train8_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">9</th>
+                                      <td>September</td>
+                                      <td>Loading and Unloading</td>
+                                      <td>Heart Attack</td>
+
+                                      <td>{{ drill.train9_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">10</th>
+                                      <td>October</td>
+                                      <td>First Aid Induction</td>
+                                      <td>Tyre Burst</td>
+
+                                      <td>{{ drill.train10_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">11</th>
+                                      <td>November</td>
+                                      <td>Fatigue Management</td>
+                                      <td>Bomb Threat</td>
+
+                                      <td>{{ drill.train11_completed_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row">12</th>
+                                      <td>December</td>
+                                      <td>Fire Extinguisher Use</td>
+                                      <td>Mega Drill</td>
+
+                                      <td>{{ drill.train12_completed_date }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </ul>
+                      <!-- end recent activity -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                      <!-- start user projects -->
+                      <ul class="messages">
+                        <div class="col-md-12 col-sm-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2>Tool Box Meeting<br /><small>Attended</small></h2>
+                              <br />
+
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                  <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              <div>
+                                <canvas id="barChart"></canvas>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ul>
+
+                      <script>
+                        const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
+                        
+                        // Custom color palette for bars
+                        const colorPalette = ['rgb(122,24,24)']
+                        
+                        // Dummy data
+                        const data = {
+                          labels: ['Syndicate Sessions', 'Heat Stress Management', 'Pre-load Inspection', 'Safe Decantation at Retail Site', 'Roll Over Prevention', 'Fatigue Management', 'Defensive Driving', 'Unauthorized Passenger', 'Loading & Unloading', '360 Walkabout Process', 'Vehicle Fitness', 'Emergency Response', 'PPE Compliance', 'Duty & Driving Hours', 'On-Road Distraction', 'Security Awareness', 'Manual Handling', 'Working at Height', 'Adverse Weather Condition', 'Static Charge', 'Driver Behavior on Road', 'Foggy Weather', 'Sugarcane Trolleys Hazards and Controls', 'NMPI Reporting', 'Black Spots'],
+                          datasets: [
+                            {
+                              label: 'No. of Times Meeting Attended',
+                              data: tbm_data,
+                              backgroundColor: colorPalette,
+                              borderColor: colorPalette,
+                              borderWidth: 1
+                            }
+                          ]
+                        }
+                        
+                        const options = {
+                          scales: {
+                            x: {
+                              beginAtZero: true,
+                              maxRotation: 45,
+                              minRotation: 0
+                            },
+                            y: {
+                              beginAtZero: true,
+                              stepSize: 1,
+                              max: 6
+                            }
+                          },
+                          responsive: true, // Make the chart responsive
+                          maintainAspectRatio: false, // Maintain aspect ratio when resizing
+                          plugins: {
+                            legend: {
+                              display: false // Hide the legend
+                            },
+                            tooltips: {
+                              enabled: true, // Show tooltips on hover
+                              mode: 'index',
+                              intersect: false
+                            }
+                          }
+                        }
+                        
+                        // Create a bar chart
+                        const ctx = document.getElementById('barChart').getContext('2d')
+                        const myBarChart = new Chart(ctx, {
+                          type: 'bar',
+                          data: data,
+                          options: options
+                        })
+                      </script>
+
+                      <!-- end user projects -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                      <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+  <!-- /page content -->
+{% endblock %}

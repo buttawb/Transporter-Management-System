@@ -1,0 +1,392 @@
+{% extends "base/base.html" %}
+
+
+{% block title %} {{ action }} Driver{% endblock %}
+
+
+{% block content %}
+   
+<div class="right_col" role="main">
+    <div class>
+    <div class="page-title">
+    <div class="title_left">
+        <h3> {{ action }} Driver</h3>
+    </div>
+    
+    </div>
+
+
+<div class="clearfix"></div>
+<div class="row">
+<div class="col-md-12 col-sm-12 ">
+<div class="x_panel">
+<div class="x_title">
+    
+<ul class="nav navbar-right panel_toolbox">
+<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+</li>
+
+</ul>
+<div class="clearfix"></div>
+</div>
+<br>
+<div class="x_content">
+    <form  id="demo-form2" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+<div id="wizard" class="form_wizard wizard_horizontal">
+    
+<ul class="wizard_steps">
+    
+<li>
+<a href="#step-1">
+<span class="step_no">1</span>
+<span class="step_descr">
+Step 1<br/>
+<small>Personal Information</small>
+</span>
+</a>
+</li>
+<li>
+<a href="#step-2">
+<span class="step_no">2</span>
+<span class="step_descr">
+Step 2<br/>
+<small>License Information</small>
+</span> 
+</a>
+</li>
+<li>
+<a href="#step-3">
+<span class="step_no">3</span>
+<span class="step_descr">
+Step 3<br/>
+<small>Medical & DDC</small>
+</span>
+</a>
+</li>
+
+<li>
+    <a href="#step-4">
+    <span class="step_no">4</span>
+    <span class="step_descr">
+    Step 4<br/>
+    <small>Other Information</small>
+    </span>
+    </a>
+    </li>
+
+</ul>
+
+
+<div id="step-1">
+    
+
+    <br>
+<br>
+<div class="form-group row">
+<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Driver ID<span class="required">*</span>
+</label>
+
+<div class="col-md-6 col-sm-6 ">
+    <input type="file" name="image" accept="image/*" id="userImageInput">
+</div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3 label-align">Driver Image</label>
+    <div class="col-sm-5 ">
+        {% if driver.D_Image %}
+            <img src="{{ driver.D_Image.url }}" alt="Driver Image" class="img-circle img-fluid" width="200" height="200">
+        {% else %}
+            <img id="userImage" src="/static/images/user.png" alt="Default User Image" class="img-circle img-fluid" width="200" height="200">
+        {% endif %}
+    </div>
+</div>
+
+<div class="form-group row">
+<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Driver Name<span class="required">*</span>
+</label>
+<div class="col-md-6 col-sm-6 ">
+<input type="text" id="last-name" name="name" value="{{ driver.D_Name }}" required="required" class="form-control ">
+</div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Father Name<span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 ">
+    <input type="text" id="last-name" name="father_name" value="{{ driver.Father_Name }}" required="required" class="form-control ">
+    </div>
+    </div>
+
+<div class="form-group row">
+<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">CNIC Number<span class="required">*</span></label>
+<div class="col-md-6 col-sm-6 ">
+<input id="middle-name" class="form-control col" type="number" value="{{ driver.CNIC }}" required="required" name="cnic">
+</div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3  label-align">CNIC Validity Date<span class="required">*</span></label>
+    <div class="col-md-6 col-sm-6">
+        <input id="no" class="form-control" type="date" value="{{ driver.CNIC_Validity|date:'Y-m-d' }}" name="cnic_date" required='required'>
+    </div>
+</div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3 label-align">Cell Phone Number<span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 ">
+    <input id="birthday" class="date-picker form-control" value="{{ driver.Cell_Phone_Num }}" name="cell" required="required" type="number">
+    </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">Education<span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+        <input id="birthday" class="date-picker form-control" value="{{ driver.Education }}" name="education" required="required" type="text">
+        </div>
+        </div>
+
+        
+            
+            
+        
+        <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Date of Birth<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+                <input class="form-control" class='date' type="date" value="{{ driver.DOB|date:'Y-m-d' }}" name="dob" required='required'></div>
+        </div>
+
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3 label-align">Address<span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 ">
+    <input id="birthday" class="date-picker form-control" value="{{ driver.Address }}" name="address" required="required" type="text">
+    </div>
+    </div>
+
+    
+
+
+</div>
+
+
+<div id="step-2">
+<br>
+<br>
+<div class="form-group row">
+    <label class="col-form-label col-md-3 col-sm-3 label-align">License Type
+    </label>
+    <div class="col-md-6 col-sm-6 ">
+    <input id="birthday" class="date-picker form-control" value="{{ driver.DL_Status }}" name="driving_license_status"  type="text">
+    </div>
+    </div>
+
+       <div class="form-group row">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">DDC Issue Date</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" class='date' value="{{ driver.DDC_Issue_Date|date:'Y-m-d' }}" name="motorway_certification_issue" type="date" name="date"> </div>
+                                        </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align">License Number
+                </label>
+                <div class="col-md-6 col-sm-6 ">
+                <input id="birthday" class="date-picker form-control" value="{{ driver.License_No }}" name="license_no"type="number">
+                </div>
+                </div>
+               
+                <div class="form-group row">
+                    <label class="control-label col-md-3 col-sm-3 label-align" for="violation-type">HTV License Authority </label>
+                    <div class="col-md-6 col-sm-6">
+                        <select class="form-control" id="violation-type" name="htc_license">
+                            {% for htv in loc %}
+                            <option value="{{ htv }}" {% if htv == driver.HTV_License_Authority %}selected{% endif %}>
+                                {{ htv }}
+                              </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        
+                    
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">HTV License Issue Date</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control" class='date' value="{{ driver.HTV_License_Issue_Date|date:'Y-m-d' }}" type="date" name="htv_license_issue" ></div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">HTV License ExpiryDate</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control" class='date' value="{{ driver.HTV_License_Expiry_Date|date:'Y-m-d' }}" type="date" name="htv_license_expiry"></div>
+                        </div>
+</div>
+<div id="step-3">
+    <br>
+    <br>
+
+
+    <div class="form-group row">
+        <label class="control-label col-md-3 col-sm-3 label-align" for="violation-type">Oil Marketing Company</label>
+        <div class="col-md-6 col-sm-6">
+            <select class="form-control" id="violation-type" name="Oil_Marketing_Company">
+                {% for oil in omc %}
+                <option value="{{ oil }}" {% if oil == driver.Oil_Marketing_Company %}selected{% endif %}>
+                    {{ oil }}
+                  </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">Medical Health
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+        <input id="birthday" class="date-picker form-control" value="{{ driver.Medical_Health }}" name="medical_health" type="text">
+        </div>
+        </div>
+
+
+  
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Medical Issue Date</label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' type="date" value="{{ driver.Report_Date|date:'Y-m-d' }}" name="medical_issue"></div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Medical Expiry Date</label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' type="date" value="{{ driver.Expiry_Date|date:'Y-m-d' }}" name="medical_expiry"> </div>
+    </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Lab Name </span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 ">
+                    <input id="birthday" class="date-picker form-control" value="{{ driver.Lab_Name }}" name="lab"type="text">
+                    </div>
+                    </div>
+        
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align">DDC Expiry Date</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" class='date' type="date" value="{{ driver.DDC_Expiry_Date|date:'Y-m-d' }}" name="ddc_expiry"></div>
+                    </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align">Blood Group<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 ">
+                            <input id="birthday" class="date-picker form-control" value="{{ driver.Blood_Group }}" name="bg" required="required" type="text">
+                            </div>
+                            </div>
+
+
+                          
+                            
+                            
+</div>
+
+<div id="step-4">
+    <br>
+    <br>
+
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Joining Date<span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' value="{{ driver.Joining_Date|date:'Y-m-d' }}" type="date" name="joining" required='required'></div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Award Date</label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' value="{{ driver.Salary_Increment_Date|date:'Y-m-d' }}" type="date" name="increment"></div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Leave Date</label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' value="{{ driver.Leave_Date }}" type="date" name="leave"></div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Leave Resume Date</label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" class='date' type="date" value="{{ driver.Leave_Resume_Date|date:'Y-m-d' }}" name="resume"></div>
+    </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Driving Since
+                    </label>
+                    <div class="col-md-6 col-sm-6 ">
+                    <input id="birthday" class="date-picker form-control" value="{{ driver.Driving_Age }}" name="driving_age"  type="number">
+                    </div>
+                    </div>
+
+                   
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align">Previous Company 
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                        <input id="birthday" class="date-picker form-control" value="{{ driver.Previous_Company }}" name="previous_company" type="text">
+                        </div>
+                        </div>
+                    
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align">Tank Lorry No
+                            </label>
+                            <div class="col-md-6 col-sm-6 ">
+                            <input id="birthday" class="date-picker form-control" value="{{ driver.Tank_Lorry }}" name="tank_lorry"type="text">
+                            </div>
+                            </div>
+                        
+<br>
+<br>
+
+    <div class="col-md-12 text-center">
+    <button type="submit" class="btn custom-button">
+        <i class="fa fa-arrow-right m-right-xs"></i> Save
+    </button>
+    </div>
+
+</form>
+</div>
+
+
+
+
+</div>
+</div>
+</div>
+
+
+<script>
+    document.getElementById('userImageInput').addEventListener('change', function () {
+        const userImage = document.getElementById('userImage');
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                userImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            userImage.src = '/static/images/user.png'; // Set the default image when no file is selected
+        }
+    });
+</script>
+
+
+
+
+
+
+{% endblock %}

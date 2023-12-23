@@ -1,0 +1,146 @@
+{% extends "base/base.html" %}
+
+
+{% block title %}All Users{% endblock %}
+
+
+{% block content %}
+
+<!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Registered Users</h3>
+                </div>
+  
+                
+              </div>
+              
+  
+              <div class="clearfix"></div>
+  
+              <div class="row">
+                
+                  <div class="x_panel">
+                    <a href="/adduser">
+                        <button type="button" class="btn custom-button float-right">
+                            <i class="fa fa-plus m-right-xs"></i> Add User
+                        </button>
+                      </a>
+                    <div class="x_content">
+                      
+  
+                        <div class="col-md-12 col-sm-12  text-center">
+                            
+                          </div>
+    
+                          <div class="clearfix"></div>
+  
+                        
+  
+                          {% for user in user_data %}
+                          <div class="col-md-4 col-sm-4 profile_details">
+                              <div class="well profile_view">
+                                  <div class="col-sm-12">
+                                      <h4 class="brief">
+                                          <i>{% if user.user.is_superuser %}Full Access{% else %}Read Only Access{% endif %}</i>
+                                      </h4>
+                                      <div class="left col-sm-7">
+                                          <h2>{{ user.user.get_full_name }}</h2>
+                                          <p><strong></strong> <br></p>
+                                          <ul class="list-unstyled">
+                                              <li><i class="fa fa-user"></i> Username: {{ user.user.username }}</li>
+                                              <li><i class="fa fa-user"></i> Status: {% if user.user.is_active %}Active{% else %}Inactive{% endif %}</li>
+                                              <li><i class="fa fa-clock-o"></i> Last Login: {{ user.user.last_login }}</li>
+                                          </ul>
+                                      </div>
+                                      <div class="right col-sm-5 text-center">
+                                        {% if user.user_image %}
+                                            <img src="{{ user.user_image.img.url }}" alt="" class="img-circle img-fluid">
+                                        {% else %}
+                                            <img src="/static/images/user.png"  alt="" class="img-circle img-fluid">
+                                        {% endif %}
+                                    </div>
+                                    
+                                  </div>
+                                  <div class="bottom text-center">
+                                      <div class="col-sm-12 emphasis">
+                                      </div>
+                                      <div class="col-sm-12 emphasis">
+                                          {% comment %} <button type="button" class="btn btn-danger btn-sm" onclick="location.href='{% url 'deleteuser' user.user.id %}'">
+                                              <i class="fa fa-user"></i> <i class="fa fa-delete-o"> Delete</i>
+                                          </button> {% endcomment %}
+
+                                    
+                                          <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ user.user.id }}">
+                                            <i class="fa fa-user"></i> Delete
+                                        </button>
+                                        
+                                        <div class="modal fade" id="deleteModal{{ user.user.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                              <div class="modal-content custom-modal"> <!-- Add the custom-modal class -->
+                                                  <div class="modal-header">
+                                                      <h4 class="modal-title" id="myModalLabel" style="color: black;">Delete</h4>
+                                                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                      <h4></h4>
+                                                      <p style="color: black;">Are you sure you want to delete this user?</p> <!-- Set text color to black -->
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                      <a href="{% url 'deleteuser' user.user.id %}" class="btn btn-danger">Delete</a>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      
+                       
+
+                                          <button class="btn btn-primary btn-sm" onclick="location.href='{% url 'edituser' user.user.id %}'">
+                                            <i class="fa fa-pencil"></i> Edit User
+                                        </button>
+                                        
+                                        
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endfor %}
+                      
+
+                        
+
+
+
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- /page content -->
+
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.76/pdfmake.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.76/vfs_fonts.js"></script>
+          
+
+          <script>
+            document.getElementById("download-pdf-button").addEventListener("click", function () {
+                const content = document.getElementById("content-to-convert");
+    
+                // Define the PDF document definition
+                const docDefinition = {
+                    content: [
+                        { text: "PDF Generated from HTML", fontSize: 16, bold: true, margin: [0, 0, 0, 10] },
+                        { text: content.innerText }
+                    ]
+                };
+    
+                // Create and download the PDF
+                pdfMake.createPdf(docDefinition).download("your_document.pdf");
+            });
+        </script>
+
+{% endblock %}

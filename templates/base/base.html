@@ -1,0 +1,404 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="images/favicon.ico" type="image/ico" />
+
+    <title>{% block title %}HGGC{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/static/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	
+    <!-- bootstrap-progressbar -->
+    <link href="/static/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="/static/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="/static/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="/static/build/css/custom.min.css" rel="stylesheet">
+
+     <!-- Bootstrap -->
+     <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    
+     <!-- Datatables -->
+     
+     <link href="/static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+     <link href="/static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+     <link href="/static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+     <link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+     <link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+     <style>
+      .custom-button {
+          background-color: #7a1818;
+          color: white; /* Text color */
+          border: 1px solid #3C0C0C;
+          transition: background-color 0.3s;
+          outline: none;
+      }
+  
+      .custom-button:hover {
+          background-color: #611313;
+          color: white;
+      }
+      .custom-button:active {
+        box-shadow: 0 0 5px #A15D5D;
+    }
+    @media print {
+      .noprint {
+         display: none;
+      }
+
+    .profile_details {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 400px !important;
+        overflow: hidden !important;
+    }
+
+    .profile_details img {
+        flex-grow: 1 !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    @media (max-width: 767px) {
+        /* Adjust styles for smaller screens */
+        .profile_details {
+            height: auto !important; /* Allow the card to grow based on content */
+        }
+    }
+      
+   }
+
+     
+ 
+    </style>
+
+
+
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col noprint">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="/" class="site_title"><img style="border-radius: 50%;
+                max-width: 45px;" class="logo-abbr" src="/static/images/logo.png" alt="" /><span> HGGC</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                
+                <img src="{% user_profile_image user %}" alt="{{ user.first_name }}'s Profile Picture" class="img-circle profile_img" style="width: 60px; height:60px;">
+
+            </div>
+            
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>Dashboard</h3>
+                <ul class="nav side-menu">
+                  <li><a href="/"><i class="fa fa-home"></i> Home </a>
+                  </li>
+              </div>
+
+                {% comment %} <div class="menu_section">
+                    <h3>Views</h3>
+                    <ul class="nav side-menu">
+                  
+                  <li><a href="index.html"><i class="fa fa-desktop"></i> Driver View </a>
+                    
+                  </li>
+
+                  <li><a href="index.html"><i class="fa fa-desktop"></i> Vehicle View </a>
+                    
+                  </li>
+                </div> {% endcomment %}
+
+                <div class="menu_section">
+                  <h3>Main</h3>
+                    <ul class="nav side-menu">
+
+                      <li><a><i class="fa fa-briefcase"></i>Safe System of Work<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="/policies">Policies</a></li>
+                          <li><a href="/procedures">Procedures</a></li>
+                          <li><a href="/emergencyprocedures">Emergency Procedures</a></li>
+                        </ul>
+                      </li>
+
+                  <li><a><i class="fa fa-users"></i> Drivers <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'get_drivers' %}">All Drivers</a></li>
+                      <li><a href="{% url 'add_driver' %}">Add Driver</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a><i class="fa fa-car"></i> Vehicle <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        
+                        <li><a>Vehicles<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                           
+                            <li><a href="{% url 'get_vehicles' filter='all' %}">All Vehicles</a>
+                            </li>
+                            
+                            <li><a href="{% url 'get_tppl' filter='tppl' %}">All TPPL Vehicles</a>
+                            </li>
+                            <li><a href="{% url 'get_go' filter='go' %}">All GO Vehicles</a>
+                            </li>
+                            <li><a href="{% url 'get_apl' filter='apl' %}">All APL Vehicles</a>
+                            </li>
+                            <li><a href="{% url 'get_pso' filter='pso' %}">All PSO Vehicles</a>
+                            </li>
+
+                            <li><a href="{% url 'add_vehicle' %}">Add Vehicle</a>
+                            </li>
+                          </ul>
+
+                       
+                            <li><a>Owners<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            
+                            <li><a href="{% url 'get_owners' %}">All Owners</a>
+                            </li>
+                            <li><a href="{% url 'add_owner' %}">Add Owner</a>
+                            </li>
+                          </ul>
+                        </li>
+
+                        <li><a>Maker<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            
+                            <li><a href="{% url 'get_makers' %}">All Makers</a>
+                            </li>
+                            <li><a href="{% url 'add_maker' %}">Add Maker</a>
+                            </li>
+                          </ul>
+                        </li>
+
+                        <li><a>Companies<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                           
+                            <li><a href="{% url 'get_company' %}">All Companies</a>
+                            </li>
+                            <li><a href="{% url 'add_company' %}">Add Company</a>
+                            </li>
+                          </ul>
+                        </li>
+
+                       
+                    </ul>
+                  </li>                  
+
+
+                  {% comment %} <li><a><i class="fa fa-building"></i> Companies <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'get_company' %}">All Companies</a></li>
+                      <li><a href="{% url 'add_company' %}">Add Company</a></li>
+                    </ul>
+                  </li> {% endcomment %}
+                
+
+
+                  <li><a><i class="fa fa-envelope"></i>Operations<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="n">Yet to be decided</a></li>
+                      <li><a href="n">Yet to be decided</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a><i class="fa fa-warning"></i>Vehicle Tracking System<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="n">Yet to be decided</a></li>
+                      <li><a href="n">Yet to be decided</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a><i class="fa fa-wrench"></i>Maintenance<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="n">Yet to be decided</a></li>
+                      <li><a href="n">Yet to be decided</a></li>
+                    </ul>
+                  </li>
+                  
+                </div>
+
+          
+              <div class="menu_section">
+                <h3>Registration</h3>
+                <ul class="nav side-menu">
+
+                  <li><a><i class="fa fa-sitemap"></i> Users <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="/allusers">All Users</a></li>
+                      <li><a href="/adduser">Add User</a></li>
+
+                    </ul>
+                  </li>
+                  
+                  <li><a href="/bug"><i class="fa fa-bug"></i> Report a bug </a>
+                  </li>
+                  
+                 
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+             
+              <a title="Logout" href="{% url 'logout' %}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav noprint">
+          <div class="nav_menu">
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+              <nav class="nav navbar-nav">
+              <ul class=" navbar-right">
+                <li class="nav-item dropdown open" style="padding-left: 15px;">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                    <img src="{% user_profile_image user %}" alt="{{ user.first_name }}'s Profile Picture" style="width: 30px; height:30px;">{{ request.user.first_name }} {{ request.user.last_name }}
+                  </a>
+                  <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"  href="javascript:;"> Profile</a>
+                      
+                 
+                    <a class="dropdown-item"  href="{% url 'logout' %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                  </div>
+                </li>
+
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+
+
+
+        {% block content %}{% endblock %}
+
+        
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Designed and Developed by <strong>AWB</strong>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+
+
+       
+          
+        </div>
+      </div>
+  
+      <!-- jQuery -->
+      <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+      <!-- Bootstrap -->
+      <script src="/static/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- FastClick -->
+      <script src="/static/vendors/fastclick/lib/fastclick.js"></script>
+      <!-- NProgress -->
+      <script src="/static/vendors/nprogress/nprogress.js"></script>
+      <!-- Chart.js -->
+      <script src="/static/vendors/Chart.js/dist/Chart.min.js"></script>
+      <!-- gauge.js -->
+      <script src="/static/vendors/gauge.js/dist/gauge.min.js"></script>
+      <!-- bootstrap-progressbar -->
+      <script src="/static/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+      <!-- iCheck -->
+      <script src="/static/vendors/iCheck/icheck.min.js"></script>
+      <!-- Skycons -->
+      <script src="/static/vendors/skycons/skycons.js"></script>
+      <!-- Flot -->
+      <script src="/static/vendors/Flot/jquery.flot.js"></script>
+      <script src="/static/vendors/Flot/jquery.flot.pie.js"></script>
+      <script src="/static/vendors/Flot/jquery.flot.time.js"></script>
+      <script src="/static/vendors/Flot/jquery.flot.stack.js"></script>
+      <script src="/static/vendors/Flot/jquery.flot.resize.js"></script>
+      <!-- Flot plugins -->
+      <script src="/static/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+      <script src="/static/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+      <script src="/static/vendors/flot.curvedlines/curvedLines.js"></script>
+      <!-- DateJS -->
+      <script src="/static/vendors/DateJS/build/date.js"></script>
+      <!-- JQVMap -->
+      <script src="/static/vendors/jqvmap/dist/jquery.vmap.js"></script>
+      <script src="/static/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+      <script src="/static/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+      <!-- bootstrap-daterangepicker -->
+      <script src="/static/vendors/moment/min/moment.min.js"></script>
+      <script src="/static/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+  
+      <!-- Custom Theme Scripts -->
+      <script src="/static/build/js/custom.min.js"></script>
+
+     
+    <!-- Datatables -->
+    <script src="/static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/static/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="/static/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="/static/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/static/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/static/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="/static/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="/static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="/static/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="/static/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="/static/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/static/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+
+    <script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <script src="/static/vendors/raphael/raphael.min.js"></script>
+    <script src="/static//vendors/morris.js/morris.min.js"></script>
+
+
+
+    </body>
+  </html>
+  

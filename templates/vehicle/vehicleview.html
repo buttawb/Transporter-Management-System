@@ -1,0 +1,378 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+  View
+{% endblock %}
+
+{% block content %}
+
+<body class="watermark">
+  <style>
+    .hggc-header{
+      background-color: #42070b;
+      padding: 24px 24px;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hggc-header > img{
+      height: 64px;
+    }
+    .hggc-header > img:last-of-type{
+      border-radius: 6px;
+    }
+    .hggc-body{
+      padding: 24px;
+      background: #fff;
+    }
+    .hggc-body .user-box{
+      display: flex;
+      align-items: center;
+    }
+    .hggc-body .user-box > img{
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      border: 3px solid #42080b;
+    }
+    .hggc-body .user-content{
+      padding-left: 20px;
+      line-height: 1;
+    }
+    .hggc-body .user-content > h5{
+      font-size: 24px;
+      color: #141414;
+    }
+    .hggc-body .user-content > p{
+      font-size: 16px;
+      color: #5e5e5e;
+      margin-bottom: 0;
+    }
+    .hggc-body .user-content > p:first-of-type{
+      margin-bottom: 6px;
+    }
+    .user-items{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 32px;
+    }
+    .user-items .items  > p,
+    .data-items  > p{
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      color: #7a1818;
+      font-weight: 500;
+    }
+    .user-items .items:not(:last-child) {
+      border-right: 1px solid #d8d8d8;
+      padding-right: 32px;
+    }
+    .user-items .items  > h5{
+      margin-bottom: 0;
+    }
+    .data-items > .badge{
+      font-size: 1.25rem;
+    }
+
+    .hggc-panel{
+      border-radius: 8px;
+      border: 2px solid #7a1818;
+      padding: 0;
+    }
+    .hggc-panel .x_title{
+      padding: 16px;
+      margin: 0;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .hggc-panel .x_title > h2{
+      font-weight: 500;
+      font-size: 20px;
+    }
+    .hggc-panel .x_content{
+      padding: 16px;
+    }
+    .hggc-panel .panel_toolbox {
+      min-width: initial;
+    }
+    .seperation{
+      width: 100%;
+      border-top: 1px dashed #c9c9c9;
+      margin: 16px 0;
+    }
+    .work-history{
+      padding: 16px;
+      background: #f7f7f7;
+      margin: -24px;
+    }
+    .work-history h6 > a{
+      font-size: 22px;
+    }
+    
+  
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- page content -->
+  <div class="right_col" role="main">
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="hggc-box">
+            <div class="hggc-header">
+                <img src="/static/images/hggc-logo.png" alt="" />
+                {% if vehicle.OMC.cname == "Attock Petroleum Limited" %}
+                    <img src="/static/images/attock-logo.png" alt="" />
+                {% elif vehicle.OMC.cname == 'GO' %}
+                    <img src="/static/images/go.png" alt="" />
+                {% elif vehicle.OMC.cname == 'Pakistan State Oil' %}
+                    <img src="/static/images/pso-logo.png" alt="" />
+                {% else %}
+                    <img src="/static/images/total-logo.png" alt="" />
+                {% endif %}
+
+            </div>
+            <div class="hggc-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="user-box">
+                    <img class="img-responsive avatar-view" 
+                      src="{% if driver.D_Image %}{{ driver.D_Image.url }}{% else %}/static/images/truck.png{% endif %}" 
+                      alt="Avatar" title="Change the avatar"/>
+                      <div class="user-content">
+                        <h5>{{ vehicle.TL_Number }}</h5>
+                        <p>{{ driver.Address }}</p>
+                        <p>{{ driver.Cell_Phone_Num }}</p>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6 text-right" style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div class="btns noprint">
+                     
+                        <button type="button" class="btn btn-outline-danger">
+                            <i class="fa fa-print m-right-xs"></i> Print as PDF
+                        </button>
+                      </a>
+                      <a href="{% url 'edit_vehicle' vehicle_id=vehicle.id %}">
+                        <button type="button" class="btn custom-button">
+                            <i class="fa fa-edit m-right-xs"></i> Edit Vehicle
+                        </button>
+                      </a>
+                  </div>
+                  <div class="user-header-info">
+                    <div class="user-items">
+                      <div class="items">
+                        <p>Capacity</p>
+                        <h5>{{ vehicle.Capacity }}</h5>
+                      </div>
+                      <div class="items">
+                        <p>Make</p>
+                        <h5>{{ vehicle.Make }}</h5>
+                      </div>
+                      <div class="items">
+                        <p>Model</p>
+                        <h5>{{ vehicle.Model }}</h5>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Personal Information-->
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="hggc-panel x_panel">
+                  <!--Title-->
+                  <div class="x_title">
+                    <h2 class="m-0"></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!--Content-->
+                  <div class="x_content mt-0">
+                    <!--Item Row-->
+                    <div class="row mb-3">
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Engine Number</p>
+                          <h5>{{ vehicle.Engine_Number }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Chassis Number</p>
+                          <h5>{{ vehicle.Chassis_Number }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Type</p>
+                          <h5>{{ vehicle.Type }}</h5>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Standard</p>
+                          <h5>{{ vehicle.Status }}</h5>
+                        </div>
+                      </div>
+                    </div>
+                    
+
+                    <div class="row mb-3">
+                       <!--Item-->
+                       <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Trailer ID</p>
+                          <h5>{{ vehicle.Trailer_ID }}</h5>
+                        </div>
+                      </div>
+                        <!--Item-->
+                    <div class="col-md-3">
+                      <div class="data-items">
+                        <p>Brand</p>
+                        <h5>{{ vehicle.Brand }}</h5>
+                      </div>
+                    </div>
+                   
+
+                    <div class="col-md-3">
+                        <div class="data-items">
+                          <p>NHA Configuration Class</p>
+                          <h5>{{ vehicle.NHA_Configuration_Class }}</h5>
+                        </div>
+                      </div>
+              
+
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Gross Empty Trailer Weight</p>
+                          <h5>{{ vehicle.Gross_Empty_Trailer_Weight }}</h5>
+                        </div>
+                      </div>
+                      </div>
+
+                      <div class="row">
+                        <!--Item-->
+                        <div class="col-md-3">
+                         <div class="data-items">
+                           <p>Lease Company</p>
+                           <h5>{{ vehicle.LEASE_COMPANY }}</h5>
+                         </div>
+                       </div>
+
+                       <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Lease Bank</p>
+                          <h5>{{ vehicle.LEASE_BANK }}</h5>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Chambers</p>
+                          <h5>{{ vehicle.Chambers }}</h5>
+                        </div>
+                      </div>
+
+
+
+                      </div>
+
+
+
+                      
+
+                    <br>
+                    <br>
+                    <!--Seperation-->
+                    <div class="row seperation"></div>
+
+                    <!--Item Row-->
+                    
+
+                    <!--Item Row-->
+                    <div class="row mb-3">
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>DIP Chart Expiry</p>
+                          <h5>{{ vehicle.DIP_CHART_Date }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Insurance Expiry</p>
+                          <h5>{{ vehicle.INSURANCE_Date }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>TAX Expiry</p>
+                       
+                           <h5> {{ vehicle.TAX_PAID_Date }}</h5>
+                         
+                        </div>
+                      </div>
+                    </div>
+
+                    <!--Item Row-->
+                    <div class="row mb-3">
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Fitness Expiry</p>
+                          <h5>{{ vehicle.FITNISSE_Date }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Q FOM Expiry</p>
+                          <h5>{{ vehicle.Q_FOM_Date }}</h5>
+                        </div>
+                      </div>
+                      <!--Item-->
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Route Permit Expiry</p>
+                          <h5>{{ vehicle.Route_Permit_Date }}</h5>
+                        </div>
+                      </div>
+                       <!--Item-->
+                       
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+          </div>
+          </div>
+          
+       
+      </div>
+  </div>
+</body>
+  <!-- /page content -->
+{% endblock %}

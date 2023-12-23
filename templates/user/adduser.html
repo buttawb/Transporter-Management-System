@@ -1,0 +1,253 @@
+			
+            {% extends "base/base.html" %}
+
+
+            {% block title %}Add User{% endblock %}
+            
+            
+            {% block content %}
+               
+            
+            <!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>{{ heading }}</h3>
+						</div>
+
+						
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									
+									<h2> <small></small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<br />
+									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
+										{% csrf_token %}										
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name <span class="required">*</span></label>
+											<div class="col-md-6 col-sm-6">
+												<input type="text" name="first-name" value="{{ initial_data.first_name }}" id="first-name" required="required" class="form-control">
+											</div>
+										</div>
+										
+										<div class="item form-group">
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name <span class="required">*</span>
+											</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input type="text" id="last-name" value="{{ initial_data.last_name }}"name="last-name" required="required" class="form-control">
+											</div>
+										</div>
+										<div class="item form-group">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Username</label>
+											<div class="col-md-6 col-sm-6 ">
+												<input id="username" class="form-control" value="{{ initial_data.username }}" required="required" type="text" name="username">
+											</div>
+										</div>
+										
+										{% if 'edit' not in request.path %}
+
+                                        <div class="field item form-group">
+											<label class="col-form-label col-md-3 col-sm-3  label-align">Password<span class="required">*</span></label>
+											<div class="col-md-6 col-sm-6">
+												<input class="form-control" type="password" id="password1" name="password"  title="Minimum 8 Characters Including An Upper And Lower Case Letter, A Number And A Unique Character" required />
+												
+												<span style="position: absolute;right:15px;top:7px;" onclick="hideshow()" >
+													<i id="slash" class="fa fa-eye-slash"></i>
+													<i id="eye" class="fa fa-eye"></i>
+												</span>
+											</div>
+										</div>
+                                        
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Repeat password<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" type="password" name="password2" data-validate-linked='password' required='required' /></div>
+                                        </div>
+
+										{% endif %}
+                                    
+                                        <div class="form-group row">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Access Level</label>
+											<div class="col-md-6 col-sm-6">
+												<select name="access-level" class="form-control">
+													<option value="Read Only Access" {% if initial_data.access_level == 'Read Only Access' %}selected{% endif %}>Read Only Access</option>
+													<option value="Full Access" {% if initial_data.access_level == 'Full Access' %}selected{% endif %}>Full Access</option>
+												</select>
+											</div>
+										</div>
+										
+										
+
+                                        <div class="form-group row">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Status</label>
+											<div class="col-md-6 col-sm-6">
+												<select name="status" class="form-control">
+													<option value="Active" {% if initial_data.status == 'Active' %}selected{% endif %}>Active</option>
+													<option value="Disabled" {% if initial_data.status == 'Disabled' %}selected{% endif %}>Disabled</option>
+												</select>
+											</div>
+										</div>
+										
+										
+
+										<div class="form-group row">
+											<label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Avatar</label>
+											<div class="col-md-6 col-sm-6">
+												<input type="file" name="user_image" accept="image/*" id="userImageInput">
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-md-3 col-sm-3 label-align">User Image</label>
+											<div class="col-sm-5 ">
+												{% if user_img %}
+													<img src="{{ user_img.url }}" alt="User Image" class="img-circle img-fluid" width="200" height="200">
+												{% else %}
+													<img id="userImage" src="/static/images/user.png" alt="Default User Image" class="img-circle img-fluid" width="200" height="200">
+												{% endif %}
+											</div>
+										</div>
+
+										
+										<div class="ln_solid"></div>
+										<div class="item form-group">
+											<div class="col-md-6 col-sm-6 offset-md-3">
+												{% if 'edit' not in request.path %}
+												<button class="btn btn-primary" type="reset">Reset</button>
+												{% endif %}
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+				</div>
+			</div>
+			<!-- /page content -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="/static/vendors/validator/multifield.js"></script>
+      <script src="/static//vendors/validator/validator.js"></script>
+      
+
+      <script>
+        function hideshow(){
+          var password = document.getElementById("password1");
+          var slash = document.getElementById("slash");
+          var eye = document.getElementById("eye");
+          
+          if(password.type === 'password'){
+            password.type = "text";
+            slash.style.display = "block";
+            eye.style.display = "none";
+          }
+          else{
+            password.type = "password";
+            slash.style.display = "none";
+            eye.style.display = "block";
+          }
+    
+        }
+      </script>
+    
+        <script>
+            // initialize a validator instance from the "FormValidator" constructor.
+            // A "<form>" element is optionally passed as an argument, but is not a must
+            var validator = new FormValidator({
+                "events": ['blur', 'input', 'change']
+            }, document.forms[0]);
+            // on form "submit" event
+            document.forms[0].onsubmit = function(e) {
+                var submit = true,
+                    validatorResult = validator.checkAll(this);
+                console.log(validatorResult);
+                return !!validatorResult.valid;
+            };
+            // on form "reset" event
+            document.forms[0].onreset = function(e) {
+                validator.reset();
+            };
+            // stuff related ONLY for this demo page:
+            $('.toggleValidationTooltips').change(function() {
+                validator.settings.alerts = !this.checked;
+                if (this.checked)
+                    $('form .alert').remove();
+            }).prop('checked', false);
+    
+        </script>
+
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Track whether the username is taken
+        var isUsernameTaken = false;
+        
+        $('#username').on('blur', function () {
+            var username = $(this).val();
+            $.ajax({
+                url: '/check_username/',
+                data: {
+                    'username': username
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        isUsernameTaken = true;
+                        alert('This username is already taken.');
+                    } else {
+                        isUsernameTaken = false;
+                    }
+                }
+            });
+        });
+        
+        // Prevent form submission if username is taken
+        $('form').on('submit', function (event) {
+            if (isUsernameTaken) {
+                alert('Please choose a different username.');
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    });
+</script>
+
+
+<script>
+    document.getElementById('userImageInput').addEventListener('change', function () {
+        const userImage = document.getElementById('userImage');
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                userImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            userImage.src = '/static/images/user.png'; // Set the default image when no file is selected
+        }
+    });
+</script>
+
+
+
+
+
+{% endblock %}
