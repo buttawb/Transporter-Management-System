@@ -108,7 +108,7 @@
                         <td>{{ driver.CNIC }}</td>
                         
                         <td > {{ driver.CNIC_Validity }}
-                          <span class="badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                          <span class="badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% elif driver.CNIC_Validity_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
                             {{ driver.CNIC_Validity_status }}
                         </span>
                         
@@ -125,12 +125,12 @@
                         <td>{{ driver.HTV_License_Issue_Date }}</td>
 
                         <td>{{ driver.HTV_License_Expiry_Date }}
-                          <span class="badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                          <span class="badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
                             {{ driver.HTV_License_Expiry_Date_status}}
                         </span>
                         </td>
                         <td>{{ driver.DDC_Expiry_Date }}
-                          <span class="badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                          <span class="badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% elif driver.DDC_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
                             {{ driver.DDC_Date_status }}
                         </span>
                         </td>
@@ -139,7 +139,7 @@
                         <td>{{ driver.Report_Date }}</td>
                         <td>{{ driver.Lab_Name }}</td>
                         <td>{{ driver.Expiry_Date }}
-                          <span class="badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                          <span class="badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
                             {{ driver.Expiry_Date_status }}
                         </span>
                         </td>

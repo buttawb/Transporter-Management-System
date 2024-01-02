@@ -719,11 +719,31 @@ def edit_company(request, company_id):
     return render(request, 'company/add_company.html', {'company': company,
                                                         'action': "Edit"})
 
+
 def driver_view(request, driver_id):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     driver = get_object_or_404(Driver, D_ID=driver_id)
+    date_fields = {
+        'CNIC_Validity': driver.CNIC_Validity,
+        'Motorway_Cissue_Date': driver.DDC_Issue_Date,
+        'HTV_License_Issue_Date': driver.HTV_License_Issue_Date,
+        'HTV_License_Expiry_Date': driver.HTV_License_Expiry_Date,
+        'DDC_Date': driver.DDC_Expiry_Date,
+        'Report_Date': driver.Report_Date,
+        'Expiry_Date': driver.Expiry_Date,
+        'Joining_Date': driver.Joining_Date,
+        'Salary_Increment_Date': driver.Salary_Increment_Date,
+        'Leave_Date': driver.Leave_Date,
+        'Leave_Resume': driver.Leave_Resume,
+    }
+    
+    # Calculate the status messages for each date field and add them to the driver object
+    for field_name, field_date in date_fields.items():
+        if field_date:
+            status_message = get_date_status(field_date, field_name)
+            setattr(driver, f"{field_name}_status", status_message)
     
     # Retrieve training name and training month for the driver from annual_drill
     annual_drill_data = annual_drill.objects.all()
@@ -772,6 +792,17 @@ def login_user(request):
 
     return render(request, 'user/login.html')
 
+
+def get_date_status(date, field_name):
+    current_date = datetime.now().date()
+    days_remaining = (date - current_date).days
+    if days_remaining <= 0:
+        return f"Expired"
+    elif days_remaining <= 90:
+        return f"Close to Expiry"
+    else:
+        return f"Valid"
+        
 def get_driver(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
@@ -779,15 +810,6 @@ def get_driver(request):
     drivers = Driver.objects.all().order_by('D_Name')  # Query the database to get all drivers
     
     # Define a function to calculate the status message based on the date
-    def get_date_status(date, field_name):
-        current_date =  datetime.now().date()
-        days_remaining = (date - current_date).days
-        if days_remaining <= 0:
-            return f"Expired"
-        elif days_remaining <= 90:
-            return f"Close to Expiry"
-        else:
-            return f"Valid"
     
     for driver in drivers:
         # Define a dictionary to store the date fields and their corresponding status messages

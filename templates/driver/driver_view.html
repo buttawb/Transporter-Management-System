@@ -251,7 +251,7 @@
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>CNIC</p>
+                          <p><b>CNIC</b></p>
                           <h5>{{ driver.CNIC }}</h5>
                         </div>
                       </div>
@@ -266,7 +266,8 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date</p>
-                          <h5>{{ driver.CNIC_Validity }}</h5>
+                          <h5>{{ driver.CNIC_Validity }} <span class="badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% elif driver.CNIC_Validity_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                            {{ driver.CNIC_Validity_status }} </span></h5>
                         </div>
                       </div>
                     </div>
@@ -276,7 +277,7 @@
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>DDC</p>
+                          <p><b>DDC</b></p>
                           <h5>{{ driver.Motorway_Trained }}</h5>
                         </div>
                       </div>
@@ -292,7 +293,8 @@
                         <div class="data-items">
                           <p>Expiry Date</p>
                          
-                           <h5> {{ driver.DDC_Expiry_Date }}</h5>
+                           <h5> {{ driver.DDC_Expiry_Date }} <span class="badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% elif driver.DDC_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                            {{ driver.DDC_Date_status }} </span></h5>
                        
                         </div>
                       </div>
@@ -303,7 +305,7 @@
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>HTV License</p>
+                          <p><b>HTV License</b></p>
                           <h5>{{ driver.License_No }}</h5>
                         </div>
                       </div>
@@ -317,8 +319,10 @@
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>Expiry Date</p>
-                          <h5>{{ driver.HTV_License_Expiry_Date }}</h5>
+                          <p>Expiry Date </p>
+                          <h5>{{ driver.HTV_License_Expiry_Date }} <span class="badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                            {{ driver.HTV_License_Expiry_Date_status}} </span></h5>
+
                         </div>
                       </div>
                        <!--Item-->
@@ -336,7 +340,7 @@
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>Medical</p>
+                          <p><b>Medical</b></p>
                           <h5>{{ driver.Lab_Name }}</h5>
                         </div>
                       </div>
@@ -351,7 +355,8 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date</p>
-                          <h5>{{ driver.Expiry_Date }}</h5>
+                          <h5>{{ driver.Expiry_Date }} <span class="badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                            {{ driver.Expiry_Date_status }} </span> </h5>
                         </div>
                       </div>
                         <!--Item-->
