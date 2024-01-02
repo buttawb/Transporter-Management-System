@@ -401,7 +401,7 @@ def add_driver(request):
                 CNIC_Validity=cnic_date if cnic_date else None,
                 Cell_Phone_Num=cell,
                 Education=education,
-                DOB=dob,
+                DOB=datetime.strptime(dob, '%Y-%m-%d') if dob else None,
                 Address=address,
                 DL_Status=driving_license_status if driving_license_status else None,
                 Motorway_Trained=motorway_trained if motorway_trained else None,
@@ -424,6 +424,7 @@ def add_driver(request):
                 Previous_Company=previous_company if previous_company else None,
                 Tank_Lorry=tank_lorry if tank_lorry else None,
                 Experience=experience if experience else None,
+                Expiry_Date=medical_expiry if medical_expiry else None
             )
             driver.save()
             
@@ -617,13 +618,14 @@ def edit_driver(request, driver_id):
                 image.save(image_data, format='JPEG')
                 driver.D_Image.save(user_image.name, ContentFile(image_data.getvalue()))
 
+            driver.D_Number = id
             driver.D_Name = name
             driver.Father_Name = father_name
             driver.CNIC = cnic
             driver.CNIC_Validity = cnic_date if cnic_date else None
             driver.Cell_Phone_Num = cell
             driver.Education = education
-            driver.DOB = dob
+            driver.DOB = datetime.strptime(dob, '%Y-%m-%d') if dob else None
             driver.Address = address
             driver.DL_Status = driving_license_status if driving_license_status else None
             driver.Motorway_Trained = motorway_trained if motorway_trained else None
@@ -646,6 +648,7 @@ def edit_driver(request, driver_id):
             driver.Previous_Company = previous_company if previous_company else None
             driver.Tank_Lorry = tank_lorry if tank_lorry else None
             driver.Experience = experience if experience else None
+            driver.Expiry_Date = medical_expiry if medical_expiry else None
             driver.save()
             
             return HttpResponseRedirect('/drivers')
@@ -715,6 +718,7 @@ def edit_company(request, company_id):
         return HttpResponseRedirect('/company')
     return render(request, 'company/add_company.html', {'company': company,
                                                         'action': "Edit"})
+
 def driver_view(request, driver_id):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
@@ -772,7 +776,7 @@ def get_driver(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
     
-    drivers = Driver.objects.all()  # Query the database to get all drivers
+    drivers = Driver.objects.all().order_by('D_Name')  # Query the database to get all drivers
     
     # Define a function to calculate the status message based on the date
     def get_date_status(date, field_name):
@@ -810,12 +814,6 @@ def get_driver(request):
     context = {
         'drivers': drivers,
     }
-
-    # Assuming you have retrieved the driver object and assigned it to the 'driver' variable
-
-# Iterate through the fields and print their names and values
-    # Assuming you have retrieved the driver object and assigned it to the 'driver' variabl
-
     
     return render(request, 'driver/driver.html', context)
 
@@ -908,9 +906,34 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
     
-    total_drivers = Driver.objects.all().count()
     total_vehicles = Vehicle.objects.all().count()
-   
+
+    today = date.today()
+
+    # Assuming your Driver model has fields CNIC_Validity, DDC_Expiry, HTV_License_Expiry, and Expiry_Date
+    expired_cnic_list = []
+    expired_ddc_list = []
+    expired_htv_license_list = []
+    expired_general_list = []
+
+    # Replace 'Driver' with your actual model name
+    drivers = Driver.objects.all()
+
+    for driver in drivers:
+        if driver.CNIC_Validity and driver.CNIC_Validity < today:
+            expired_cnic_list.append(driver)
+        if driver.DDC_Expiry_Date and driver.DDC_Expiry_Date < today:
+            expired_ddc_list.append(driver)
+        if driver.HTV_License_Expiry_Date and driver.HTV_License_Expiry_Date < today:
+            expired_htv_license_list.append(driver)
+        if driver.Expiry_Date and driver.Expiry_Date < today:
+            expired_general_list.append(driver)
+
+    expired_cnic_list = sorted(expired_cnic_list, key=lambda x: x.D_Name)
+    expired_ddc_list = sorted(expired_ddc_list, key=lambda x: x.D_Name)
+    expired_htv_license_list = sorted(expired_htv_license_list, key=lambda x: x.D_Name)
+    expired_general_list = sorted(expired_general_list, key=lambda x: x.D_Name)
+
     today = date.today()
     year = today.year
     month = today.month
@@ -922,12 +945,16 @@ def dashboard(request):
             if day != 0 and calendar.weekday(year, month, day) != 6:  # 6 represents Sunday
                 working_days += 1
 
-    man_days_work = (58+int(total_drivers))*working_days
+    man_days_work = (58+int(drivers.count()))*working_days
 
     context = {
-        'total_drivers': total_drivers,
+        'total_drivers': drivers.count,
         'total_vehicles': total_vehicles,
-        'man_days_work': man_days_work
+        'man_days_work': man_days_work,
+        'expired_cnic_list': expired_cnic_list,
+        'expired_ddc_list': expired_ddc_list,
+        'expired_htv_license_list': expired_htv_license_list,
+        'expired_general_list': expired_general_list,
     }
     return render(request, 'dashboard.html', context)
 
