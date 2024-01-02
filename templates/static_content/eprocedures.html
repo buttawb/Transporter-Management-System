@@ -12,6 +12,150 @@
 
 
 
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Total Emergency Procedures</h3>
+        </div>
+
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+
+
+
+
+        <div class="col-md-12 col-sm-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><i class="fa fa-align-left"></i> Emergency Procedures <small></small></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                
+              
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+
+
+
+
+
+
+      </div>
+        </div>
+
+      </div>
+      <div class="clearfix"></div>
+
+
+      </div>
+    
+
+      <!-- Add a script to handle the download logic -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add a click event listener for the download icon
+  document.getElementById('p1').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p1.docx');
+  });
+
+  document.getElementById('p2').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p2.docx');
+  });
+
+  document.getElementById('p3').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p3.docx');
+  });
+
+  document.getElementById('p4').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p4.docx');
+  });
+
+  document.getElementById('p5').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p5.docx');
+  });
+  document.getElementById('p6').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p6.docx');
+  });
+  document.getElementById('p7').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p7.docx');
+  });
+  document.getElementById('p8').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p8.docx');
+  });
+  document.getElementById('p9').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p9.docx');
+  });
+  document.getElementById('p10').addEventListener('click', function(event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+      
+      // Call the downloadFile function with the corresponding file name
+      downloadFile('p10.docx');
+  });
+
+  // Add more similar event listeners for other policies
+
+  // Function to handle the download logic
+  function downloadFile(fileName) {
+      // Construct the file path based on your Django project structure
+      var filePath = '/static/pdf/' + fileName;
+
+      // Create an anchor element
+      var link = document.createElement('a');
+
+      // Set the download attribute and href
+      link.download = fileName;
+      link.href = filePath;
+
+      // Simulate a click on the anchor element to trigger the download
+      link.click();
+  }
+});
+</script>
+
 
 
 

@@ -27,16 +27,18 @@
 <div class="col-md-12 col-sm-12 ">
     <div class="x_panel">
       <div class="x_title">
-        <a href="/addvehicle">
-          <button type="button" class="btn custom-button float-right">
-              <i class="fa fa-plus m-right-xs"></i> Add Vehicle
-          </button>
-        </a>
-        <div style="float: right;">
+        <div style="float: center !important;">
           {% if image %}
             <img src="{{ image }}" width="210" height="80">
           {% endif %}
+          <a href="/addvehicle">
+            <button type="button" class="btn custom-button float-right">
+                <i class="fa fa-plus m-right-xs"></i> Add Vehicle
+            </button>
+          </a>
         </div>
+       
+        
 
         <div class="clearfix"></div>
         
@@ -51,6 +53,7 @@
         </p>
         
         <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+          
             <thead>
                 <tr>
                     <th>Avatar</th>
