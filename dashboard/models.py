@@ -292,7 +292,13 @@ class tool_box_meeting_topics(models.Model):
 
 class driver_tool_box_meeting_attended(models.Model):
     id = models.AutoField(primary_key=True)
+
+    # This is topic of the meeting
     meetings_attended = models.ForeignKey(tool_box_meeting_topics, on_delete=models.CASCADE, null=True)
+
+    # This is the Driver ID who has attended the meeting
     meeting_attended_by = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
+
+    # This is the no of times a single meeting is attended by the driver
     no_of_times_meeting_attended = models.IntegerField()
 

@@ -17,6 +17,10 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from datetime import datetime
 from django.urls import reverse
+from django.db.models import Count
+from django.db.models.functions import Coalesce
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 
 # def remove_null_images(request):
@@ -802,7 +806,8 @@ def get_date_status(date, field_name):
         return f"Close to Expiry"
     else:
         return f"Valid"
-        
+
+
 def get_driver(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
@@ -826,17 +831,17 @@ def get_driver(request):
             'Leave_Date': driver.Leave_Date,
             'Leave_Resume': driver.Leave_Resume,
         }
-        
+
         # Calculate the status messages for each date field and add them to the driver object
         for field_name, field_date in date_fields.items():
             if field_date:
                 status_message = get_date_status(field_date, field_name)
                 setattr(driver, f"{field_name}_status", status_message)
-    
+
     context = {
         'drivers': drivers,
     }
-    
+
     return render(request, 'driver/driver.html', context)
 
 def get_vehicle(request, filter):
@@ -969,6 +974,13 @@ def dashboard(request):
 
     man_days_work = (58+int(drivers.count()))*working_days
 
+    meetings_data = (
+        tool_box_meeting_topics.objects
+        .prefetch_related('driver_tool_box_meeting_attended_set')  # Assuming the related name is set to 'driver_tool_box_meeting_attended_set'
+    )
+
+    tbm_data = [meeting.driver_tool_box_meeting_attended_set.count() for meeting in meetings_data]
+
     context = {
         'total_drivers': drivers.count,
         'total_vehicles': total_vehicles,
@@ -977,6 +989,7 @@ def dashboard(request):
         'expired_ddc_list': expired_ddc_list,
         'expired_htv_license_list': expired_htv_license_list,
         'expired_general_list': expired_general_list,
+        'tbm_data': tbm_data,
     }
     return render(request, 'dashboard.html', context)
 
@@ -1166,7 +1179,7 @@ def allusers(request):
 #         driver.age = age
 #         driver.save()
 
-#     return redirect('/drivers')  
+#     return redirect('/drivers')
 
 
 
@@ -1216,3 +1229,22 @@ def get_emergency_procedures(request):
 
 def get_policies(request):
     return render(request, 'static_content/policies.html')
+
+
+def print_user_data_pdf(request, user_id):
+    driver = get_object_or_404(Driver, D_ID=user_id)  # Use the correct field name
+
+    template_path = 'driver/driver_view.html'  # Replace with your actual HTML template path
+    context = {'driver': driver}
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"' # Assuming 'D_Name' is a field in your model
+
+    template = get_template(template_path)
+    html = template.render(context)
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    return response

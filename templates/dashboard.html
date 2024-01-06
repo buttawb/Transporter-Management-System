@@ -5,6 +5,17 @@
 {% endblock %}
 
 {% block content %}
+
+<style>
+  .fa-caret-square-o-right {
+    color: #7A1818;
+  }
+  .fa-check-square-o {
+    color: #7A1818;
+  }
+</style>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <!-- page content -->
   <div class="right_col" role="main">
     <!-- top tiles -->
@@ -47,67 +58,122 @@
     </div>
     <!-- /top tiles -->
 
+<div class="col-md-12 col-sm-12  ">
+<div class="x_panel">
+<div class="x_title">
+<h2>Tool Box Meeting<small>Sessions</small></h2>
+<ul class="nav navbar-right panel_toolbox">
+<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+</li>
+
+</ul>
+<div class="clearfix"></div>
+</div>
+<div class="x_content">
+
+  
+   <div class="col-md-12">
+                        <canvas id="barChart" height="350"></canvas>
+                              </div>
+ 
+
+
+
+</div>
+</div>
+</div>
+<script>
+          const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
+          
+          // Custom color palette for bars
+          const colorPalette = ['rgb(122,24,24)']
+          
+          // Dummy data
+          const data = {
+            labels: ['Syndicate Sessions', 'Heat Stress Management', 'Pre-load Inspection', 'Safe Decantation at Retail Site', 'Roll Over Prevention', 'Fatigue Management', 'Defensive Driving', 'Unauthorized Passenger', 'Loading & Unloading', '360 Walkabout Process', 'Vehicle Fitness', 'Emergency Response', 'PPE Compliance', 'Duty & Driving Hours', 'On-Road Distraction', 'Security Awareness', 'Manual Handling', 'Working at Height', 'Adverse Weather Condition', 'Static Charge', 'Driver Behavior on Road', 'Foggy Weather', 'Sugarcane Trolleys Hazards and Controls', 'NMPI Reporting', 'Black Spots'],
+            datasets: [
+              {
+                label: 'Meeting attended by Drivers',
+                data: tbm_data,
+                backgroundColor: colorPalette,
+                borderColor: colorPalette,
+                borderWidth: 1
+              }
+            ]
+          }
+          
+          const options = {
+            scales: {
+              x: {
+                beginAtZero: true,
+                maxRotation: 25,
+                minRotation: 0
+              },
+              y: {
+                beginAtZero: true,
+                stepSize: 1,
+                max: 150
+              }
+            },
+            responsive: true, // Make the chart responsive
+            maintainAspectRatio: false, // Maintain aspect ratio when resizing
+            plugins: {
+              legend: {
+                display: true // Hide the legend
+              },
+              tooltips: {
+                enabled: true, // Show tooltips on hover
+                mode: 'index',
+                intersect: false
+              }
+            }
+          }
+          
+          // Create a bar chart
+          const ctx = document.getElementById('barChart').getContext('2d')
+          const myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+          })
+        </script>
+
+            
+
     <div class="row">
       <div class="col-md-12 col-sm-12">
         <div class="dashboard_graph">
+          
           <div class="row x_title">
+            
             <div class="col-md-6">
-              <h3>Network Activities <small>Graph title sub-title</small></h3>
+              <h3><small></small></h3>
             </div>
             <div class="col-md-6">
               <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                <i class="glyphicon glyphicon-calendar fa fa-pen"></i>
                 <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
               </div>
             </div>
           </div>
 
-          <div class="col-md-9 col-sm-9">
-            <div id="chart_plot_01" class="demo-placeholder"></div>
-          </div>
-          <div class="col-md-3 col-sm-3 bg-white">
-            <div class="x_title">
-              <h2>Top Campaign Performance</h2>
-              <div class="clearfix"></div>
-            </div>
 
-            <div class="col-md-12 col-sm-12">
-              <div>
-                <p>Facebook Campaign</p>
-                <div class="">
-                  <div class="progress progress_sm" style="width: 76%;">
-                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p>Twitter Campaign</p>
-                <div class="">
-                  <div class="progress progress_sm" style="width: 76%;">
-                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12 col-sm-12">
-              <div>
-                <p>Conventional Media</p>
-                <div class="">
-                  <div class="progress progress_sm" style="width: 76%;">
-                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p>Bill boards</p>
-                <div class="">
-                  <div class="progress progress_sm" style="width: 76%;">
-                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
+        <div class="tile-stats">
+        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+        <div class="count">179</div>
+        <h3 class="mb-3">Total Sessions</h3>
+
+        </div>
+        </div>
+        <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
+        <div class="tile-stats">
+        <div class="icon"><i class="fa fa-check-square-o"></i></div>
+        <div class="count">179</div>
+        <h3 class="mb-3">Participants</h3>
+
+        </div>
+        </div>
 
           <div class="clearfix"></div>
         </div>
@@ -235,6 +301,10 @@
 
     <!-- end of weather widget -->
   </div>
+
+<script src="path/to/jquery.js"></script>
+    <script src="path/to/raphael.js"></script>
+    <script src="path/to/morris.js"></script>
 
   <!-- /page content -->
 {% endblock %}

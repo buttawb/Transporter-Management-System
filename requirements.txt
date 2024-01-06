@@ -2,3 +2,4 @@ django
 mysqlclient
 pillow
 pandas
+xhtml2pdf
