@@ -367,7 +367,7 @@ def add_driver(request):
             increment = request.POST.get('increment')
             leave = request.POST.get('leave')
             resume = request.POST.get('resume')
-            driving_age = request.POST.get('driving_age')
+            driving_age = request.POST.get('experience')
             previous_company = request.POST.get('previous_company')
             tank_lorry = request.POST.get('tank_lorry')
             experience = request.POST.get('experience')
@@ -391,14 +391,17 @@ def add_driver(request):
                 image_data = BytesIO()
                 image.save(image_data, format='JPEG')
                 image_name = user_image.name
-                # driver.D_Image.save(user_image.name, ContentFile(image_data.getvalue()))
+                image_data.seek(0)
+                image_file = ContentFile(image_data.getvalue(), name=user_image.name)
+
+
             else:
                 image_data = None
-                image_name = None
+                image_file = None
 
             driver = Driver(
                 D_Number=id,
-                D_Image=image_data,
+                D_Image=image_file,
                 D_Name=name,
                 Father_Name=father_name,
                 CNIC=cnic,
@@ -431,8 +434,7 @@ def add_driver(request):
                 Expiry_Date=medical_expiry if medical_expiry else None
             )
             driver.save()
-            
-            return HttpResponseRedirect('/drivers')
+            return HttpResponseRedirect('/driverview/' + str(driver.D_ID) + '/')
             
         else:
             context = {'omc': omcc, 'loc': locc, 'action': "Add"}
@@ -484,8 +486,7 @@ def add_vehicle(request):
 
             # Save the new vehicle object
         new_vehicle.save()
-
-        return HttpResponseRedirect('/vehicles/all')
+        return HttpResponseRedirect('/vehicleview/' + str(new_vehicle.id) + '/')
 
     context = {
         'vehicle_makers': vehicle_makers,
@@ -503,47 +504,45 @@ def edit_vehicle(request, vehicle_id):
     vehicle_owners = VehicleOwner.objects.all()
     company = Company.objects.all()
 
-    
-    vehicle = Vehicle.objects.get(pk=vehicle_id)
-
-    
+    # Get the existing Vehicle instance
+    vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
 
     if request.method == 'POST':
-    # Check if selected foreign key values exist in related models
+        # Check if selected foreign key values exist in related models
         omc_exists = Company.objects.get(cname=request.POST.get('omc'))
         make_exists = VehicleMaker.objects.get(VMNAME=request.POST.get('vmake'))
         lease_company_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_company'))
         lease_bank_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_bank'))
-        # Create a new vehicle object with the extracted data
-        new_vehicle = Vehicle(
-            TL_Number=request.POST.get('tl_number'),
-            Capacity=request.POST.get('capacity'),
-            OMC=omc_exists,
-            Make=make_exists,
-            Chambers=request.POST.get('chambers'),
-            Model=request.POST.get('model'),
-            Engine_Number=request.POST.get('engine_number'),
-            Chassis_Number=request.POST.get('chassis_number'),
-            LEASE_COMPANY=lease_company_exist,
-            LEASE_BANK=lease_bank_exist,
-            Status=request.POST.get('status'),
-            Type=request.POST.get('type'),
-            Trailer_ID=request.POST.get('trailer_id'),
-            Brand=request.POST.get('brand'),
-            NHA_Configuration_Class=request.POST.get('nha'),
-            Gross_Empty_Trailer_Weight=request.POST.get('gross'),
-            DIP_CHART_Date=request.POST.get('vd_ed'),
-            INSURANCE_Date=request.POST.get('vr_ed'),
-            TAX_PAID_Date=request.POST.get('vt_ed'),
-            FITNISSE_Date=request.POST.get('vf_ed'),
-            Q_FOM_Date=request.POST.get('vq_ed'),
-            Route_Permit_Date=request.POST.get('vrp_ed')
-        )
 
-            # Save the new vehicle object
-        new_vehicle.save()
+        # Update the fields of the existing vehicle instance
+        vehicle.TL_Number = request.POST.get('tl_number')
+        vehicle.Capacity = request.POST.get('capacity')
+        vehicle.OMC = omc_exists
+        vehicle.Make = make_exists
+        vehicle.Chambers = request.POST.get('chambers')
+        vehicle.Model = request.POST.get('model')
+        vehicle.Engine_Number = request.POST.get('engine_number')
+        vehicle.Chassis_Number = request.POST.get('chassis_number')
+        vehicle.LEASE_COMPANY = lease_company_exist
+        vehicle.LEASE_BANK = lease_bank_exist
+        vehicle.Status = request.POST.get('status')
+        vehicle.Type = request.POST.get('type')
+        vehicle.Trailer_ID = request.POST.get('trailer_id')
+        vehicle.Brand = request.POST.get('brand')
+        vehicle.NHA_Configuration_Class = request.POST.get('nha')
+        vehicle.Gross_Empty_Trailer_Weight = request.POST.get('gross')
+        vehicle.DIP_CHART_Date = request.POST.get('vd_ed')
+        vehicle.INSURANCE_Date = request.POST.get('vr_ed')
+        vehicle.TAX_PAID_Date = request.POST.get('vt_ed')
+        vehicle.FITNISSE_Date = request.POST.get('vf_ed')
+        vehicle.Q_FOM_Date = request.POST.get('vq_ed')
+        vehicle.Route_Permit_Date = request.POST.get('vrp_ed')
 
-        return HttpResponseRedirect('/vehicles/all')
+        # Save the updated vehicle instance
+        vehicle.save()
+
+        return HttpResponseRedirect('/vehicleview/' + str(vehicle.id) + '/')
+
     context = {
         'vehicle_makers': vehicle_makers,
         'vehicle_owners': vehicle_owners,
@@ -597,7 +596,7 @@ def edit_driver(request, driver_id):
             increment = request.POST.get('increment')
             leave = request.POST.get('leave')
             resume = request.POST.get('resume')
-            driving_age = request.POST.get('driving_age')
+            driving_age = request.POST.get('experience')
             previous_company = request.POST.get('previous_company')
             tank_lorry = request.POST.get('tank_lorry')
             experience = request.POST.get('experience')
@@ -655,7 +654,7 @@ def edit_driver(request, driver_id):
             driver.Expiry_Date = medical_expiry if medical_expiry else None
             driver.save()
             
-            return HttpResponseRedirect('/drivers')
+            return HttpResponseRedirect('/driverview/' + str(driver_id) + '/')
             
         else:
             context = {'driver': driver, 'omc': omcc, 'loc': locc, 'action': "Edit"}

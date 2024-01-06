@@ -186,8 +186,13 @@ Step 3<br/>
     <label class="col-form-label col-md-3 col-sm-3 label-align">License Type
     </label>
     <div class="col-md-6 col-sm-6 ">
-    <input id="birthday" class="date-picker form-control" value="{{ driver.DL_Status }}" name="driving_license_status"  type="text">
-    </div>
+    {% comment %} <input id="birthday" class="date-picker form-control" value="{{ driver.DL_Status }}" name="driving_license_status"  type="text"> {% endcomment %}
+<select id="driving_license_status" class="selectpicker form-control" data-live-search="true" name="driving_license_status">
+  <option value="HTV" {% if driver.DL_Status == 'HTV' %}selected{% endif %}>HTV</option>
+  <option value="PSV" {% if driver.DL_Status == 'PSV' %}selected{% endif %}>PSV</option>
+  <option value="LTV" {% if driver.DL_Status == 'LTV' %}selected{% endif %}>LTV</option>
+</select>  
+</div>
     </div>
 
        <div class="form-group row">
@@ -328,10 +333,10 @@ Step 3<br/>
     </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Driving Since
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Experience
                     </label>
                     <div class="col-md-6 col-sm-6 ">
-                    <input id="birthday" class="date-picker form-control" value="{{ driver.Driving_Age }}" name="driving_age"  type="number">
+                    <input id="birthday" class="date-picker form-control" value="{{ driver.Experience }}" name="experience"  type="number">
                     </div>
                     </div>
 
