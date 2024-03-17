@@ -70,7 +70,6 @@ urlpatterns = [
     path('drivers', views.get_driver, name='get_drivers'),
     path('driverview/<int:driver_id>/', views.driver_view, name='driverview'),
     path('adddriver', views.add_driver, name='add_driver'),
-    # path('adddriver/', add_driver),
     path('editdriver/<int:driver_id>/', views.edit_driver, name='editdriver'),
     # path('deletedriver/<int:driver_id>/', delete_driver, name='delete_driver'),
 
@@ -83,7 +82,7 @@ urlpatterns = [
     # path('remove_null_images/', views.remove_null_images, name='remove_null_images'),
     # path('match_driver_ids/', views.match_driver_ids, name='match_driver_ids'),
     # path('update_models_from_csv/', views.update_models_from_csv, name='update_models_from_csv'),
-    
+
     path('addtbm/<int:D_ID>/', views.add_tbm, name='add_tbm'),
     path('addtraining/<int:D_ID>/', views.add_driver_training, name="add_driver_training"),
     # path('update_driver_ages/', views.update_driver_ages, name='update_driver_ages'),

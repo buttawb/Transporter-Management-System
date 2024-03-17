@@ -1,4 +1,5 @@
 import calendar
+import csv
 from imaplib import _Authenticator
 from io import BytesIO
 import os
@@ -14,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 from PIL import Image
+import pandas as pd
 from django.core.files.base import ContentFile
 from datetime import datetime
 from django.urls import reverse
@@ -23,103 +25,108 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
-# def remove_null_images(request):
-#     # Search for records with D_Image containing 'Null'
-#     drivers_with_null = Driver.objects.filter(D_Image='Null')
+def remove_null_images(request):
+    # Search for records with D_Image containing 'Null'
+    drivers_with_null = Driver.objects.filter(D_Image='Null')
 
-#     # Iterate over the matching records and set D_Image to None
-#     for driver in drivers_with_null:
-#         driver.D_Image = None
-#         driver.save()
+    # Iterate over the matching records and set D_Image to None
+    for driver in drivers_with_null:
+        driver.D_Image = None
+        driver.save()
 
-#     return HttpResponse("Records updated successfully.")
-# def import_drivers_from_images(request):
-#     image_folder = '/Users/AWB/Downloads/img'
+    return HttpResponse("Records updated successfully.")
 
-#     for filename in os.listdir(image_folder):
-#         driver_number = os.path.splitext(filename)[0]
 
-#         try:
-#             driver = Driver.objects.get(D_Number=driver_number)
-#             driver.D_Image = f'driver_images/{filename}'
-#             driver.save()
-#         except Driver.DoesNotExist:
-#             # Driver doesn't exist - do something or simply pass
-#             pass
+def import_drivers_from_images(request):
+    image_folder = '/Users/AWB/Downloads/img'
 
-#     return HttpResponse("Drivers updated successfully.")
-# def count_uploaded_images(request):
-#     # Count the number of drivers with non-null and non-empty D_Image fields
-#     count = Driver.objects.exclude(D_Image__exact='').count()
+    for filename in os.listdir(image_folder):
+        driver_number = os.path.splitext(filename)[0]
 
-#     return HttpResponse(f"Number of uploaded images: {count}")
+        try:
+            driver = Driver.objects.get(D_Number=driver_number)
+            driver.D_Image = f'driver_images/{filename}'
+            driver.save()
+        except Driver.DoesNotExist:
+            # Driver doesn't exist - do something or simply pass
+            pass
 
-# import pandas as pd
+    return HttpResponse("Drivers updated successfully.")
 
-# def match_driver_ids(request):
-#     # Specify the path to the CSV file
-#     csv_file_path = '/Users/AWB/Desktop/Book2.csv'  # Update with the actual path
 
-#     # Function to get ID from D_Number
-#     def get_driver_id(d_number):
-#         try:
-#             driver = Driver.objects.get(D_Number=d_number)
-#             return driver.D_ID
-#         except Driver.DoesNotExist:
-#             return None
+def count_uploaded_images(request):
+    # Count the number of drivers with non-null and non-empty D_Image fields
+    count = Driver.objects.exclude(D_Image__exact='').count()
 
-#     # Read the CSV file
-#     df = pd.read_csv(csv_file_path)
+    return HttpResponse(f"Number of uploaded images: {count}")
 
-#     # Create a new column 'Driver_ID' in the DataFrame to store the corresponding ID
-#     df['Driver_ID'] = df['D_Number'].apply(get_driver_id)
 
-#     # Save the updated DataFrame to a new CSV file in the root directory
-#     output_csv_file_path = os.path.join(os.getcwd(), 'output.csv')
-#     df.to_csv(output_csv_file_path, index=False)
+def match_driver_ids(request):
+    # Specify the path to the CSV file
+    csv_file_path = '/Users/AWB/Desktop/Book2.csv'  # Update with the actual path
 
-#     # Serve the newly created CSV file for download
-#     with open(output_csv_file_path, 'rb') as csv_file:
-#         response = HttpResponse(csv_file.read(), content_type='text/csv')
-#         response['Content-Disposition'] = 'attachment; filename=output.csv'
-#         return response
-# import csv
-# def update_models_from_csv(request):
-#     with open('/Users/AWB/Desktop/tb.csv', 'r') as csv_file:
-#         csv_reader = csv.reader(csv_file)
+    # Function to get ID from D_Number
+    def get_driver_id(d_number):
+        try:
+            driver = Driver.objects.get(D_Number=d_number)
+            return driver.D_ID
+        except Driver.DoesNotExist:
+            return None
 
-#         for row in csv_reader:
-#             if len(row) >= 3:
-#                 # 1st column: Driver ID
-#                 driver_id = int(row[0])
+    # Read the CSV file
+    df = pd.read_csv(csv_file_path)
 
-#                 # Get or create the Driver
-#                 driver, created = Driver.objects.get_or_create(D_ID=driver_id)
+    # Create a new column 'Driver_ID' in the DataFrame to store the corresponding ID
+    df['Driver_ID'] = df['D_Number'].apply(get_driver_id)
 
-#                 # Iterate through the columns starting from the second column (index 1)
-#                 for column_index, meeting_count in enumerate(row[1:], start=1):
-#                     if meeting_count:
-#                         # Get the corresponding MeetingTopic object by its ID
-#                         meeting_topic_id = column_index
+    # Save the updated DataFrame to a new CSV file in the root directory
+    output_csv_file_path = os.path.join(os.getcwd(), 'output.csv')
+    df.to_csv(output_csv_file_path, index=False)
 
-#                         # Convert the meeting_count to an integer
-#                         try:
-#                             meeting_count = int(meeting_count)
-#                         except ValueError:
-#                             # Handle the case where the meeting_count is not an integer
-#                             continue
+    # Serve the newly created CSV file for download
+    with open(output_csv_file_path, 'rb') as csv_file:
+        response = HttpResponse(csv_file.read(), content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=output.csv'
+        return response
 
-#                         # Retrieve the corresponding MeetingTopic object by ID
-#                         meeting_topic = tool_box_meeting_topics.objects.get(id=meeting_topic_id)
 
-#                         # Create or update records in driver_tool_box_meeting_attended
-#                         driver_tool_box_meeting_attended.objects.update_or_create(
-#                             meeting_attended_by=driver,
-#                             meetings_attended=meeting_topic,
-#                             defaults={'no_of_times_meeting_attended': meeting_count}
-#                         )
+def update_models_from_csv(request):
+    with open('/Users/AWB/Desktop/tb.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
 
-#     return HttpResponse("Models updated from CSV file.")
+        for row in csv_reader:
+            if len(row) >= 3:
+                # 1st column: Driver ID
+                driver_id = int(row[0])
+
+                # Get or create the Driver
+                driver, created = Driver.objects.get_or_create(D_ID=driver_id)
+
+                # Iterate through the columns starting from the second column (index 1)
+                for column_index, meeting_count in enumerate(row[1:], start=1):
+                    if meeting_count:
+                        # Get the corresponding MeetingTopic object by its ID
+                        meeting_topic_id = column_index
+
+                        # Convert the meeting_count to an integer
+                        try:
+                            meeting_count = int(meeting_count)
+                        except ValueError:
+                            # Handle the case where the meeting_count is not an integer
+                            continue
+
+                        # Retrieve the corresponding MeetingTopic object by ID
+                        meeting_topic = tool_box_meeting_topics.objects.get(id=meeting_topic_id)
+
+                        # Create or update records in driver_tool_box_meeting_attended
+                        driver_tool_box_meeting_attended.objects.update_or_create(
+                            meeting_attended_by=driver,
+                            meetings_attended=meeting_topic,
+                            defaults={'no_of_times_meeting_attended': meeting_count}
+                        )
+
+    return HttpResponse("Models updated from CSV file.")
+
 
 @transaction.atomic
 def add_driver_training(request, D_ID):
@@ -157,17 +164,16 @@ def add_driver_training(request, D_ID):
             else:
                 meeting_drill = annual_drill_driver(user=driver,  **{drilling_no: date})
                 meeting_drill.save()
-            
+
             driver_view_url = reverse('driverview', args=[D_ID])
             return HttpResponseRedirect(driver_view_url)
-            
+
         else:
             context = {'driver': driver, 'drills': drills, 'training': training}
             return render(request, 'training/add_training.html', context)
     except Exception as e:
         print(str(e))
         return HttpResponseRedirect('/')
-            
 
 
 @transaction.atomic
@@ -180,12 +186,10 @@ def add_tbm(request, D_ID):
             meeting_topic = request.POST.get('meeting_topic') 
             tbm_obj = tool_box_meeting_topics.objects.get(meeting_topic=meeting_topic)
             meetings_old = driver_tool_box_meeting_attended.objects.get(meeting_attended_by=driver, meetings_attended=tbm_obj)
-            
 
-            
             existing_record = driver_tool_box_meeting_attended.objects.filter(
-            meeting_attended_by=driver,
-            meetings_attended=tbm_obj
+                meeting_attended_by=driver,
+                meetings_attended=tbm_obj
             ).first()
 
             if existing_record is None:
@@ -200,7 +204,7 @@ def add_tbm(request, D_ID):
                 # A record with the same values already exists, you can update it if needed
                 existing_record.no_of_times_meeting_attended += 1
                 existing_record.save()
-            
+
             driver_view_url = reverse('driverview', args=[D_ID])
             return HttpResponseRedirect(driver_view_url)
         else:
@@ -220,11 +224,10 @@ def add_driver_violation(request, D_ID):
         if request.method == 'POST':
             violation_type = request.POST.get('violationType') 
             violation_obj = Violations.objects.get(violation_type=violation_type)
-           
+
             violation_date = request.POST.get('violationDate')
             details = request.POST.get('details')
 
-            
             driver_violation = Driver_Violation(
                 driver=driver,
                 violation=violation_obj,
@@ -233,7 +236,7 @@ def add_driver_violation(request, D_ID):
             )
             driver_violation.save()  
             driver_view_url = reverse('driverview', args=[D_ID])
-           
+
             return HttpResponseRedirect(driver_view_url)
         else:
             context = {'driver': driver, 'violations': violation}
@@ -380,7 +383,7 @@ def add_driver(request):
 
                 width, height = image.size
                 new_size = min(width, height)
-                
+
                 left = (width - new_size) / 2
                 top = (height - new_size) / 2
                 right = (width + new_size) / 2
@@ -393,7 +396,6 @@ def add_driver(request):
                 image_name = user_image.name
                 image_data.seek(0)
                 image_file = ContentFile(image_data.getvalue(), name=user_image.name)
-
 
             else:
                 image_data = None
@@ -435,7 +437,7 @@ def add_driver(request):
             )
             driver.save()
             return HttpResponseRedirect('/driverview/' + str(driver.D_ID) + '/')
-            
+
         else:
             context = {'omc': omcc, 'loc': locc, 'action': "Add"}
             return render(request, 'driver/add_driver.html', context)
@@ -456,7 +458,6 @@ def add_vehicle(request):
         make_exists = VehicleMaker.objects.get(VMNAME=request.POST.get('vmake'))
         lease_company_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_company'))
         lease_bank_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_bank'))
-
 
         # Create a new vehicle object with the extracted data
         new_vehicle = Vehicle(
@@ -484,7 +485,7 @@ def add_vehicle(request):
             Route_Permit_Date=request.POST.get('vrp_ed')
         )
 
-            # Save the new vehicle object
+        # Save the new vehicle object
         new_vehicle.save()
         return HttpResponseRedirect('/vehicleview/' + str(new_vehicle.id) + '/')
 
@@ -609,7 +610,7 @@ def edit_driver(request, driver_id):
 
                 width, height = image.size
                 new_size = min(width, height)
-                
+
                 left = (width - new_size) / 2
                 top = (height - new_size) / 2
                 right = (width + new_size) / 2
@@ -653,16 +654,15 @@ def edit_driver(request, driver_id):
             driver.Experience = experience if experience else None
             driver.Expiry_Date = medical_expiry if medical_expiry else None
             driver.save()
-            
+
             return HttpResponseRedirect('/driverview/' + str(driver_id) + '/')
-            
+
         else:
             context = {'driver': driver, 'omc': omcc, 'loc': locc, 'action': "Edit"}
             return render(request, 'driver/add_driver.html', context)
     except Exception as e:
         print(str(e))
         return HttpResponseRedirect('/drivers')
-
 
 
 @transaction.atomic
@@ -741,22 +741,20 @@ def driver_view(request, driver_id):
         'Leave_Date': driver.Leave_Date,
         'Leave_Resume': driver.Leave_Resume,
     }
-    
+
     # Calculate the status messages for each date field and add them to the driver object
     for field_name, field_date in date_fields.items():
         if field_date:
             status_message = get_date_status(field_date, field_name)
             setattr(driver, f"{field_name}_status", status_message)
-    
+
     # Retrieve training name and training month for the driver from annual_drill
     annual_drill_data = annual_drill.objects.all()
-    
+
     # Retrieve the driver's attendance data
     attendance_data = annual_training_driver.objects.filter(user=driver)
     tbm = driver_tool_box_meeting_attended.objects.filter(meeting_attended_by=driver_id).values_list('no_of_times_meeting_attended', flat=True)
     tbm_data = list(tbm)
-
-# Print the data in exact order
 
     context = {
         'driver': driver,
@@ -772,8 +770,6 @@ def vehicle_view(request, vehicle_id):
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
-    
-    # Retrieve training name and training month for the driver from annual_drill
 
     context = {
         'vehicle': vehicle
@@ -810,11 +806,8 @@ def get_date_status(date, field_name):
 def get_driver(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
-    
+
     drivers = Driver.objects.all().order_by('D_Name')  # Query the database to get all drivers
-    
-    # Define a function to calculate the status message based on the date
-    
     for driver in drivers:
         # Define a dictionary to store the date fields and their corresponding status messages
         date_fields = {
@@ -843,12 +836,11 @@ def get_driver(request):
 
     return render(request, 'driver/driver.html', context)
 
+
 def get_vehicle(request, filter):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
-    
 
-    
     if filter == 'apl':
         vehicles = Vehicle.objects.filter(OMC_id=4)
         image = '/static/images/attock-logo.png'
@@ -875,7 +867,7 @@ def get_vehicle(request, filter):
             return f"Close to Expiry"
         else:
             return f"Valid"
-    
+
     for vehicle in vehicles:
         # Define a dictionary to store the date fields and their corresponding status messages
         date_fields = {
@@ -886,7 +878,7 @@ def get_vehicle(request, filter):
             'Q_Fom': vehicle.Q_FOM_Date,
             'Route': vehicle.Route_Permit_Date,
         }
-        
+
         # Calculate the status messages for each date field and add them to the driver object
         for field_name, field_date in date_fields.items():
             if field_date:
@@ -931,18 +923,15 @@ def logout_user(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
-    
-    total_vehicles = Vehicle.objects.all().count()
 
+    total_vehicles = Vehicle.objects.all().count()
     today = date.today()
 
-    # Assuming your Driver model has fields CNIC_Validity, DDC_Expiry, HTV_License_Expiry, and Expiry_Date
     expired_cnic_list = []
     expired_ddc_list = []
     expired_htv_license_list = []
     expired_general_list = []
 
-    # Replace 'Driver' with your actual model name
     drivers = Driver.objects.all()
 
     for driver in drivers:
@@ -972,7 +961,6 @@ def dashboard(request):
                 working_days += 1
 
     man_days_work = (58+int(drivers.count()))*working_days
-
     meetings_data = (
         tool_box_meeting_topics.objects
         .prefetch_related('driver_tool_box_meeting_attended_set')  # Assuming the related name is set to 'driver_tool_box_meeting_attended_set'
@@ -1026,7 +1014,7 @@ def adduser(request):
 
             width, height = image.size
             new_size = min(width, height)
-            
+
             left = (width - new_size) / 2
             top = (height - new_size) / 2
             right = (width + new_size) / 2
@@ -1048,13 +1036,9 @@ def deleteuser(request, id):
     if not request.user.is_superuser:
         logout_user(request)
         return render(request, 'user/login.html', {'error_head': "You do not have the authority to perform edit or delete operations. ", 'log': 'Log In with Full Access Account.'})
-    # Retrieve the user based on the 'id' parameter
     user = User.objects.get(id=id)
-
-    # Delete the user
     user.delete()
 
-    # Redirect to a success page or return a response
     return redirect('/allusers')
 
 
@@ -1062,7 +1046,6 @@ def edituser(request, id):
     if not request.user.is_superuser:
         logout_user(request)
         return render(request, 'user/login.html', {'error_head': "You do not have the authority to perform edit or delete operations. ", 'log': 'Log In with Full Access Account.'})
-    # Retrieve the user based on the 'id' parameter
     user = User.objects.get(id=id)
 
     # Retrieve the user's image if it exists
@@ -1073,7 +1056,7 @@ def edituser(request, id):
     except User_Image.DoesNotExist:
         user_image_obj = User_Image(user=user)
         flag = False
-        
+
     if request.method == 'POST':
         first_name = request.POST.get('first-name')
         last_name = request.POST.get('last-name')
@@ -1096,11 +1079,11 @@ def edituser(request, id):
         if user_image:
             if flag:
                 user_image_obj.delete()
-            
+
             image = Image.open(user_image)
             width, height = image.size
             new_size = min(width, height)
-            
+
             left = (width - new_size) / 2
             top = (height - new_size) / 2
             right = (width + new_size) / 2
@@ -1113,10 +1096,10 @@ def edituser(request, id):
 
             user_image_obj.img.save(user_image.name, ContentFile(image_data.getvalue()))
             user_image_obj.save()
-            
+
         # Redirect to a success page or return a response
         return redirect('/allusers')
-    
+
     # Populate the form fields with user data and pass the user's image to the template
     initial_data = {
         'first_name': user.first_name,
@@ -1150,7 +1133,6 @@ def allusers(request):
         return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
     # Get all users
     users = User.objects.all()
-    # Create a list to store user data with associated user images
     user_data = []
 
     for user in users:
@@ -1161,25 +1143,23 @@ def allusers(request):
             'user': user,
             'user_image': user_image,
         }
-
         user_data.append(user_info)
 
     context = {'user_data': user_data}
     return render(request, 'user/users.html', context)
 
 
+def update_driver_ages(request):
+    # Since driver age is auto generated field we need a function to automatically update age coloumn with the help of DOB.
+    drivers = Driver.objects.all()
+    # Should be a celery job to update after every month.
+    for driver in drivers:
+        today = date.today()
+        age = today.year - driver.DOB.year - ((today.month, today.day) < (driver.DOB.month, driver.DOB.day))
+        driver.age = age
+        driver.save()
 
-# def update_driver_ages(request):
-#     drivers = Driver.objects.all()
-
-#     for driver in drivers:
-#         today = date.today()
-#         age = today.year - driver.DOB.year - ((today.month, today.day) < (driver.DOB.month, driver.DOB.day))
-#         driver.age = age
-#         driver.save()
-
-#     return redirect('/drivers')
-
+    return redirect('/drivers')
 
 
 def get_tppl(request):
@@ -1196,9 +1176,8 @@ def get_tppl(request):
             return f"Close to Expiry"
         else:
             return f"Valid"
-    
+
     for vehicle in vehicles:
-        # Define a dictionary to store the date fields and their corresponding status messages
         date_fields = {
             'tax_expiry': vehicle.TAX_PAID_Date,
             'fitness_expiry': vehicle.FITNISSE_Date,
@@ -1207,8 +1186,7 @@ def get_tppl(request):
             'Q_Fom': vehicle.Q_FOM_Date,
             'Route': vehicle.Route_Permit_Date,
         }
-        
-        # Calculate the status messages for each date field and add them to the driver object
+
         for field_name, field_date in date_fields.items():
             if field_date:
                 status_message = get_date_status(field_date, field_name)

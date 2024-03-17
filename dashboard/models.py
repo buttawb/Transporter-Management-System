@@ -281,7 +281,7 @@ class Driver_Violation(models.Model):
 class tool_box_meeting_topics(models.Model):
     id = models.AutoField(primary_key=True)
     meeting_topic = models.CharField(max_length=255, verbose_name="Tool Box Meeting Topic")
-    
+
     def __str__(self):
         return self.meeting_topic
 
@@ -301,4 +301,3 @@ class driver_tool_box_meeting_attended(models.Model):
 
     # This is the no of times a single meeting is attended by the driver
     no_of_times_meeting_attended = models.IntegerField()
-

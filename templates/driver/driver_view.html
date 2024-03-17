@@ -185,18 +185,18 @@
                 
                 <!--Item-->
                 <div class="col-md-4">
-                  <h6 class="mb-2">Add Total Tool Box Meeting <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
+                  <h6 class="mb-2">Add Total Tool Box Meeting & Drill Training <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
                  
                 </div>
                 <div class="col-md-4">
-                    <h6 class="mb-2">Add Violation<a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
+                    <h6 class="mb-2">Add Violation against {{ driver.D_Name }} <a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
                     
                 </div>
                 <!--Item-->
-                <div class="col-md-4">
+                {% comment %} <div class="col-md-4">
                   <h6 class="mb-2">Add Drill Training<a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
                   
-                </div>
+                </div> {% endcomment %}
               </div>
             <!--Personal Information-->
             <div class="row mt-4">
