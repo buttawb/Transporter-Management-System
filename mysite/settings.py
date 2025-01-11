@@ -50,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "dashboard.middleware.LoginRequiredMiddleware",
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -92,7 +93,7 @@ DATABASES = {
         'USER': 'root',          # Database username
         'PASSWORD': '',          # Database password
         'HOST': '127.0.0.1',     # Database host
-        'PORT': '3307',          # Database port
+        'PORT': '3306',          # Database port
     },
 }
 
@@ -147,3 +148,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+]

@@ -1,89 +1,80 @@
 import calendar
 import csv
-from imaplib import _Authenticator
+from datetime import datetime
 from io import BytesIO
 import os
+
+import pandas as pd
+from PIL import Image
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
+from django.db import transaction
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.models import User
-from django.contrib.auth import login, logout, authenticate
-from django.urls import reverse_lazy
-from dashboard.models import *
-from django.db import transaction
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import render
-from PIL import Image
-import pandas as pd
-from django.core.files.base import ContentFile
-from datetime import datetime
-from django.urls import reverse
-from django.db.models import Count
-from django.db.models.functions import Coalesce
-from django.template.loader import get_template
-from xhtml2pdf import pisa
+from django.urls import reverse, reverse_lazy
+
+from dashboard.models import (
+    Company,
+    VehicleMaker,
+    VehicleOwner,
+    Vehicle,
+    Location,
+    Driver,
+    User_Image,
+    annual_training,
+    annual_drill,
+    annual_drill_driver,
+    annual_training_driver,
+    Violations,
+    Driver_Violation,
+    tool_box_meeting_topics,
+    driver_tool_box_meeting_attended
+)
 
 
 def remove_null_images(request):
-    # Search for records with D_Image containing 'Null'
     drivers_with_null = Driver.objects.filter(D_Image='Null')
-
-    # Iterate over the matching records and set D_Image to None
     for driver in drivers_with_null:
         driver.D_Image = None
         driver.save()
-
     return HttpResponse("Records updated successfully.")
 
 
 def import_drivers_from_images(request):
     image_folder = '/Users/AWB/Downloads/img'
-
     for filename in os.listdir(image_folder):
         driver_number = os.path.splitext(filename)[0]
-
         try:
             driver = Driver.objects.get(D_Number=driver_number)
             driver.D_Image = f'driver_images/{filename}'
             driver.save()
         except Driver.DoesNotExist:
-            # Driver doesn't exist - do something or simply pass
             pass
-
     return HttpResponse("Drivers updated successfully.")
 
 
 def count_uploaded_images(request):
-    # Count the number of drivers with non-null and non-empty D_Image fields
     count = Driver.objects.exclude(D_Image__exact='').count()
-
     return HttpResponse(f"Number of uploaded images: {count}")
 
 
 def match_driver_ids(request):
-    # Specify the path to the CSV file
-    csv_file_path = '/Users/AWB/Desktop/Book2.csv'  # Update with the actual path
-
-    # Function to get ID from D_Number
+    csv_file_path = '/Users/AWB/Desktop/Book2.csv'
     def get_driver_id(d_number):
         try:
             driver = Driver.objects.get(D_Number=d_number)
             return driver.D_ID
         except Driver.DoesNotExist:
             return None
-
-    # Read the CSV file
     df = pd.read_csv(csv_file_path)
-
-    # Create a new column 'Driver_ID' in the DataFrame to store the corresponding ID
     df['Driver_ID'] = df['D_Number'].apply(get_driver_id)
-
-    # Save the updated DataFrame to a new CSV file in the root directory
     output_csv_file_path = os.path.join(os.getcwd(), 'output.csv')
     df.to_csv(output_csv_file_path, index=False)
-
-    # Serve the newly created CSV file for download
     with open(output_csv_file_path, 'rb') as csv_file:
         response = HttpResponse(csv_file.read(), content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=output.csv'
@@ -93,38 +84,24 @@ def match_driver_ids(request):
 def update_models_from_csv(request):
     with open('/Users/AWB/Desktop/tb.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
-
         for row in csv_reader:
             if len(row) >= 3:
-                # 1st column: Driver ID
                 driver_id = int(row[0])
-
-                # Get or create the Driver
                 driver, created = Driver.objects.get_or_create(D_ID=driver_id)
-
-                # Iterate through the columns starting from the second column (index 1)
                 for column_index, meeting_count in enumerate(row[1:], start=1):
                     if meeting_count:
-                        # Get the corresponding MeetingTopic object by its ID
-                        meeting_topic_id = column_index
-
-                        # Convert the meeting_count to an integer
                         try:
                             meeting_count = int(meeting_count)
                         except ValueError:
-                            # Handle the case where the meeting_count is not an integer
                             continue
-
-                        # Retrieve the corresponding MeetingTopic object by ID
-                        meeting_topic = tool_box_meeting_topics.objects.get(id=meeting_topic_id)
-
-                        # Create or update records in driver_tool_box_meeting_attended
+                        meeting_topic = tool_box_meeting_topics.objects.get(
+                            id=column_index)
                         driver_tool_box_meeting_attended.objects.update_or_create(
                             meeting_attended_by=driver,
                             meetings_attended=meeting_topic,
-                            defaults={'no_of_times_meeting_attended': meeting_count}
+                            defaults={
+                                'no_of_times_meeting_attended': meeting_count}
                         )
-
     return HttpResponse("Models updated from CSV file.")
 
 
@@ -138,13 +115,11 @@ def add_driver_training(request, D_ID):
             train = request.POST.get('train')
             drill = request.POST.get('drill')
             date = request.POST.get('date')
-
             traing = annual_training.objects.get(train_name=train)
             drilling = annual_drill.objects.get(drill_name=drill)
-            
             training_no = ('train'+str(traing.id)+'_completed_date')
-            meeting_train, created_train = annual_training_driver.objects.get_or_create(user=driver, defaults={training_no: date})
-
+            meeting_train, created_train = annual_training_driver.objects.get_or_create(
+                user=driver, defaults={training_no: date})
             if not created_train:
                 try:
                     setattr(meeting_train, training_no, date)
@@ -152,22 +127,21 @@ def add_driver_training(request, D_ID):
                 except Exception as e:
                     print(f"An error occurred: {str(e)}")
             else:
-                meeting_train = annual_training_driver(user=driver,  **{training_no: date})
+                meeting_train = annual_training_driver(
+                    user=driver,  **{training_no: date})
                 meeting_train.save()
-
             drilling_no = ('train'+str(drilling.id)+'_completed_date')
-            meeting_drill, created_drill = annual_drill_driver.objects.get_or_create(user=driver, defaults={drilling_no: date})
-
+            meeting_drill, created_drill = annual_drill_driver.objects.get_or_create(
+                user=driver, defaults={drilling_no: date})
             if not created_drill:
                 setattr(meeting_drill, drilling_no, date)
                 meeting_drill.save()
             else:
-                meeting_drill = annual_drill_driver(user=driver,  **{drilling_no: date})
+                meeting_drill = annual_drill_driver(
+                    user=driver,  **{drilling_no: date})
                 meeting_drill.save()
-
             driver_view_url = reverse('driverview', args=[D_ID])
             return HttpResponseRedirect(driver_view_url)
-
         else:
             context = {'driver': driver, 'drills': drills, 'training': training}
             return render(request, 'training/add_training.html', context)
@@ -180,20 +154,18 @@ def add_driver_training(request, D_ID):
 def add_tbm(request, D_ID):
     driver = get_object_or_404(Driver, D_ID=D_ID)
     tbm = tool_box_meeting_topics.objects.all()
-    # Save it into driver_violation table
     try:
         if request.method == 'POST':
-            meeting_topic = request.POST.get('meeting_topic') 
-            tbm_obj = tool_box_meeting_topics.objects.get(meeting_topic=meeting_topic)
-            meetings_old = driver_tool_box_meeting_attended.objects.get(meeting_attended_by=driver, meetings_attended=tbm_obj)
-
+            meeting_topic = request.POST.get('meeting_topic')
+            tbm_obj = tool_box_meeting_topics.objects.get(
+                meeting_topic=meeting_topic)
+            meetings_old = driver_tool_box_meeting_attended.objects.get(
+                meeting_attended_by=driver, meetings_attended=tbm_obj)
             existing_record = driver_tool_box_meeting_attended.objects.filter(
                 meeting_attended_by=driver,
                 meetings_attended=tbm_obj
             ).first()
-
             if existing_record is None:
-                # If no record exists, create a new one
                 tool = driver_tool_box_meeting_attended(
                     meeting_attended_by=driver,
                     meetings_attended=tbm_obj,
@@ -201,10 +173,8 @@ def add_tbm(request, D_ID):
                 )
                 tool.save()
             else:
-                # A record with the same values already exists, you can update it if needed
                 existing_record.no_of_times_meeting_attended += 1
                 existing_record.save()
-
             driver_view_url = reverse('driverview', args=[D_ID])
             return HttpResponseRedirect(driver_view_url)
         else:
@@ -219,24 +189,21 @@ def add_tbm(request, D_ID):
 def add_driver_violation(request, D_ID):
     driver = get_object_or_404(Driver, D_ID=D_ID)
     violation = Violations.objects.all()
-    # Save it into driver_violation table
     try:
         if request.method == 'POST':
-            violation_type = request.POST.get('violationType') 
-            violation_obj = Violations.objects.get(violation_type=violation_type)
-
+            violation_type = request.POST.get('violationType')
+            violation_obj = Violations.objects.get(
+                violation_type=violation_type)
             violation_date = request.POST.get('violationDate')
             details = request.POST.get('details')
-
             driver_violation = Driver_Violation(
                 driver=driver,
                 violation=violation_obj,
                 violation_date=violation_date,
                 violation_notes=details
             )
-            driver_violation.save()  
+            driver_violation.save()
             driver_view_url = reverse('driverview', args=[D_ID])
-
             return HttpResponseRedirect(driver_view_url)
         else:
             context = {'driver': driver, 'violations': violation}
@@ -248,7 +215,7 @@ def add_driver_violation(request, D_ID):
 
 @transaction.atomic
 def delete_company(request, company_id):
-    entry = get_object_or_404(Company, cid=company_id)  # Replace with your model
+    entry = get_object_or_404(Company, cid=company_id)
     entry.delete()
     return redirect('/company')
 
@@ -260,7 +227,6 @@ def add_maker(request):
             vehicle = VehicleMaker()
             vehicle.VMNAME = request.POST.get('maker')
             vehicle.save()
-
             return HttpResponseRedirect('/makers')
         else:
             return render(request, 'vehicle_maker/add_vm.html', {'action': "Add"})
@@ -275,7 +241,6 @@ def edit_maker(request, maker_id):
         if request.method == 'POST':
             maker.VMNAME = request.POST.get('maker')
             maker.save()
-
             return HttpResponseRedirect('/makers')
     except Exception:
         return HttpResponseRedirect('/makers')
@@ -287,7 +252,6 @@ def delete_maker(request, maker_id):
     try:
         maker = get_object_or_404(VehicleMaker, VMid=maker_id)
         maker.delete()
-
         return HttpResponseRedirect('/makers')
     except Exception:
         return HttpResponseRedirect('/makers')
@@ -301,7 +265,6 @@ def add_owner(request):
             vowner = request.POST.get('vowner')
             owner.VO_name = vowner
             owner.save()
-
             return HttpResponseRedirect('/owners')
         else:
             return render(request, 'vehicle_owner/add_vo.html', {'action': "Add"})
@@ -316,7 +279,6 @@ def edit_owner(request, owner_id):
         if request.method == 'POST':
             owner.VO_name = request.POST.get('vowner')
             owner.save()
-
             return HttpResponseRedirect('/owners')
     except Exception:
         return HttpResponseRedirect('/owners')
@@ -328,7 +290,6 @@ def delete_owner(request, owner_id):
     try:
         owner = get_object_or_404(VehicleOwner, VO_id=owner_id)
         owner.delete()
-
         return HttpResponseRedirect('/owners')
     except Exception:
         return HttpResponseRedirect('/owners')
@@ -338,10 +299,8 @@ def delete_owner(request, owner_id):
 def add_driver(request):
     omcc = Company.objects.all()
     locc = Location.objects.all()
-
     try:
         if request.method == 'POST':
-             # Retrieve data directly from request.POST
             id = request.POST.get('id')
             user_image = request.FILES.get('image')
             name = request.POST.get('name')
@@ -354,7 +313,8 @@ def add_driver(request):
             address = request.POST.get('address')
             driving_license_status = request.POST.get('driving_license_status')
             motorway_trained = request.POST.get('motorway_trained')
-            motorway_certification_issue = request.POST.get('motorway_certification_issue')
+            motorway_certification_issue = request.POST.get(
+                'motorway_certification_issue')
             license_no = request.POST.get('license_no')
             htc_license = request.POST.get('htc_license')
             htv_license_issue = request.POST.get('htv_license_issue')
@@ -374,33 +334,27 @@ def add_driver(request):
             previous_company = request.POST.get('previous_company')
             tank_lorry = request.POST.get('tank_lorry')
             experience = request.POST.get('experience')
-
             omc_obj = Company.objects.get(cname=oil_market)
             htv_obj = Location.objects.get(Lname=htc_license)
-
             if user_image:
                 image = Image.open(user_image)
-
                 width, height = image.size
                 new_size = min(width, height)
-
                 left = (width - new_size) / 2
                 top = (height - new_size) / 2
                 right = (width + new_size) / 2
                 bottom = (height + new_size) / 2
                 image = image.crop((left, top, right, bottom))
                 image = image.resize((200, 200), Image.LANCZOS)
-
                 image_data = BytesIO()
                 image.save(image_data, format='JPEG')
                 image_name = user_image.name
                 image_data.seek(0)
-                image_file = ContentFile(image_data.getvalue(), name=user_image.name)
-
+                image_file = ContentFile(
+                    image_data.getvalue(), name=user_image.name)
             else:
                 image_data = None
                 image_file = None
-
             driver = Driver(
                 D_Number=id,
                 D_Image=image_file,
@@ -437,7 +391,6 @@ def add_driver(request):
             )
             driver.save()
             return HttpResponseRedirect('/driverview/' + str(driver.D_ID) + '/')
-
         else:
             context = {'omc': omcc, 'loc': locc, 'action': "Add"}
             return render(request, 'driver/add_driver.html', context)
@@ -455,9 +408,12 @@ def add_vehicle(request):
     if request.method == 'POST':
         # Check if selected foreign key values exist in related models
         omc_exists = Company.objects.get(cname=request.POST.get('omc'))
-        make_exists = VehicleMaker.objects.get(VMNAME=request.POST.get('vmake'))
-        lease_company_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_company'))
-        lease_bank_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_bank'))
+        make_exists = VehicleMaker.objects.get(
+            VMNAME=request.POST.get('vmake'))
+        lease_company_exist = VehicleOwner.objects.get(
+            VO_name=request.POST.get('lease_company'))
+        lease_bank_exist = VehicleOwner.objects.get(
+            VO_name=request.POST.get('lease_bank'))
 
         # Create a new vehicle object with the extracted data
         new_vehicle = Vehicle(
@@ -511,9 +467,12 @@ def edit_vehicle(request, vehicle_id):
     if request.method == 'POST':
         # Check if selected foreign key values exist in related models
         omc_exists = Company.objects.get(cname=request.POST.get('omc'))
-        make_exists = VehicleMaker.objects.get(VMNAME=request.POST.get('vmake'))
-        lease_company_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_company'))
-        lease_bank_exist = VehicleOwner.objects.get(VO_name=request.POST.get('lease_bank'))
+        make_exists = VehicleMaker.objects.get(
+            VMNAME=request.POST.get('vmake'))
+        lease_company_exist = VehicleOwner.objects.get(
+            VO_name=request.POST.get('lease_company'))
+        lease_bank_exist = VehicleOwner.objects.get(
+            VO_name=request.POST.get('lease_bank'))
 
         # Update the fields of the existing vehicle instance
         vehicle.TL_Number = request.POST.get('tl_number')
@@ -568,7 +527,7 @@ def edit_driver(request, driver_id):
 
     try:
         if request.method == 'POST':
-             # Retrieve data directly from request.POST
+            # Retrieve data directly from request.POST
             id = request.POST.get('id')
             user_image = request.FILES.get('image')
             name = request.POST.get('name')
@@ -581,7 +540,8 @@ def edit_driver(request, driver_id):
             address = request.POST.get('address')
             driving_license_status = request.POST.get('driving_license_status')
             motorway_trained = request.POST.get('motorway_trained')
-            motorway_certification_issue = request.POST.get('motorway_certification_issue')
+            motorway_certification_issue = request.POST.get(
+                'motorway_certification_issue')
             license_no = request.POST.get('license_no')
             htc_license = request.POST.get('htc_license')
             htv_license_issue = request.POST.get('htv_license_issue')
@@ -620,7 +580,8 @@ def edit_driver(request, driver_id):
 
                 image_data = BytesIO()
                 image.save(image_data, format='JPEG')
-                driver.D_Image.save(user_image.name, ContentFile(image_data.getvalue()))
+                driver.D_Image.save(
+                    user_image.name, ContentFile(image_data.getvalue()))
 
             driver.D_Number = id
             driver.D_Name = name
@@ -658,7 +619,8 @@ def edit_driver(request, driver_id):
             return HttpResponseRedirect('/driverview/' + str(driver_id) + '/')
 
         else:
-            context = {'driver': driver, 'omc': omcc, 'loc': locc, 'action': "Edit"}
+            context = {'driver': driver, 'omc': omcc,
+                       'loc': locc, 'action': "Edit"}
             return render(request, 'driver/add_driver.html', context)
     except Exception as e:
         print(str(e))
@@ -724,8 +686,6 @@ def edit_company(request, company_id):
 
 
 def driver_view(request, driver_id):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     driver = get_object_or_404(Driver, D_ID=driver_id)
     date_fields = {
@@ -753,7 +713,8 @@ def driver_view(request, driver_id):
 
     # Retrieve the driver's attendance data
     attendance_data = annual_training_driver.objects.filter(user=driver)
-    tbm = driver_tool_box_meeting_attended.objects.filter(meeting_attended_by=driver_id).values_list('no_of_times_meeting_attended', flat=True)
+    tbm = driver_tool_box_meeting_attended.objects.filter(
+        meeting_attended_by=driver_id).values_list('no_of_times_meeting_attended', flat=True)
     tbm_data = list(tbm)
 
     context = {
@@ -766,8 +727,6 @@ def driver_view(request, driver_id):
 
 
 def vehicle_view(request, vehicle_id):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
 
@@ -787,7 +746,8 @@ def login_user(request):
             login(request, user)
             return redirect('/')
         else:
-            messages.error(request, 'Invalid login credentials. Please try again.')
+            messages.error(
+                request, 'Invalid login credentials. Please try again.')
 
     return render(request, 'user/login.html')
 
@@ -804,10 +764,9 @@ def get_date_status(date, field_name):
 
 
 def get_driver(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
-    drivers = Driver.objects.all().order_by('D_Name')  # Query the database to get all drivers
+    # Query the database to get all drivers
+    drivers = Driver.objects.all().order_by('D_Name')
     for driver in drivers:
         # Define a dictionary to store the date fields and their corresponding status messages
         date_fields = {
@@ -838,8 +797,6 @@ def get_driver(request):
 
 
 def get_vehicle(request, filter):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     if filter == 'apl':
         vehicles = Vehicle.objects.filter(OMC_id=4)
@@ -859,7 +816,7 @@ def get_vehicle(request, filter):
         image = ''
 
     def get_date_status(date, field_name):
-        current_date =  datetime.now().date()
+        current_date = datetime.now().date()
         days_remaining = (date - current_date).days
         if days_remaining <= 0:
             return f"Expired"
@@ -890,24 +847,21 @@ def get_vehicle(request, filter):
 
 
 def get_vehicle_maker(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
+
     vehicle_makers = VehicleMaker.objects.all()
     context = {'vehicle_makers': vehicle_makers}
     return render(request, 'vehicle_maker/vehicle_makers.html', context)
 
 
 def get_vehicle_owner(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
+
     vehicle_owners = VehicleOwner.objects.all()
     context = {'vehicle_owners': vehicle_owners}
     return render(request, 'vehicle_owner/vehicle_owner.html', context)
 
 
 def get_company(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
+
     companies = Company.objects.all()
     context = {
         'companies': companies,
@@ -921,8 +875,6 @@ def logout_user(request):
 
 
 def dashboard(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
 
     total_vehicles = Vehicle.objects.all().count()
     today = date.today()
@@ -946,7 +898,8 @@ def dashboard(request):
 
     expired_cnic_list = sorted(expired_cnic_list, key=lambda x: x.D_Name)
     expired_ddc_list = sorted(expired_ddc_list, key=lambda x: x.D_Name)
-    expired_htv_license_list = sorted(expired_htv_license_list, key=lambda x: x.D_Name)
+    expired_htv_license_list = sorted(
+        expired_htv_license_list, key=lambda x: x.D_Name)
     expired_general_list = sorted(expired_general_list, key=lambda x: x.D_Name)
 
     today = date.today()
@@ -957,16 +910,19 @@ def dashboard(request):
 
     for week in cal:
         for day in week:
-            if day != 0 and calendar.weekday(year, month, day) != 6:  # 6 represents Sunday
+            # 6 represents Sunday
+            if day != 0 and calendar.weekday(year, month, day) != 6:
                 working_days += 1
 
     man_days_work = (58+int(drivers.count()))*working_days
     meetings_data = (
         tool_box_meeting_topics.objects
-        .prefetch_related('driver_tool_box_meeting_attended_set')  # Assuming the related name is set to 'driver_tool_box_meeting_attended_set'
+        # Assuming the related name is set to 'driver_tool_box_meeting_attended_set'
+        .prefetch_related('driver_tool_box_meeting_attended_set')
     )
 
-    tbm_data = [meeting.driver_tool_box_meeting_attended_set.count() for meeting in meetings_data]
+    tbm_data = [meeting.driver_tool_box_meeting_attended_set.count()
+                for meeting in meetings_data]
 
     context = {
         'total_drivers': drivers.count,
@@ -1024,7 +980,8 @@ def adduser(request):
 
             image_data = BytesIO()
             image.save(image_data, format='JPEG')
-            user_image_obj.img.save(user_image.name, ContentFile(image_data.getvalue()))
+            user_image_obj.img.save(
+                user_image.name, ContentFile(image_data.getvalue()))
             user_image_obj.save()
 
         return redirect('/allusers')
@@ -1052,7 +1009,7 @@ def edituser(request, id):
     flag = True
     try:
         user_image_obj = User_Image.objects.get(user=user)
-        flag =True
+        flag = True
     except User_Image.DoesNotExist:
         user_image_obj = User_Image(user=user)
         flag = False
@@ -1094,7 +1051,8 @@ def edituser(request, id):
             image_data = BytesIO()
             image.save(image_data, format='JPEG')
 
-            user_image_obj.img.save(user_image.name, ContentFile(image_data.getvalue()))
+            user_image_obj.img.save(
+                user_image.name, ContentFile(image_data.getvalue()))
             user_image_obj.save()
 
         # Redirect to a success page or return a response
@@ -1129,8 +1087,7 @@ def check_username(request):
 
 @login_required(login_url='/loginuser')
 def allusers(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
+
     # Get all users
     users = User.objects.all()
     user_data = []
@@ -1155,7 +1112,8 @@ def update_driver_ages(request):
     # Should be a celery job to update after every month.
     for driver in drivers:
         today = date.today()
-        age = today.year - driver.DOB.year - ((today.month, today.day) < (driver.DOB.month, driver.DOB.day))
+        age = today.year - driver.DOB.year - \
+            ((today.month, today.day) < (driver.DOB.month, driver.DOB.day))
         driver.age = age
         driver.save()
 
@@ -1163,12 +1121,11 @@ def update_driver_ages(request):
 
 
 def get_tppl(request):
-    if not request.user.is_authenticated:
-        return render(request, 'user/login.html', {'error_head': "You must Log In to continue "})
+
     vehicles = Vehicle.objects.all()
 
     def get_date_status(date, field_name):
-        current_date =  datetime.now().date()
+        current_date = datetime.now().date()
         days_remaining = (date - current_date).days
         if days_remaining <= 0:
             return f"Expired"
@@ -1209,13 +1166,16 @@ def get_policies(request):
 
 
 def print_user_data_pdf(request, user_id):
-    driver = get_object_or_404(Driver, D_ID=user_id)  # Use the correct field name
+    # Use the correct field name
+    driver = get_object_or_404(Driver, D_ID=user_id)
 
-    template_path = 'driver/driver_view.html'  # Replace with your actual HTML template path
+    # Replace with your actual HTML template path
+    template_path = 'driver/driver_view.html'
     context = {'driver': driver}
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"' # Assuming 'D_Name' is a field in your model
+    # Assuming 'D_Name' is a field in your model
+    response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"'
 
     template = get_template(template_path)
     html = template.render(context)
