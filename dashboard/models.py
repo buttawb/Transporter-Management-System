@@ -1,213 +1,302 @@
 from datetime import date
 from django.db import models
-
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 
 
-class Company(models.Model):
-    cid = models.AutoField(primary_key=True, verbose_name="Company ID")
-    cabb = models.CharField(
-        max_length=10, verbose_name="Company Name abbreviation ")
-    cname = models.CharField(max_length=255, verbose_name="Company Name")
+# ------------------------------------------------------------------------------
+# Choice constants example
+# ------------------------------------------------------------------------------
+HTV = 'HTV'
+PSV = 'PSV'
+LTV = 'LTV'
 
-    def __str__(self):
-        return self.cname
+DL_STATUS_CHOICES = [
+    (HTV, 'HTV'),
+    (PSV, 'PSV'),
+    (LTV, 'LTV'),
+]
+
+
+# ------------------------------------------------------------------------------
+# Company
+# ------------------------------------------------------------------------------
+class Company(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Company ID")
+    abbreviation = models.CharField(
+        max_length=10,
+        verbose_name="Abbreviation"
+    )
+    name = models.CharField(
+        max_length=255,
+        verbose_name="Company Name"
+    )
 
     class Meta:
         verbose_name_plural = "Companies"
 
-
-class VehicleMaker(models.Model):
-    VMid = models.AutoField(primary_key=True, verbose_name="Vehicle Maker ID")
-    VMNAME = models.CharField(
-        max_length=255, verbose_name="Vehicle Maker Name")
-
     def __str__(self):
-        return self.VMNAME
+        return self.name
+
+
+# ------------------------------------------------------------------------------
+# VehicleMaker
+# ------------------------------------------------------------------------------
+class VehicleMaker(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Vehicle Maker ID")
+    name = models.CharField(max_length=255, verbose_name="Vehicle Maker Name")
 
     class Meta:
         verbose_name_plural = "Vehicle Makers"
 
-
-class VehicleOwner(models.Model):
-    VO_id = models.AutoField(primary_key=True, verbose_name="Vehicle Owner ID")
-    VO_name = models.CharField(
-        max_length=255, verbose_name="Vehicle Owner Name")
-
     def __str__(self):
-        return self.VO_name
+        return self.name
+
+
+# ------------------------------------------------------------------------------
+# VehicleOwner
+# ------------------------------------------------------------------------------
+class VehicleOwner(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Vehicle Owner ID")
+    name = models.CharField(max_length=255, verbose_name="Vehicle Owner Name")
 
     class Meta:
         verbose_name_plural = "Vehicle Owners"
 
+    def __str__(self):
+        return self.name
 
+
+# ------------------------------------------------------------------------------
+# Vehicle
+# ------------------------------------------------------------------------------
 class Vehicle(models.Model):
     id = models.AutoField(primary_key=True)
-    TL_Number = models.CharField(max_length=255, null=True)
-    Capacity = models.IntegerField(null=True)
-    Chambers = models.CharField(max_length=255, null=True)
-    OMC = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    Make = models.ForeignKey(VehicleMaker, on_delete=models.CASCADE, null=True)
-    Model = models.IntegerField(null=True)
-    Engine_Number = models.CharField(max_length=255, null=True)
-    Chassis_Number = models.CharField(max_length=255, null=True)
-    LEASE_COMPANY = models.ForeignKey(VehicleOwner, on_delete=models.CASCADE, null=True, related_name="Vehicle_Owner_Lease")
-    LEASE_BANK = models.ForeignKey(VehicleOwner, on_delete=models.CASCADE, null=True, related_name="Vehicle_Owner_Bank")
-    Status = models.CharField(max_length=255, null=True)
-    Type = models.CharField(max_length=255, null=True)
-    Trailer_ID = models.CharField(max_length=255, null=True)
-    Brand = models.CharField(max_length=255, null=True)
-    NHA_Configuration_Class = models.CharField(max_length=255, null=True)
-    Gross_Empty_Trailer_Weight = models.CharField(max_length=255, null=True)
-    DIP_CHART_Date = models.DateField(null=True)
-    INSURANCE_Date = models.DateField(null=True)
-    TAX_PAID_Date = models.DateField(null=True)
-    FITNISSE_Date = models.DateField(null=True)
-    Q_FOM_Date = models.DateField(null=True)
-    Route_Permit_Date = models.DateField(null=True)
+    tl_number = models.CharField(max_length=255, null=True, verbose_name="TL Number")
+    capacity = models.IntegerField(null=True, verbose_name="Capacity")
+    chambers = models.CharField(max_length=255, null=True, verbose_name="Chambers")
 
-    def __str__(self):
-        return self.VH_number
+    omc = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Oil Marketing Company"
+    )
+    maker = models.ForeignKey(
+        VehicleMaker,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Maker"
+    )
+    model = models.IntegerField(null=True, verbose_name="Model")
+    engine_number = models.CharField(max_length=255, null=True, verbose_name="Engine Number")
+    chassis_number = models.CharField(max_length=255, null=True, verbose_name="Chassis Number")
+
+    lease_company = models.ForeignKey(
+        VehicleOwner,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="lease_company_vehicles",
+        verbose_name="Lease Company"
+    )
+    lease_bank = models.ForeignKey(
+        VehicleOwner,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="lease_bank_vehicles",
+        verbose_name="Lease Bank"
+    )
+    status = models.CharField(max_length=255, null=True, verbose_name="Status")
+    vehicle_type = models.CharField(max_length=255, null=True, verbose_name="Type")
+    trailer_id = models.CharField(max_length=255, null=True, verbose_name="Trailer ID")
+    brand = models.CharField(max_length=255, null=True, verbose_name="Brand")
+    nha_configuration_class = models.CharField(
+        max_length=255,
+        null=True,
+        verbose_name="NHA Configuration Class"
+    )
+    gross_empty_trailer_weight = models.CharField(
+        max_length=255,
+        null=True,
+        verbose_name="Gross Empty Trailer Weight"
+    )
+
+    dip_chart_date = models.DateField(null=True, verbose_name="DIP CHART Date")
+    insurance_date = models.DateField(null=True, verbose_name="Insurance Date")
+    tax_paid_date = models.DateField(null=True, verbose_name="Tax Paid Date")
+    fitness_date = models.DateField(null=True, verbose_name="Fitness Date")
+    q_fom_date = models.DateField(null=True, verbose_name="Q FOM Date")
+    route_permit_date = models.DateField(null=True, verbose_name="Route Permit Date")
 
     class Meta:
         verbose_name_plural = "Vehicles"
 
-
-class Location(models.Model):
-    LID = models.AutoField(primary_key=True, verbose_name="Location ID")
-    Lname = models.CharField(max_length=255, verbose_name="Location Name")
-
     def __str__(self):
-        return self.Lname
+        # Example: Return TL Number if you prefer
+        return self.tl_number if self.tl_number else f"Vehicle {self.id}"
+
+
+# ------------------------------------------------------------------------------
+# Location
+# ------------------------------------------------------------------------------
+class Location(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Location ID")
+    name = models.CharField(max_length=255, verbose_name="Location Name")
 
     class Meta:
         verbose_name_plural = "Locations"
 
-
-class Driver(models.Model):
-    D_ID = models.AutoField(primary_key=True, verbose_name="Driver ID")
-    D_Number = models.CharField(max_length=20, verbose_name="Driver Number",  null=True)
-    Oil_Marketing_Company = models.ForeignKey(
-        'Company', on_delete=models.CASCADE,
-        verbose_name="Oil Marketing Company", null=True)
-    D_Image = models.ImageField(max_length=500, null=True, blank=True,
-                                upload_to='driver_images/')
-    D_Name = models.CharField(max_length=255, verbose_name="Driver Name", null=True)
-    Father_Name = models.CharField(max_length=255, verbose_name="Father Name", null=True)
-    CNIC = models.CharField(max_length=13, null=True)
-    CNIC_Validity = models.DateField(verbose_name="CNIC Validity Date",
-                                     null=True, blank=True)
-    Cell_Phone_Num = models.CharField(
-        max_length=20, verbose_name="Cell Phone Number", null=True)
-    DOB = models.DateField(verbose_name="Date of Birth", null=True, blank=True)
-
-    # Choices for DL_Status field
-    DL_STATUS_CHOICES = [
-        ('HTV', 'HTV'),
-        ('PSV', 'PSV'),
-        ('LTV', 'LTV'),
-    ]
-    DL_Status = models.CharField(
-        max_length=3, choices=DL_STATUS_CHOICES,
-        verbose_name="Driving License Status", null=True)
-    Motorway_Trained = models.CharField(max_length=14,
-                                        verbose_name="Motorway Trained", null=True)
-    DDC_Issue_Date = models.DateField(
-        verbose_name="Motorway Certification Issue Date", null=True,
-        blank=True)
-    Address = models.TextField(verbose_name="Address", null=True)
-    License_No = models.CharField(max_length=20, verbose_name="License Number", null=True)
-    HTV_License_Authority = models.ForeignKey('Location',
-                                              on_delete=models.CASCADE,
-                                              verbose_name="HTV License Authority",
-                                              null=True)
-    HTV_License_Issue_Date = models.DateField(
-        verbose_name="HTV License Issue Date", null=True, blank=True)
-    HTV_License_Expiry_Date = models.DateField(
-        verbose_name="HTV License Expiry Date", null=True, blank=True)
-    DDC_Expiry_Date = models.DateField(verbose_name="DDC Date", null=True, blank=True)
-
-    Education = models.CharField(
-        max_length=16, verbose_name="Education", null=True)
-
-    Medical = models.BooleanField(verbose_name="Medical Status", null=True)
-    Report_Date = models.DateField(
-        null=True, blank=True, verbose_name="Medical Report Date")
-    Lab_Name = models.CharField(
-        max_length=255, null=True, blank=True, verbose_name="Lab Name")
-    Expiry_Date = models.DateField(
-        null=True, blank=True, verbose_name="Medical Expiry Date")
-    Blood_Group = models.CharField(
-        max_length=10, verbose_name="Blood Group")
-
-    Medical_Health = models.CharField(
-        max_length=5, verbose_name="Medical Health", null=True)
-
-    Joining_Date = models.DateField(verbose_name="Joining Date", null=True,
-                                    blank=True)
-    Salary_Increment_Date = models.DateField(
-        verbose_name="Salary Increment Date", null=True, blank=True)
-    Experience = models.PositiveIntegerField(
-        validators=[MinValueValidator(0)], verbose_name="Experience (years)", null=True)
-    Leave_Date = models.DateField(
-        null=True, blank=True, verbose_name="Leave Date")
-    Leave_Resume = models.DateField(
-        null=True, blank=True, verbose_name="Leave Resume Date")
-    Driving_Age = models.PositiveIntegerField(
-        validators=[MinValueValidator(0)], verbose_name="Driving Age (years)", null=True)
-    Previous_Company = models.CharField(
-        max_length=255, null=True, blank=True, verbose_name="Previous Company")
-    Tank_Lorry = models.CharField(max_length=255, verbose_name="Tank Lorry", null=True)
-    age = models.IntegerField(blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        today = date.today()
-        age = today.year - self.DOB.year - ((today.month, today.day) < (self.DOB.month, self.DOB.day))
-        self.age = age
-        super(Driver, self).save(*args, **kwargs)
-
     def __str__(self):
-        return self.D_Name
+        return self.name
+
+
+# ------------------------------------------------------------------------------
+# Driver
+# ------------------------------------------------------------------------------
+class Driver(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="Driver ID")
+    driver_number = models.CharField(max_length=20, null=True, verbose_name="Driver Number")
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Oil Marketing Company"
+    )
+    image = models.ImageField(
+        max_length=500,
+        null=True,
+        blank=True,
+        upload_to='driver_images/',
+        verbose_name="Driver Image"
+    )
+    name = models.CharField(max_length=255, null=True, verbose_name="Driver Name")
+    father_name = models.CharField(max_length=255, null=True, verbose_name="Father Name")
+    cnic = models.CharField(max_length=13, null=True, verbose_name="CNIC")
+    cnic_validity = models.DateField(null=True, blank=True, verbose_name="CNIC Validity Date")
+    cell_phone_num = models.CharField(max_length=20, null=True, verbose_name="Cell Phone Number")
+    dob = models.DateField(null=True, blank=True, verbose_name="Date of Birth")
+
+    dl_status = models.CharField(
+        max_length=3,
+        choices=DL_STATUS_CHOICES,
+        null=True,
+        verbose_name="Driving License Status"
+    )
+    motorway_trained = models.CharField(
+        max_length=14,
+        null=True,
+        verbose_name="Motorway Trained"
+    )
+    ddc_issue_date = models.DateField(null=True, blank=True, verbose_name="Motorway Certification Issue Date")
+    address = models.TextField(null=True, verbose_name="Address")
+    license_no = models.CharField(max_length=20, null=True, verbose_name="License Number")
+    htv_license_authority = models.ForeignKey(
+        Location,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="HTV License Authority"
+    )
+    htv_license_issue_date = models.DateField(null=True, blank=True, verbose_name="HTV License Issue Date")
+    htv_license_expiry_date = models.DateField(null=True, blank=True, verbose_name="HTV License Expiry Date")
+    ddc_expiry_date = models.DateField(null=True, blank=True, verbose_name="DDC Expiry Date")
+
+    education = models.CharField(max_length=16, null=True, verbose_name="Education")
+
+    medical_status = models.BooleanField(null=True, verbose_name="Medical Status")
+    medical_report_date = models.DateField(null=True, blank=True, verbose_name="Medical Report Date")
+    lab_name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Lab Name")
+    medical_expiry_date = models.DateField(null=True, blank=True, verbose_name="Medical Expiry Date")
+    blood_group = models.CharField(max_length=10, verbose_name="Blood Group")
+
+    medical_health = models.CharField(max_length=5, null=True, verbose_name="Medical Health")
+
+    joining_date = models.DateField(null=True, blank=True, verbose_name="Joining Date")
+    salary_increment_date = models.DateField(null=True, blank=True, verbose_name="Salary Increment Date")
+    experience = models.PositiveIntegerField(
+        validators=[MinValueValidator(0)],
+        null=True,
+        verbose_name="Experience (years)"
+    )
+    leave_date = models.DateField(null=True, blank=True, verbose_name="Leave Date")
+    leave_resume_date = models.DateField(null=True, blank=True, verbose_name="Leave Resume Date")
+    driving_age = models.PositiveIntegerField(
+        validators=[MinValueValidator(0)],
+        null=True,
+        verbose_name="Driving Age (years)"
+    )
+    previous_company = models.CharField(max_length=255, null=True, blank=True, verbose_name="Previous Company")
+    tank_lorry = models.CharField(max_length=255, null=True, verbose_name="Tank Lorry")
+
+    # Computed field
+    age = models.IntegerField(blank=True, null=True, verbose_name="Age")
 
     class Meta:
         verbose_name_plural = "Drivers"
 
-
-class User_Image(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    img = models.ImageField(max_length=500, null=True, upload_to='user_images/')
-
-
-class annual_training(models.Model):
-    id = models.AutoField(primary_key=True)
-    train_name = models.CharField(max_length=255, verbose_name="Training Name")
-    training_month = models.CharField(max_length=50, verbose_name="Training Month")
+    def save(self, *args, **kwargs):
+        if self.dob:
+            today = date.today()
+            self.age = today.year - self.dob.year - (
+                (today.month, today.day) < (self.dob.month, self.dob.day)
+            )
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.train_name
+        return self.name if self.name else f"Driver {self.id}"
+
+
+# ------------------------------------------------------------------------------
+# User Image
+# ------------------------------------------------------------------------------
+class UserImage(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    img = models.ImageField(
+        max_length=500,
+        null=True,
+        upload_to='user_images/',
+        verbose_name="User Image"
+    )
+
+
+# ------------------------------------------------------------------------------
+# AnnualTraining
+# ------------------------------------------------------------------------------
+class AnnualTraining(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, verbose_name="Training Name")
+    training_month = models.CharField(max_length=50, verbose_name="Training Month")
 
     class Meta:
         verbose_name = "HSE Training"
         verbose_name_plural = "HSE Trainings"
 
-
-class annual_drill(models.Model):
-    id = models.AutoField(primary_key=True)
-    drill_name = models.CharField(max_length=255, verbose_name="Drill Name")
-    drilling_month = models.CharField(max_length=50, verbose_name="Dril Month")
-
     def __str__(self):
-        return self.drill_name
+        return self.name
+
+
+# ------------------------------------------------------------------------------
+# AnnualDrill
+# ------------------------------------------------------------------------------
+class AnnualDrill(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, verbose_name="Drill Name")
+    drilling_month = models.CharField(max_length=50, verbose_name="Drill Month")
 
     class Meta:
         verbose_name = "Drill Training"
         verbose_name_plural = "Drill Trainings"
 
+    def __str__(self):
+        return self.name
 
-class annual_drill_driver(models.Model):
+
+# ------------------------------------------------------------------------------
+# AnnualDrillDriver
+# ------------------------------------------------------------------------------
+class AnnualDrillDriver(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name="User")
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name="Driver")
+
     train1_completed_date = models.DateField(null=True, blank=True)
     train2_completed_date = models.DateField(null=True, blank=True)
     train3_completed_date = models.DateField(null=True, blank=True)
@@ -222,13 +311,16 @@ class annual_drill_driver(models.Model):
     train12_completed_date = models.DateField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Dril Driver"
+        verbose_name = "Drill Driver"
         verbose_name_plural = "Drill Drivers"
 
 
-class annual_training_driver(models.Model):
+# ------------------------------------------------------------------------------
+# AnnualTrainingDriver
+# ------------------------------------------------------------------------------
+class AnnualTrainingDriver(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name="User")
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name="Driver")
 
     train1_completed_date = models.DateField(null=True, blank=True, verbose_name="TRAIN1 Completed Date")
     train2_completed_date = models.DateField(null=True, blank=True, verbose_name="TRAIN2 Completed Date")
@@ -248,55 +340,87 @@ class annual_training_driver(models.Model):
         verbose_name_plural = "HSE Training Drivers"
 
 
-class Violations(models.Model):
+# ------------------------------------------------------------------------------
+# Violations
+# ------------------------------------------------------------------------------
+class Violation(models.Model):
     id = models.AutoField(primary_key=True)
     violation_type = models.CharField(max_length=255, verbose_name="Violation Type")
-
-    def __str__(self):
-        return self.violation_type
 
     class Meta:
         verbose_name = "Violation"
         verbose_name_plural = "Violations"
 
-
-class Driver_Violation(models.Model):
-    id = models.AutoField(primary_key=True)
-    violation = models.ForeignKey(Violations, on_delete=models.CASCADE,
-                                  verbose_name="Violation", null=True)
-    driver = models.ForeignKey(Driver, on_delete=models.CASCADE,
-                               verbose_name="Driver", null=True)
-    violation_date = models.DateField(verbose_name="Violation Date", null=True)
-    violation_notes = models.TextField(null=True)
-
     def __str__(self):
-        return f"{self.driver} - {self.violation} - {self.violation_date}"
+        return self.violation_type
+
+
+# ------------------------------------------------------------------------------
+# DriverViolation
+# ------------------------------------------------------------------------------
+class DriverViolation(models.Model):
+    id = models.AutoField(primary_key=True)
+    violation = models.ForeignKey(
+        Violation,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Violation"
+    )
+    driver = models.ForeignKey(
+        Driver,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Driver"
+    )
+    violation_date = models.DateField(null=True, verbose_name="Violation Date")
+    violation_notes = models.TextField(null=True, verbose_name="Violation Notes")
 
     class Meta:
         verbose_name = "Driver Violation"
         verbose_name_plural = "Driver Violations"
 
-
-class tool_box_meeting_topics(models.Model):
-    id = models.AutoField(primary_key=True)
-    meeting_topic = models.CharField(max_length=255, verbose_name="Tool Box Meeting Topic")
-
     def __str__(self):
-        return self.meeting_topic
+        # Safely handle if driver or violation is None
+        driver_name = self.driver.name if self.driver else "Unknown Driver"
+        violation_name = self.violation.violation_type if self.violation else "Unknown Violation"
+        return f"{driver_name} - {violation_name} - {self.violation_date}"
+
+
+# ------------------------------------------------------------------------------
+# ToolBoxMeetingTopic
+# ------------------------------------------------------------------------------
+class ToolBoxMeetingTopic(models.Model):
+    id = models.AutoField(primary_key=True)
+    topic = models.CharField(max_length=255, verbose_name="Tool Box Meeting Topic")
 
     class Meta:
         verbose_name = "Tool Box Meeting"
         verbose_name_plural = "Tool Box Meetings"
 
+    def __str__(self):
+        return self.topic
 
-class driver_tool_box_meeting_attended(models.Model):
+
+# ------------------------------------------------------------------------------
+# DriverToolBoxMeetingAttended
+# ------------------------------------------------------------------------------
+class DriverToolBoxMeetingAttended(models.Model):
     id = models.AutoField(primary_key=True)
+    meeting_topic = models.ForeignKey(
+        ToolBoxMeetingTopic,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Meeting Topic"
+    )
+    driver = models.ForeignKey(
+        Driver,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="Driver"
+    )
+    no_of_times_attended = models.IntegerField(verbose_name="Times Attended")
 
-    # This is topic of the meeting
-    meetings_attended = models.ForeignKey(tool_box_meeting_topics, on_delete=models.CASCADE, null=True)
-
-    # This is the Driver ID who has attended the meeting
-    meeting_attended_by = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
-
-    # This is the no of times a single meeting is attended by the driver
-    no_of_times_meeting_attended = models.IntegerField()
+    def __str__(self):
+        driver_name = self.driver.name if self.driver else "Unknown Driver"
+        topic_name = self.meeting_topic.topic if self.meeting_topic else "Unknown Topic"
+        return f"{driver_name} attended '{topic_name}' {self.no_of_times_attended} time(s)"

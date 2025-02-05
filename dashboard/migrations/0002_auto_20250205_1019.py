@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import migrations
 
+
 def forwards(apps, schema_editor):
     # === Insert Django default tables data (except migrations) ===
 
@@ -185,7 +186,7 @@ def forwards(apps, schema_editor):
     # === Insert Dashboard (app "dashboard") independent data ===
 
     # -- AnnualDrill --
-    AnnualDrill = apps.get_model('dashboard', 'annual_drill')
+    AnnualDrill = apps.get_model('dashboard', 'AnnualDrill')
     drills = [
         (1, 'First Aid', 'Jan'),
         (2, 'Fire Drill', 'Feb'),
@@ -201,10 +202,14 @@ def forwards(apps, schema_editor):
         (12, 'Mega Drill', 'Dec'),
     ]
     for id_val, name, month in drills:
-        AnnualDrill.objects.create(id=id_val, drill_name=name, drilling_month=month)
+        AnnualDrill.objects.create(
+            id=id_val,
+            name=name,
+            drilling_month=month
+        )
 
     # -- AnnualTraining --
-    AnnualTraining = apps.get_model('dashboard', 'annual_training')
+    AnnualTraining = apps.get_model('dashboard', 'AnnualTraining')
     trainings = [
         (1, 'Company Policies', 'Jan'),
         (2, 'Product Knowledge/Handling & associated Hazards', 'Feb'),
@@ -220,7 +225,11 @@ def forwards(apps, schema_editor):
         (12, 'Fire Extinguisher Use', 'Dec'),
     ]
     for id_val, name, month in trainings:
-        AnnualTraining.objects.create(id=id_val, train_name=name, training_month=month)
+        AnnualTraining.objects.create(
+            id=id_val,
+            name=name,
+            training_month=month
+        )
 
     # -- Company --
     Company = apps.get_model('dashboard', 'Company')
@@ -229,11 +238,15 @@ def forwards(apps, schema_editor):
         (2, 'TPPL MHK', 'Total Parco Pakistan Limited MHK'),
         (3, 'TPPL MCH', 'Total Parco Pakistan Limited MCH'),
     ]
-    for cid, cabb, cname in companies:
-        Company.objects.create(cid=cid, cabb=cabb, cname=cname)
+    for id_val, abbreviation, name_val in companies:
+        Company.objects.create(
+            id=id_val,
+            abbreviation=abbreviation,
+            name=name_val
+        )
 
     # -- Location --
-    Location = apps.get_model('dashboard', 'location')
+    Location = apps.get_model('dashboard', 'Location')
     locations = [
         (1, 'Peshawar'),
         (2, 'Lakki Marwat'),
@@ -247,11 +260,14 @@ def forwards(apps, schema_editor):
         (10, 'Islamabad'),
         (11, 'Nowshera'),
     ]
-    for LID, Lname in locations:
-        Location.objects.create(LID=LID, Lname=Lname)
+    for loc_id, loc_name in locations:
+        Location.objects.create(
+            id=loc_id,
+            name=loc_name
+        )
 
-    # -- ToolBoxMeetingTopics --
-    ToolBoxMeetingTopics = apps.get_model('dashboard', 'tool_box_meeting_topics')
+    # -- ToolBoxMeetingTopic --
+    ToolBoxMeetingTopic = apps.get_model('dashboard', 'ToolBoxMeetingTopic')
     topics = [
         (1, 'Syndicate Sessions'),
         (2, 'Heat stress management'),
@@ -300,11 +316,14 @@ def forwards(apps, schema_editor):
         (45, 'Product Knowledge'),
         (46, 'TPPL Policies'),
     ]
-    for id_val, topic in topics:
-        ToolBoxMeetingTopics.objects.create(id=id_val, meeting_topic=topic)
+    for id_val, topic_name in topics:
+        ToolBoxMeetingTopic.objects.create(
+            id=id_val,
+            topic=topic_name
+        )
 
     # -- UserImage --
-    UserImage = apps.get_model('dashboard', 'user_image')
+    UserImage = apps.get_model('dashboard', 'UserImage')
     user_images = [
         (4, 'user_images/app_icon.png', 10),
         (5, 'user_images/avialdo.jpeg', 12),
@@ -315,21 +334,28 @@ def forwards(apps, schema_editor):
         (35, 'user_images/download_jO5fhkK.png', 24),
     ]
     for id_val, img, user_id in user_images:
-        UserImage.objects.create(id=id_val, img=img, user_id=user_id)
+        UserImage.objects.create(
+            id=id_val,
+            img=img,
+            user_id=user_id
+        )
 
     # -- VehicleMaker --
-    VehicleMaker = apps.get_model('dashboard', 'vehiclemaker')
+    VehicleMaker = apps.get_model('dashboard', 'VehicleMaker')
     makers = [
         (1, 'DAEWOO'),
         (2, 'FAW'),
         (3, 'NISSAN'),
         (4, 'ISUZU'),
     ]
-    for VMid, VMNAME in makers:
-        VehicleMaker.objects.create(VMid=VMid, VMNAME=VMNAME)
+    for vm_id, vm_name in makers:
+        VehicleMaker.objects.create(
+            id=vm_id,
+            name=vm_name
+        )
 
     # -- VehicleOwner --
-    VehicleOwner = apps.get_model('dashboard', 'vehicleowner')
+    VehicleOwner = apps.get_model('dashboard', 'VehicleOwner')
     owners = [
         (1, 'BANK OF PUNJAB'),
         (2, 'BILAL TRADERS'),
@@ -347,11 +373,14 @@ def forwards(apps, schema_editor):
         (14, 'MEEZAN BANK'),
         (15, 'Salman'),
     ]
-    for VO_id, VO_name in owners:
-        VehicleOwner.objects.create(VO_id=VO_id, VO_name=VO_name)
+    for vo_id, vo_name in owners:
+        VehicleOwner.objects.create(
+            id=vo_id,
+            name=vo_name
+        )
 
-    # -- Violations --
-    Violations = apps.get_model('dashboard', 'violations')
+    # -- Violation --
+    Violation = apps.get_model('dashboard', 'Violation')
     violations = [
         (1, 'Speed '),
         (2, 'Night Time Driving '),
@@ -370,12 +399,15 @@ def forwards(apps, schema_editor):
         (15, 'Other'),
     ]
     for id_val, violation_type in violations:
-        Violations.objects.create(id=id_val, violation_type=violation_type)
+        Violation.objects.create(
+            id=id_val,
+            violation_type=violation_type
+        )
 
     # === Insert Dashboard Drivers and Vehicles (only 5 each) ===
 
     # -- Drivers --
-    Driver = apps.get_model('dashboard', 'driver')
+    Driver = apps.get_model('dashboard', 'Driver')
     drivers_data = [
         (1, 'DV-186', None, 'SHAMSHAD ALI', 'JAN AFZAL', '2120384290117', '2025-04-20',
          '03442020257', '1983-12-10', 'HTV', 'Simulator-YES', '2022-06-16',
@@ -410,44 +442,44 @@ def forwards(apps, schema_editor):
     ]
     for d in drivers_data:
         Driver.objects.create(
-            D_ID=d[0],
-            D_Number=d[1],
-            D_Image=d[2],
-            D_Name=d[3],
-            Father_Name=d[4],
-            CNIC=d[5],
-            CNIC_Validity=d[6],
-            Cell_Phone_Num=d[7],
-            DOB=d[8],
-            DL_Status=d[9],
-            Motorway_Trained=d[10],
-            DDC_Issue_Date=d[11],
-            Address=d[12],
-            License_No=d[13],
-            HTV_License_Issue_Date=d[14],
-            HTV_License_Expiry_Date=d[15],
-            DDC_Expiry_Date=d[16],
-            Education=d[17],
-            Medical=d[18],
-            Report_Date=d[19],
-            Lab_Name=d[20],
-            Expiry_Date=d[21],
-            Blood_Group=d[22],
-            Medical_Health=d[23],
-            Joining_Date=d[24],
-            Salary_Increment_Date=d[25],
-            Experience=d[26],
-            Leave_Date=d[27],
-            Leave_Resume=d[28],
-            Driving_Age=d[29],
-            Previous_Company=d[30],
-            Tank_Lorry=d[31],
-            HTV_License_Authority_id=d[32],
-            Oil_Marketing_Company_id=d[33],
+            id=d[0],
+            driver_number=d[1],
+            image=d[2],
+            name=d[3],
+            father_name=d[4],
+            cnic=d[5],
+            cnic_validity=d[6],
+            cell_phone_num=d[7],
+            dob=d[8],
+            dl_status=d[9],
+            motorway_trained=d[10],
+            ddc_issue_date=d[11],
+            address=d[12],
+            license_no=d[13],
+            htv_license_issue_date=d[14],
+            htv_license_expiry_date=d[15],
+            ddc_expiry_date=d[16],
+            education=d[17],
+            medical_status=d[18],
+            medical_report_date=d[19],
+            lab_name=d[20],
+            medical_expiry_date=d[21],
+            blood_group=d[22],
+            medical_health=d[23],
+            joining_date=d[24],
+            salary_increment_date=d[25],
+            experience=d[26],
+            leave_date=d[27],
+            leave_resume_date=d[28],
+            driving_age=d[29],
+            previous_company=d[30],
+            tank_lorry=d[31],
+            htv_license_authority_id=d[32],
+            company_id=d[33],
         )
 
     # -- Vehicles --
-    Vehicle = apps.get_model('dashboard', 'vehicle')
+    Vehicle = apps.get_model('dashboard', 'Vehicle')
     vehicles_data = [
         (1, 'JP-7799', '2011', 'DE08TIS906541CA', 'M2TBEDP00018', 21000, '2023-06-30', '2023-09-02', '2024-03-03', '2023-12-31', 1, 1),
         (2, 'JP-9899', '2011', 'DE08TIS906539CA', 'M2TBEDP00016', 28000, '2023-06-30', '2023-09-02', '2024-03-03', '2023-12-31', 1, 1),
@@ -457,58 +489,56 @@ def forwards(apps, schema_editor):
     ]
     for v in vehicles_data:
         Vehicle.objects.create(
-            TL_Number=v[1],  # VH_number
-            Capacity=v[5],  # VH_Capacity
-            Chambers=v[2],  # VH_model (assuming it's being stored as Chambers)
-            Engine_Number=v[3],  # VH_Engine_no
-            Chassis_Number=v[4],  # VH_Chasis_No
-            OMC_id=v[10],  # VH_Owner_name_id (assuming it's a Company FK)
-            Make_id=v[11],  # VH_make_id (assuming it's a VehicleMaker FK)
-            Model=v[2],  # VH_model (mapped to Model)
-            LEASE_COMPANY_id=v[10],  # VH_Owner_name_id (VehicleOwner FK)
-            LEASE_BANK_id=v[10],  # VH_Owner_name_id (VehicleOwner FK, assuming the same as above)
-            Status="Active",  # Default value for Status (you can adjust accordingly)
-            Type="Standard",  # Default Type (adjust as needed)
-            Trailer_ID="N/A",  # Default Trailer_ID (adjust as needed)
-            Brand="BrandName",  # Default Brand (adjust as needed)
-            NHA_Configuration_Class="ClassA",  # Default NHA_Configuration_Class (adjust as needed)
-            Gross_Empty_Trailer_Weight="N/A",  # Default value for weight
-            DIP_CHART_Date=None,  # You can adjust this based on your data
-            INSURANCE_Date=None,  # Adjust based on your data
-            TAX_PAID_Date=None,  # Adjust based on your data
-            FITNISSE_Date=None,  # Adjust based on your data
-            Q_FOM_Date=None,  # Adjust based on your data
-            Route_Permit_Date=None,  # Adjust based on your data
+            tl_number=v[1],               # old TL_Number
+            capacity=v[5],                # old Capacity
+            chambers=v[2],                # If you truly want to store '2011' in the chambers field. Adjust as needed.
+            engine_number=v[3],           # old Engine_Number
+            chassis_number=v[4],          # old Chassis_Number
+            omc_id=v[10],                 # old OMC_id (FK to Company)
+            maker_id=v[11],               # old Make_id (FK to VehicleMaker)
+            model=v[2],                   # old Model (also '2011' - be careful if you want to store integer vs string)
+            lease_company_id=v[10],       # old LEASE_COMPANY_id
+            lease_bank_id=v[10],          # old LEASE_BANK_id
+            status="Active",
+            vehicle_type="Standard",
+            trailer_id="N/A",
+            brand="BrandName",
+            nha_configuration_class="ClassA",
+            gross_empty_trailer_weight="N/A",
+            dip_chart_date=None,
+            insurance_date=None,
+            tax_paid_date=None,
+            fitness_date=None,
+            q_fom_date=None,
+            route_permit_date=None,
         )
-
 
 def backwards(apps, schema_editor):
     # Delete dashboard data
-    Driver = apps.get_model('dashboard', 'driver')
-    Vehicle = apps.get_model('dashboard', 'vehicle')
-    AnnualDrill = apps.get_model('dashboard', 'annual_drill')
-    AnnualTraining = apps.get_model('dashboard', 'annual_training')
+    Driver = apps.get_model('dashboard', 'Driver')
+    Vehicle = apps.get_model('dashboard', 'Vehicle')
+    AnnualDrill = apps.get_model('dashboard', 'AnnualDrill')
+    AnnualTraining = apps.get_model('dashboard', 'AnnualTraining')
     Company = apps.get_model('dashboard', 'Company')
-    Location = apps.get_model('dashboard', 'location')
-    ToolBoxMeetingTopics = apps.get_model('dashboard', 'tool_box_meeting_topics')
-    UserImage = apps.get_model('dashboard', 'user_image')
-    VehicleMaker = apps.get_model('dashboard', 'vehiclemaker')
-    VehicleOwner = apps.get_model('dashboard', 'vehicleowner')
-    Violations = apps.get_model('dashboard', 'violations')
+    Location = apps.get_model('dashboard', 'Location')
+    ToolBoxMeetingTopic = apps.get_model('dashboard', 'ToolBoxMeetingTopic')
+    UserImage = apps.get_model('dashboard', 'UserImage')
+    VehicleMaker = apps.get_model('dashboard', 'VehicleMaker')
+    VehicleOwner = apps.get_model('dashboard', 'VehicleOwner')
+    Violation = apps.get_model('dashboard', 'Violation')
 
-    Driver.objects.filter(D_ID__in=[1,2,3,4,5]).delete()
-    Vehicle.objects.filter(VH_id__in=[1,2,3,4,5]).delete()
+    # Remove all inserted data from these models
     AnnualDrill.objects.all().delete()
     AnnualTraining.objects.all().delete()
     Company.objects.all().delete()
     Location.objects.all().delete()
-    ToolBoxMeetingTopics.objects.all().delete()
+    ToolBoxMeetingTopic.objects.all().delete()
     UserImage.objects.all().delete()
     VehicleMaker.objects.all().delete()
     VehicleOwner.objects.all().delete()
-    Violations.objects.all().delete()
+    Violation.objects.all().delete()
 
-    # Delete Django default tables data (from auth, admin, contenttypes, sessions)
+    # Delete Django default tables data (from auth, admin, contenttypes)
     AuthPermission = apps.get_model('auth', 'Permission')
     AuthUser = apps.get_model('auth', 'User')
     AdminLog = apps.get_model('admin', 'LogEntry')
@@ -523,7 +553,7 @@ def backwards(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        # Replace '0001_initial' with your app’s actual last migration.
+        # Replace '0001_initial' with your app’s actual last migration file
         ('dashboard', '0001_initial'),
     ]
 
