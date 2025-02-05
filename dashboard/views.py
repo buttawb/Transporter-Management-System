@@ -1171,23 +1171,23 @@ def get_policies(request):
     return render(request, 'static_content/policies.html')
 
 
-def print_user_data_pdf(request, user_id):
-    # Use the correct field name
-    driver = get_object_or_404(Driver, D_ID=user_id)
+# def print_user_data_pdf(request, user_id):
+#     # Use the correct field name
+#     driver = get_object_or_404(Driver, D_ID=user_id)
 
-    # Replace with your actual HTML template path
-    template_path = 'driver/driver_view.html'
-    context = {'driver': driver}
+#     # Replace with your actual HTML template path
+#     template_path = 'driver/driver_view.html'
+#     context = {'driver': driver}
 
-    response = HttpResponse(content_type='application/pdf')
-    # Assuming 'D_Name' is a field in your model
-    response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"'
+#     response = HttpResponse(content_type='application/pdf')
+#     # Assuming 'D_Name' is a field in your model
+#     response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"'
 
-    template = get_template(template_path)
-    html = template.render(context)
-    pisa_status = pisa.CreatePDF(html, dest=response)
+#     template = get_template(template_path)
+#     html = template.render(context)
+#     pisa_status = pisa.CreatePDF(html, dest=response)
 
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+#     if pisa_status.err:
+#         return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
-    return response
+#     return response
