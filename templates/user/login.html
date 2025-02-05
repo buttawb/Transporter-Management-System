@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>Login | HGGC </title>
 
     <!-- Bootstrap -->
     <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -35,14 +35,14 @@
               <h4> {{ error_head }} </h4>
                 <br>
               <h5> {{log}} </h5>
-    
+
               </div>
 
             <form method="post" action="/loginuser">
                 {% csrf_token %}
                 <h1>Login Form</h1>
 
-              
+
                     {% if messages %}
                 <div class="alert alert-danger">
                     <ul>
@@ -53,7 +53,7 @@
                 </div>
                 {% endif %}
 
-            
+
                 <div>
                     <input type="text" class="form-control" name="username" placeholder="Username" required />
                 </div>
@@ -70,11 +70,11 @@
                   <p>©2023 All Rights Reserved.</p>
                 </div>
               </div>
- 
+
           </section>
         </div>
 
-        
+
             </form>
           </section>
         </div>

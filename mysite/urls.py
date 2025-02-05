@@ -30,7 +30,7 @@ urlpatterns = [
     path('edituser/<int:id>', views.edituser, name='edituser'),
     path('deleteuser/<int:id>/', views.deleteuser, name='deleteuser'),
     path('logout/', views.logout_user, name='logout'),
-    path('print_user_data_pdf/<int:user_id>/', views.print_user_data_pdf, name='print_user_data_pdf'),
+    # path('print_user_data_pdf/<int:user_id>/', views.print_user_data_pdf, name='print_user_data_pdf'),
 
 
 

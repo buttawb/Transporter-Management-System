@@ -22,7 +22,6 @@ from django.urls import reverse
 from django.db.models import Count
 from django.db.models.functions import Coalesce
 from django.template.loader import get_template
-from xhtml2pdf import pisa
 
 
 def remove_null_images(request):
@@ -141,7 +140,7 @@ def add_driver_training(request, D_ID):
 
             traing = annual_training.objects.get(train_name=train)
             drilling = annual_drill.objects.get(drill_name=drill)
-            
+
             training_no = ('train'+str(traing.id)+'_completed_date')
             meeting_train, created_train = annual_training_driver.objects.get_or_create(user=driver, defaults={training_no: date})
 
@@ -183,7 +182,7 @@ def add_tbm(request, D_ID):
     # Save it into driver_violation table
     try:
         if request.method == 'POST':
-            meeting_topic = request.POST.get('meeting_topic') 
+            meeting_topic = request.POST.get('meeting_topic')
             tbm_obj = tool_box_meeting_topics.objects.get(meeting_topic=meeting_topic)
             meetings_old = driver_tool_box_meeting_attended.objects.get(meeting_attended_by=driver, meetings_attended=tbm_obj)
 
@@ -222,7 +221,7 @@ def add_driver_violation(request, D_ID):
     # Save it into driver_violation table
     try:
         if request.method == 'POST':
-            violation_type = request.POST.get('violationType') 
+            violation_type = request.POST.get('violationType')
             violation_obj = Violations.objects.get(violation_type=violation_type)
 
             violation_date = request.POST.get('violationDate')
@@ -234,7 +233,7 @@ def add_driver_violation(request, D_ID):
                 violation_date=violation_date,
                 violation_notes=details
             )
-            driver_violation.save()  
+            driver_violation.save()
             driver_view_url = reverse('driverview', args=[D_ID])
 
             return HttpResponseRedirect(driver_view_url)
@@ -1207,21 +1206,3 @@ def get_emergency_procedures(request):
 def get_policies(request):
     return render(request, 'static_content/policies.html')
 
-
-def print_user_data_pdf(request, user_id):
-    driver = get_object_or_404(Driver, D_ID=user_id)  # Use the correct field name
-
-    template_path = 'driver/driver_view.html'  # Replace with your actual HTML template path
-    context = {'driver': driver}
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename="{driver.D_Name}_profile.pdf"' # Assuming 'D_Name' is a field in your model
-
-    template = get_template(template_path)
-    html = template.render(context)
-    pisa_status = pisa.CreatePDF(html, dest=response)
-
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-
-    return response
