@@ -1,6 +1,6 @@
 import calendar
 import csv
-from datetime import datetime
+from datetime import date, datetime
 from io import BytesIO
 import os
 
@@ -1003,6 +1003,7 @@ def edituser(request, id):
     if not request.user.is_superuser:
         logout_user(request)
         return render(request, 'user/login.html', {'error_head': "You do not have the authority to perform edit or delete operations. ", 'log': 'Log In with Full Access Account.'})
+    
     user = User.objects.get(id=id)
 
     # Retrieve the user's image if it exists
@@ -1038,6 +1039,11 @@ def edituser(request, id):
                 user_image_obj.delete()
 
             image = Image.open(user_image)
+
+            # Convert the image to 'RGB' mode (removes transparency)
+            if image.mode == 'RGBA':
+                image = image.convert('RGB')
+
             width, height = image.size
             new_size = min(width, height)
 
