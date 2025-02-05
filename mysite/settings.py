@@ -50,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "dashboard.middleware.LoginRequiredMiddleware",
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -77,24 +78,24 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 
 # Changed database to sqlite3 for portfolio deployment.
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'HGGC',          # Database name
-#         'USER': 'root',          # Database username
-#         'PASSWORD': '',          # Database password
-#         'HOST': '127.0.0.1',     # Database host
-#         'PORT': '3307',          # Database port
-#     },
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hggc',          # Database name
+        'USER': 'root',          # Database username
+        'PASSWORD': '',          # Database password
+        'HOST': '127.0.0.1',     # Database host
+        'PORT': '3306',          # Database port
+    },
+}
 
 
 # Password validation
@@ -147,3 +148,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+]

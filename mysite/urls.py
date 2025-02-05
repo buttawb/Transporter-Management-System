@@ -22,7 +22,7 @@ from dashboard import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('loginuser', views.login_user),
+    path('loginuser', views.login_user, name='login'),
     path('', views.dashboard),
     path('allusers', views.allusers),
     path('adduser', views.adduser),
