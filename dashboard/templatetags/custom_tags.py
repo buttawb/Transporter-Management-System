@@ -1,14 +1,14 @@
 from django import template
-# from dashboard.models import User_Image
+from dashboard.models import UserImage
 
-# register = template.Library()
+register = template.Library()
 
 
-# @register.simple_tag
-# def user_profile_image(user):
-#     try:
-#         user_image = User_Image.objects.get(user=user)
-#         return user_image.img.url
+@register.simple_tag
+def user_profile_image(user):
+    try:
+        user_image = UserImage.objects.get(user=user)
+        return user_image.img.url
 
-#     except User_Image.DoesNotExist:
-#         return '/static/images/user.png'
+    except UserImage.DoesNotExist:
+        return '/static/images/user.png'

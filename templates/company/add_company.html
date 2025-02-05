@@ -1,81 +1,82 @@
 {% extends "base/base.html" %}
-
-
 {% block title %} {{ action }} Company{% endblock %}
 
-
 {% block content %}
-   
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
                 <h3>{{ action }} Company </h3>
             </div>
-
-            
         </div>
+
         <div class="clearfix"></div>
+
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2> <small></small></h2>
+                        <h2><small></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            
+                            <!-- optional panel toolbox items -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <br />
-                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}		
+                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"
+                              method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
                             
+                            <!-- Abbreviation Field -->
                             <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Abbreviation<span class="required">*</span></label>
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="abbreviation">
+                                    Abbreviation <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input type="text" name="cabb" value="{{ company.cabb }}" id="first-name" required="required" class="form-control">
+                                    <input
+                                        type="text"
+                                        name="abbreviation"
+                                        id="abbreviation"
+                                        value="{{ company.abbreviation|default_if_none:'' }}"
+                                        required="required"
+                                        class="form-control"
+                                    >
                                 </div>
                             </div>
 
+                            <!-- Company Name Field -->
                             <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Name <span class="required">*</span></label>
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="company_name">
+                                    Name <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input type="text" name="company_name" value="{{ company.cname }}" id="first-name" required="required" class="form-control">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="company_name"
+                                        value="{{ company.name|default_if_none:'' }}"
+                                        required="required"
+                                        class="form-control"
+                                    >
                                 </div>
                             </div>
-                            
-                            
-                           
-
                             
                             <div class="ln_solid"></div>
                             <div class="item form-group">
                                 <div class="col-md-6 col-sm-6 offset-md-3">
                                     {% if 'edit' not in request.path %}
-                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                        <button class="btn btn-primary" type="reset">Reset</button>
                                     {% endif %}
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
 
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    
+                    </div> <!-- x_content -->
+                </div> <!-- x_panel -->
+            </div> <!-- col-md-12 -->
+        </div> <!-- row -->
     </div>
 </div>
-<!-- /page content -->
-
-
-
-
-
-
-
-
-
 {% endblock %}

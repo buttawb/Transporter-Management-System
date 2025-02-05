@@ -1,122 +1,105 @@
 {% extends "base/base.html" %}
 
-
-{% block title %}Add Training & Drill for {{ driver.D_Name }}{% endblock %}
-
+{% block title %}Add Training & Drill for {{ driver.full_name }}{% endblock %}
 
 {% block content %}
-   
-
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Add Drill & Training </small></h3>
+                <h3>Add Training & Drill</h3>
             </div>
-
-            
         </div>
         <div class="clearfix"></div>
+
         <div class="row">
-            <div class="col-md-12 col-sm-12 ">
+            <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2> <small></small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            
-                        </ul>
+                        <h2>Training & Drill Details</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <br />
-                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}		
-                            
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-id">Driver ID<span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input type="text" readonly="readonly" value="{{ driver.D_Number }}" id="driver-id" name="driverId" required="required" class="form-control">
-                                </div>
-                            </div>
-                            
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">Full Name <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input type="text" readonly="readonly" value="{{ driver.D_Name }}" id="full-name" name="fullName" required="required" class="form-control">
-                                </div>
-                            </div>
-                            
+                        <form id="training-form" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                            {% csrf_token %}
 
-                           
-                            
-                            <div class="form-group row">
-                                <label class="control-label col-md-3 col-sm-3 label-align" for="violation-type">Select Training</label>
+                            <!-- Driver ID (Read-only) -->
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-id">
+                                    Driver ID <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <select class="form-control" id="violation-type" name="train">
-                                        {% for train in training %}
-                                        <option>{{ train.train_name }}</option>
+                                    <input type="text" readonly value="{{ driver.driver_number }}" id="driver-id" name="driver_id" required class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Driver Name (Read-only) -->
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-name">
+                                    Full Name <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="text" readonly value="{{ driver.full_name }}" id="driver-name" name="driver_name" required class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Select Training -->
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 label-align" for="training">
+                                    Select Training
+                                </label>
+                                <div class="col-md-6 col-sm-6">
+                                    <select class="form-control" id="training" name="training_id">
+                                        {% for train in training_list %}
+                                            <option value="{{ train.id }}">{{ train.training_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
 
-
+                            <!-- Select Drill -->
                             <div class="form-group row">
-                                <label class="control-label col-md-3 col-sm-3 label-align" for="violation-type">Select Drill</label>
+                                <label class="control-label col-md-3 col-sm-3 label-align" for="drill">
+                                    Select Drill
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <select class="form-control" id="violation-type" name="drill">
-                                        {% for drill in drills %}
-                                        <option>{{ drill.drill_name }}</option>
+                                    <select class="form-control" id="drill" name="drill_id">
+                                        {% for drill in drill_list %}
+                                            <option value="{{ drill.id }}">{{ drill.drill_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
 
+                            <!-- Training & Drill Completion Date -->
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="violation-date">Date <span class="required">*</span></label>
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="completion-date">
+                                    Date <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="date" id="violation-date" name="date" required="required">
+                                    <input class="form-control" type="date" id="completion-date" name="completion_date" required>
                                 </div>
                             </div>
 
-
-                            
-                            
                             <br>
-                                
-        
-                                      
-                                   
-                           
-        
-                            
+
+                            <!-- Form Submission Buttons -->
                             <div class="item form-group">
                                 <div class="col-md-6 col-sm-6 offset-md-3">
                                     {% if 'edit' not in request.path %}
-                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                        <button class="btn btn-primary" type="reset">Reset</button>
                                     {% endif %}
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
 
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    
-    </div>
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 </div>
-
-
-
-
-
-
-
-
-
-
 
 {% endblock %}

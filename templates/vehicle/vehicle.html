@@ -1,175 +1,153 @@
 {% extends "base/base.html" %}
 
+{% load custom_filters %}
 
 {% block title %}All Vehicles {% endblock %}
 
-
 {% block content %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Vehicles</h3>
+            </div>
+        </div>
 
+        <div class="clearfix"></div>
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div class="">
-              <div class="page-title">
-                
-                <div class="title_left">
-                  <h3>Vehicles<small></small></h3>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div style="float: center !important;">
+                            {% if image %}
+                                <img src="{{ image }}" width="210" height="80">
+                            {% endif %}
+                            <a href="/addvehicle">
+                                <button type="button" class="btn custom-button float-right">
+                                    <i class="fa fa-plus m-right-xs"></i> Add Vehicle
+                                </button>
+                            </a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <p class="text-muted font-13 m-b-30"></p>
+
+                                    <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Avatar</th>
+                                                <th>Tank Lorry Number</th>
+                                                <th>Capacity</th>
+                                                <th>Chambers</th>
+                                                {% if not image %}
+                                                    <th>Oil Marketing Company</th>
+                                                {% endif %}
+                                                <th>Make</th>
+                                                <th>Model</th>
+                                                <th>Engine Number</th>
+                                                <th>Chassis Number</th>
+                                                <th>Lease Company</th>
+                                                <th>Lease Bank</th>
+                                                <th>Status</th>
+                                                <th>Type</th>
+                                                <th>Trailer ID</th>
+                                                <th>Brand</th>
+                                                <th>NHA Configuration Class</th>
+                                                <th>Gross Empty Trailer Weight</th>
+                                                <th>DIP Chart Expiry Date</th>
+                                                <th>Insurance Expiry Date</th>
+                                                <th>Tax Paid Expiry Date</th>
+                                                <th>Fitness Expiry Date</th>
+                                                <th>Q Fom Expiry Date</th>
+                                                <th>Route Permit Expiry Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for vehicle in vehicles %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="{% url 'vehicleview' vehicle.id %}">
+                                                            <ul class="list-inline">
+                                                                <li>
+                                                                    <img src="/static/images/truck.png" alt="avatar" class="avatar">
+                                                                </li>
+                                                            </ul>
+                                                            <a href="{% url 'edit_vehicle' vehicle.id %}"><i class="fa fa-edit"></i>Edit</a>
+                                                        </a>
+                                                    </td>
+                                                    <td><a href="{% url 'vehicleview' vehicle.id %}">{{ vehicle.tl_number }}</a></td>
+                                                    <td>{{ vehicle.capacity }}</td>
+                                                    <td>{{ vehicle.chambers }}</td>
+                                                    {% if not image %}
+                                                        <td>{{ vehicle.omc }}</td>
+                                                    {% endif %}
+                                                    <td>{{ vehicle.maker }}</td>
+                                                    <td>{{ vehicle.model }}</td>
+                                                    <td>{{ vehicle.engine_number }}</td>
+                                                    <td>{{ vehicle.chassis_number }}</td>
+                                                    <td>{{ vehicle.lease_company }}</td>
+                                                    <td>{{ vehicle.lease_bank }}</td>
+                                                    <td>{{ vehicle.status }}</td>
+                                                    <td>{{ vehicle.vehicle_type }}</td>
+                                                    <td>{{ vehicle.trailer_id }}</td>
+                                                    <td>{{ vehicle.brand }}</td>
+                                                    <td>{{ vehicle.nha_configuration_class }}</td>
+                                                    <td>{{ vehicle.gross_empty_trailer_weight }}</td>
+                                                    <td>
+                                                        {{ vehicle.dip_chart_date }}
+                                                        <span class="badge {% if vehicle.dip_chart_date|date:"Y-m-d"|is_soon_expiring %}badge-warning{% elif vehicle.dip_chart_date|date:"Y-m-d"|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                            {{ vehicle.dip_chart_status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ vehicle.insurance_date }}
+                                                        <span class="badge {% if vehicle.dip_chart_date|is_soon_expiring %}badge-warning{% elif vehicle.dip_chart_date|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                          {{ vehicle.dip_chart_status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ vehicle.tax_paid_date }}
+                                                        <span class="badge {% if vehicle.tax_paid_date|is_soon_expiring %}badge-warning{% elif vehicle.tax_paid_date|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                            {{ vehicle.tax_paid_status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ vehicle.fitness_date }}
+                                                        <span class="badge {% if vehicle.fitness_date|is_soon_expiring %}badge-warning{% elif vehicle.fitness_date|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                            {{ vehicle.fitness_status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ vehicle.q_fom_date }}
+                                                        <span class="badge {% if vehicle.q_fom_date|is_soon_expiring %}badge-warning{% elif vehicle.q_fom_date|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                            {{ vehicle.q_fom_status }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ vehicle.route_permit_date }}
+                                                        <span class="badge {% if vehicle.route_permit_date|is_soon_expiring %}badge-warning{% elif vehicle.route_permit_date|is_expired %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
+                                                            {{ vehicle.route_permit_status }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-  
-                
-              </div>
-  
-              <div class="clearfix"></div>
-  
-              <div class="row">
-   
-<div class="col-md-12 col-sm-12 ">
-    <div class="x_panel">
-      <div class="x_title">
-        <div style="float: center !important;">
-          {% if image %}
-            <img src="{{ image }}" width="210" height="80">
-          {% endif %}
-          <a href="/addvehicle">
-            <button type="button" class="btn custom-button float-right">
-                <i class="fa fa-plus m-right-xs"></i> Add Vehicle
-            </button>
-          </a>
-          <div class="clearfix"></div>
-
-      </div>
-      
-      <div class="x_content">
-        
-        
-
-          <div class="row">
-             
-            
-              <div class="col-sm-12">
-                
-                <div class="card-box table-responsive">
-                  
-        <p class="text-muted font-13 m-b-30">
-        </p>
-       
-
-        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
-          
-            <thead>
-              
-                <tr>
-                    <th>Avatar</th>
-                    <th>Tank Lorry Number</th>
-                    <th>Capacity</th>
-                    <th>Chambers</th>
-                    {% if not image %}
-                    <th>Oil Marketing Company</th>
-                    {% endif %}
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>Engine Number</th>
-                    <th>Chasis Number</th>
-                    <th>Lease Company</th>
-                    <th>Lease Bank</th>
-                    <th>Status</th>
-                    <th>Type</th>
-                    <th>Trailer ID</th>
-                    <th>Brand</th>
-                    <th>NHA Configuration Class</th>
-                    <th>Gross Empty Trailer Weight</th>
-                    <th>DIP Chart Expiry Date</th>
-                    <th>Insurance Expiry Date</th>
-                    <th>Tax Paid Expiry Date</th>
-                    <th>Fitness Expiry Date</th>
-                    <th>Q Fom Expiry Date</th>
-                    <th>Route Permit Expiry Date</th>
-                  
-                </tr>
-            </thead>
-            <tbody>
-                {% for vehicle in vehicles %}
-                <tr>
-                  <td>
-                  <a href="{% url 'vehicleview' vehicle.id %}">
-                    <ul class="list-inline">
-                      <li>
-                        
-                       
-                        <img src="/static/images/truck.png" alt="avatar" class="avatar">
-                     
-                      </li>
-                    </ul>
-                    <a href="{% url 'edit_vehicle' vehicle.id %}"><i class="fa fa-edit"></i>Edit</a>
-                    
-                   
-
-                  </td>
-                    <td><a href="{% url 'vehicleview' vehicle.id %}">{{ vehicle.TL_Number }}</td>
-                   
-                    <td>{{ vehicle.Capacity }}</td>
-                    <td>{{ vehicle.Chambers }}</td>
-                    {% if not image %}
-                    <td>{{ vehicle.OMC }}</td>
-                    {% endif %}
-                    <td>{{ vehicle.Make }}</td>
-                    <td>{{ vehicle.Model }}</td>
-                    <td>{{ vehicle.Engine_Number }}</td>
-                    <td>{{ vehicle.Chassis_Number }}</td>
-                    <td>{{ vehicle.LEASE_COMPANY }}</td>
-                    <td>{{ vehicle.LEASE_BANK }}</td>
-                    <td>{{ vehicle.Status }}</td>
-                    <td>{{ vehicle.Type }}</td>
-                    <td>{{ vehicle.Trailer_ID }}</td>
-                    <td>{{ vehicle.Brand }}</td>
-                    <td>{{ vehicle.NHA_Configuration_Class }}</td>
-                    <td>{{ vehicle.Gross_Empty_Trailer_Weight }}</td>
-                    <td> {{ vehicle.DIP_CHART_Date }}
-                      <span class="badge {% if vehicle.Dip_Chart_status == 'Close to Expiry' %}badge-warning{% elif vehicle.Dip_Chart_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.Dip_Chart_status }}
-                      </td>
-                    </span>
-                    <td>{{ vehicle.INSURANCE_Date }}
-                      <span class="badge {% if vehicle.road_insurance_status == 'Close to Expiry' %}badge-warning{% elif vehicle.road_insurance_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.road_insurance_status }}
-                      </td>
-                    </td>
-                    <td>{{ vehicle.TAX_PAID_Date }}
-                      <span class="badge {% if vehicle.tax_expiry_status == 'Close to Expiry' %}badge-warning{% elif vehicle.tax_expiry_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.tax_expiry_status }}
-                      </td>
-                    </td>
-                    <td>{{ vehicle.FITNISSE_Date }}
-                      <span class="badge {% if vehicle.fitness_expiry_status == 'Close to Expiry' %}badge-warning{% elif vehicle.fitness_expiry_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.fitness_expiry_status }}
-                      </td>
-                    </td>
-                    <td>{{ vehicle.Q_FOM_Date }}
-                      <span class="badge {% if vehicle.Q_Fom_status == 'Close to Expiry' %}badge-warning{% elif vehicle.Q_Fom_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.Q_Fom_status }}
-                      </td>
-                    </td>
-                    <td>{{ vehicle.Route_Permit_Date }}
-                      <span class="badge {% if vehicle.Route_status == 'Close to Expiry' %}badge-warning{% elif vehicle.Route_status == 'Expired' %}badge-danger{% else %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                        {{ vehicle.Route_status }}
-                      </td>
-                    </td>
-
-                    
-
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-    </div>
-  </div>
-
-              </div>
-            </div></div>
 
 {% endblock %}

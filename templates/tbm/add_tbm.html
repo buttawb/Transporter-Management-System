@@ -1,100 +1,81 @@
 {% extends "base/base.html" %}
 
-
-{% block title %}Add {{ driver.D_Name }} TBM{% endblock %}
-
+{% block title %}Add TBM for {{ driver.full_name }}{% endblock %}
 
 {% block content %}
-   
-
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Add Tool Box Meeting </small></h3>
+                <h3>Add Tool Box Meeting</h3>
             </div>
-
-            
         </div>
         <div class="clearfix"></div>
+
         <div class="row">
-            <div class="col-md-12 col-sm-12 ">
+            <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2> <small></small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            
-                        </ul>
+                        <h2>Tool Box Meeting Details</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <br />
-                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}		
-                            
+                        <form id="tbm-form" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                            {% csrf_token %}
+
+                            <!-- Driver ID (Read-only) -->
                             <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-id">Driver ID<span class="required">*</span></label>
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-id">
+                                    Driver ID <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input type="text" readonly="readonly" value="{{ driver.D_Number }}" id="driver-id" name="driverId" required="required" class="form-control">
+                                    <input type="text" readonly value="{{ driver.driver_number }}" id="driver-id" name="driver_id" required class="form-control">
                                 </div>
                             </div>
-                            
+
+                            <!-- Driver Name (Read-only) -->
                             <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="full-name">Full Name <span class="required">*</span></label>
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="driver-name">
+                                    Full Name <span class="required">*</span>
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input type="text" readonly="readonly" value="{{ driver.D_Name }}" id="full-name" name="fullName" required="required" class="form-control">
+                                    <input type="text" readonly value="{{ driver.full_name }}" id="driver-name" name="driver_name" required class="form-control">
                                 </div>
                             </div>
-                            
-                           
-                            
+
+                            <!-- Select Tool Box Meeting Topic -->
                             <div class="form-group row">
-                                <label class="control-label col-md-3 col-sm-3 label-align" for="violation-type">Select Tool Box Meeting </label>
+                                <label class="control-label col-md-3 col-sm-3 label-align" for="meeting-topic">
+                                    Select Tool Box Meeting
+                                </label>
                                 <div class="col-md-6 col-sm-6">
-                                    <select class="form-control" id="violation-type" name="meeting_topic">
+                                    <select class="form-control" id="meeting-topic" name="meeting_topic">
                                         {% for tbm in tbms %}
-                                        <option>{{ tbm.meeting_topic }}</option>
+                                            <option value="{{ tbm.id }}">{{ tbm.topic_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-                            
-                            
+
                             <br>
-                                
-        
-                                      
-                                   
-                           
-        
-                            
+
+                            <!-- Form Submission Buttons -->
                             <div class="item form-group">
                                 <div class="col-md-6 col-sm-6 offset-md-3">
                                     {% if 'edit' not in request.path %}
-                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                        <button class="btn btn-primary" type="reset">Reset</button>
                                     {% endif %}
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
 
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    
-    </div>
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 </div>
-
-
-
-
-
-
-
-
-
-
 
 {% endblock %}

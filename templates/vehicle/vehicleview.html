@@ -126,11 +126,11 @@
           <div class="hggc-box">
             <div class="hggc-header">
                 <img src="/static/images/hggc-logo.png" alt="" />
-                {% if vehicle.OMC.cname == "Attock Petroleum Limited" %}
+                {% if vehicle.omc.cname == "Attock Petroleum Limited" %}
                     <img src="/static/images/attock-logo.png" alt="" />
-                {% elif vehicle.OMC.cname == 'GO' %}
+                {% elif vehicle.omc.cname == 'GO' %}
                     <img src="/static/images/go.png" alt="" />
-                {% elif vehicle.OMC.cname == 'Pakistan State Oil' %}
+                {% elif vehicle.omc.cname == 'Pakistan State Oil' %}
                     <img src="/static/images/pso-logo.png" alt="" />
                 {% else %}
                     <img src="/static/images/total-logo.png" alt="" />
@@ -142,12 +142,12 @@
                 <div class="col-md-6">
                   <div class="user-box">
                     <img class="img-responsive avatar-view" 
-                      src="{% if driver.D_Image %}{{ driver.D_Image.url }}{% else %}/static/images/truck.png{% endif %}" 
+                      src="{% if vehicle.D_Image %}{{ vehicle.D_Image.url }}{% else %}/static/images/truck.png{% endif %}" 
                       alt="Avatar" title="Change the avatar"/>
                       <div class="user-content">
-                        <h5>{{ vehicle.TL_Number }}</h5>
-                        <p>{{ driver.Address }}</p>
-                        <p>{{ driver.Cell_Phone_Num }}</p>
+                        <h5>{{ vehicle.tl_number }}</h5>
+                        <p>{{ vehicle.address }}</p>
+                        <p>{{ vehicle.cell_phone_num }}</p>
                       </div>
                   </div>
                 </div>
@@ -168,15 +168,15 @@
                     <div class="user-items">
                       <div class="items">
                         <p>Capacity</p>
-                        <h5>{{ vehicle.Capacity }}</h5>
+                        <h5>{{ vehicle.capacity }}</h5>
                       </div>
                       <div class="items">
                         <p>Make</p>
-                        <h5>{{ vehicle.Make }}</h5>
+                        <h5>{{ vehicle.maker }}</h5>
                       </div>
                       <div class="items">
                         <p>Model</p>
-                        <h5>{{ vehicle.Model }}</h5>
+                        <h5>{{ vehicle.model }}</h5>
                       </div>
                   </div>
                 </div>
@@ -204,14 +204,14 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Engine Number</p>
-                          <h5>{{ vehicle.Engine_Number }}</h5>
+                          <h5>{{ vehicle.engine_number }}</h5>
                         </div>
                       </div>
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Chassis Number</p>
-                          <h5>{{ vehicle.Chassis_Number }}</h5>
+                          <h5>{{ vehicle.chassis_number }}</h5>
                         </div>
                       </div>
                       <!--Item-->
@@ -220,13 +220,13 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Type</p>
-                          <h5>{{ vehicle.Type }}</h5>
+                          <h5>{{ vehicle.vehicle_type }}</h5>
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="data-items">
-                          <p>Standard</p>
-                          <h5>{{ vehicle.Status }}</h5>
+                          <p>Status</p>
+                          <h5>{{ vehicle.status }}</h5>
                         </div>
                       </div>
                     </div>
@@ -237,14 +237,14 @@
                        <div class="col-md-3">
                         <div class="data-items">
                           <p>Trailer ID</p>
-                          <h5>{{ vehicle.Trailer_ID }}</h5>
+                          <h5>{{ vehicle.trailer_id }}</h5>
                         </div>
                       </div>
                         <!--Item-->
                     <div class="col-md-3">
                       <div class="data-items">
                         <p>Brand</p>
-                        <h5>{{ vehicle.Brand }}</h5>
+                        <h5>{{ vehicle.brand }}</h5>
                       </div>
                     </div>
                    
@@ -252,7 +252,7 @@
                     <div class="col-md-3">
                         <div class="data-items">
                           <p>NHA Configuration Class</p>
-                          <h5>{{ vehicle.NHA_Configuration_Class }}</h5>
+                          <h5>{{ vehicle.nha_configuration_class }}</h5>
                         </div>
                       </div>
               
@@ -260,7 +260,7 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Gross Empty Trailer Weight</p>
-                          <h5>{{ vehicle.Gross_Empty_Trailer_Weight }}</h5>
+                          <h5>{{ vehicle.gross_empty_trailer_weight }}</h5>
                         </div>
                       </div>
                       </div>
@@ -270,21 +270,21 @@
                         <div class="col-md-3">
                          <div class="data-items">
                            <p>Lease Company</p>
-                           <h5>{{ vehicle.LEASE_COMPANY }}</h5>
+                           <h5>{{ vehicle.lease_company }}</h5>
                          </div>
                        </div>
 
                        <div class="col-md-3">
                         <div class="data-items">
                           <p>Lease Bank</p>
-                          <h5>{{ vehicle.LEASE_BANK }}</h5>
+                          <h5>{{ vehicle.lease_bank }}</h5>
                         </div>
                       </div>
 
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Chambers</p>
-                          <h5>{{ vehicle.Chambers }}</h5>
+                          <h5>{{ vehicle.chambers }}</h5>
                         </div>
                       </div>
 
@@ -310,14 +310,14 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>DIP Chart Expiry</p>
-                          <h5>{{ vehicle.DIP_CHART_Date }}</h5>
+                          <h5>{{ vehicle.dip_chart_date }}</h5>
                         </div>
                       </div>
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Insurance Expiry</p>
-                          <h5>{{ vehicle.INSURANCE_Date }}</h5>
+                          <h5>{{ vehicle.insurance_date }}</h5>
                         </div>
                       </div>
                       <!--Item-->
@@ -325,7 +325,7 @@
                         <div class="data-items">
                           <p>TAX Expiry</p>
                        
-                           <h5> {{ vehicle.TAX_PAID_Date }}</h5>
+                           <h5> {{ vehicle.tax_paid_date }}</h5>
                          
                         </div>
                       </div>
@@ -337,21 +337,21 @@
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Fitness Expiry</p>
-                          <h5>{{ vehicle.FITNISSE_Date }}</h5>
+                          <h5>{{ vehicle.fitness_date }}</h5>
                         </div>
                       </div>
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Q FOM Expiry</p>
-                          <h5>{{ vehicle.Q_FOM_Date }}</h5>
+                          <h5>{{ vehicle.q_fom_date }}</h5>
                         </div>
                       </div>
                       <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Route Permit Expiry</p>
-                          <h5>{{ vehicle.Route_Permit_Date }}</h5>
+                          <h5>{{ vehicle.route_permit_date }}</h5>
                         </div>
                       </div>
                        <!--Item-->

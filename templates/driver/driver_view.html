@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-
 <body class="watermark">
   <style>
     .hggc-header{
@@ -75,7 +74,6 @@
     .data-items > .badge{
       font-size: 1.25rem;
     }
-
     .hggc-panel{
       border-radius: 8px;
       border: 2px solid #7a1818;
@@ -113,8 +111,6 @@
     .work-history h6 > a{
       font-size: 22px;
     }
-    
-  
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -126,41 +122,41 @@
           <div class="hggc-box">
             <div class="hggc-header">
                 <img src="/static/images/hggc-logo.png" alt="" />
-                {% if driver.Oil_Marketing_Company.cname == "Attock Petroleum Limited" %}
+                {% if driver.company and driver.company.name == "Attock Petroleum Limited" %}
                     <img src="/static/images/attock-logo.png" alt="" />
-                {% elif driver.Oil_Marketing_Company.cname == 'GO' %}
+                {% elif driver.company and driver.company.name == 'GO' %}
                     <img src="/static/images/go.png" alt="" />
                 {% else %}
                     <img src="/static/images/total.png" alt="" />
                 {% endif %}
-
             </div>
             <div class="hggc-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="user-box">
+                    <!-- Display Driver's image or default -->
                     <img class="img-responsive avatar-view" 
-                      src="{% if driver.D_Image %}{{ driver.D_Image.url }}{% else %}/static/images/user.png{% endif %}" 
-                      alt="Avatar" title="Change the avatar"/>
+                      src="{% if driver.image %}{{ driver.image.url }}{% else %}/static/images/user.png{% endif %}" 
+                      alt="Avatar" title="Driver Image"/>
                       <div class="user-content">
-                        <h5>{{ driver.D_Name }}</h5>
-                        <p>{{ driver.Address }}</p>
-                        <p>{{ driver.Cell_Phone_Num }}</p>
+                        <h5>{{ driver.name }}</h5>
+                        <p>{{ driver.address }}</p>
+                        <p>{{ driver.cell_phone_num }}</p>
                       </div>
                   </div>
                 </div>
                 <div class="col-md-6 text-right" style="display: flex; flex-direction: column; justify-content: space-between;">
                   <div class="btns noprint">
-                      
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="fa fa-print m-right-xs"></i> Print as PDF
-                        </button>
-                      </a>
-                      <a href="{% url 'editdriver' driver_id=driver.D_ID %}">
-                        <button type="button" class="btn custom-button">
-                            <i class="fa fa-edit m-right-xs"></i> Edit Profile
-                        </button>
-                      </a>
+                    <!-- Print button -->
+                    <button type="button" class="btn btn-outline-danger">
+                      <i class="fa fa-print m-right-xs"></i> Print as PDF
+                    </button>
+                    <!-- Edit Profile -->
+                    <a href="{% url 'editdriver' driver_id=driver.id %}">
+                      <button type="button" class="btn custom-button">
+                        <i class="fa fa-edit m-right-xs"></i> Edit Profile
+                      </button>
+                    </a>
                   </div>
                   <div class="user-header-info">
                     <div class="user-items">
@@ -170,39 +166,42 @@
                       </div>
                       <div class="items">
                         <p>Total Experience</p>
-                        <h5>{{ driver.Experience }} Years</h5>
+                        <h5>{{ driver.experience }} Years</h5>
                       </div>
                       <div class="items">
                         <p>Employee ID</p>
-                        <h5>{{ driver.D_Number }}</h5>
+                        <h5>{{ driver.driver_number }}</h5>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
- <div class="mt-3 mb-3 row mt-3 work-history">
-              <!--Item-->
-                
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Total Tool Box Meeting & Drill Training <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                 
-                </div>
-                <div class="col-md-4">
-                    <h6 class="mb-2">Add Violation against {{ driver.D_Name }} <a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                    
-                </div>
-                <!--Item-->
-                {% comment %} <div class="col-md-4">
-                  <h6 class="mb-2">Add Drill Training<a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                  
-                </div> {% endcomment %}
+
+            <!-- Work History / Toolbox & Drills Section -->
+            <div class="mt-3 mb-3 row mt-3 work-history">
+              <div class="col-md-4">
+                <h6 class="mb-2">
+                  Add Total Tool Box Meeting & Drill Training
+                  <a href="{% url 'add_driver_training' D_ID=driver.id %}" class="pull-right">
+                    <i class="fa fa-plus-circle"></i>
+                  </a>
+                </h6>
               </div>
-            <!--Personal Information-->
+              <div class="col-md-4">
+                  <h6 class="mb-2">
+                    Add Violation against {{ driver.name }} 
+                    <a href="{% url 'add_driver_violation' D_ID=driver.id %}" class="pull-right">
+                      <i class="fa fa-plus-circle"></i>
+                    </a>
+                  </h6>
+              </div>
+            </div>
+
+            <!-- Personal Information -->
             <div class="row mt-4">
               <div class="col-md-12">
                 <div class="hggc-panel x_panel">
-                  <!--Title-->
                   <div class="x_title">
                     <h2 class="m-0">Personal Information</h2>
                     <ul class="nav navbar-right panel_toolbox">
@@ -211,190 +210,214 @@
                       </li>
                     </ul>
                   </div>
-                  <!--Content-->
                   <div class="x_content mt-0">
-                    <!--Item Row-->
+                    <!-- First Row of Data Items -->
                     <div class="row mb-3">
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Father Name</p>
-                          <h5>{{ driver.Father_Name }}</h5>
+                          <h5>{{ driver.father_name }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Date Of Birth</p>
-                          <h5>{{ driver.DOB }}</h5>
+                          <h5>{{ driver.dob }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Education</p>
-                          <h5>{{ driver.Education }}</h5>
+                          <h5>{{ driver.education }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Blood Group</p>
-                          <h5>{{ driver.Blood_Group }}</h5>
+                          <h5>{{ driver.blood_group }}</h5>
                         </div>
                       </div>
                     </div>
+                    <!-- Second Row of Data Items -->
                     <div class="row">
-                       <!--Item-->
-                       <div class="col-md-3">
+                      <div class="col-md-3">
                         <div class="data-items">
                           <p>Previous Company</p>
-                          <h5>{{ driver.Previous_Company }}</h5>
+                          <h5>{{ driver.previous_company }}</h5>
                         </div>
                       </div>
-                        <!--Item-->
-                    <div class="col-md-3">
-                      <div class="data-items">
-                        <p>Tank Lorry</p>
-                        <h5>{{ driver.Tank_Lorry }}</h5>
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Tank Lorry</p>
+                          <h5>{{ driver.tank_lorry }}</h5>
+                        </div>
                       </div>
                     </div>
-                    </div>
-                    <!--Seperation-->
                     <div class="row seperation"></div>
-
-                    <!--Item Row-->
+                    <!-- CNIC Information -->
                     <div class="row mb-3">
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p><b>CNIC</b></p>
-                          <h5>{{ driver.CNIC }}</h5>
+                          <h5>{{ driver.cnic }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Issue Date</p>
+                          <!-- Not previously used; showing as "None" or "N/A" -->
                           <h5>None</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date</p>
-                          <h5>{{ driver.CNIC_Validity }} <span class="badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% elif driver.CNIC_Validity_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.CNIC_Validity_status }} </span></h5>
+                          <h5>
+                            {{ driver.cnic_validity }}
+                            <span class="badge 
+                              {% if driver.cnic_validity_status == 'Close to Expiry' %}
+                                badge-warning
+                              {% elif driver.cnic_validity_status == 'Expired' %}
+                                badge-danger
+                              {% elif driver.cnic_validity_status == 'Valid' %}
+                                badge-success
+                              {% endif %}"
+                              style="font-size: 0.9em; padding: 0.5em;">
+                              {{ driver.cnic_validity_status }}
+                            </span>
+                          </h5>
                         </div>
                       </div>
                     </div>
-
-                    <!--Item Row-->
+                    <!-- DDC Information -->
                     <div class="row mb-3">
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p><b>DDC</b></p>
-                          <h5>{{ driver.Motorway_Trained }}</h5>
+                          <h5>{{ driver.motorway_trained }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Issue Date</p>
-                          <h5>{{ driver.DDC_Issue_Date }}</h5>
+                          <h5>{{ driver.ddc_issue_date }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date</p>
-                         
-                           <h5> {{ driver.DDC_Expiry_Date }} <span class="badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% elif driver.DDC_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.DDC_Date_status }} </span></h5>
-                       
+                          <h5>
+                            {{ driver.ddc_expiry_date }}
+                            <span class="badge 
+                              {% if driver.DDC_Date_status == 'Close to Expiry' %}
+                                badge-warning
+                              {% elif driver.DDC_Date_status == 'Expired' %}
+                                badge-danger
+                              {% elif driver.DDC_Date_status == 'Valid' %}
+                                badge-success
+                              {% endif %}"
+                              style="font-size: 0.9em; padding: 0.5em;">
+                              {{ driver.DDC_Date_status }}
+                            </span>
+                          </h5>
                         </div>
                       </div>
                     </div>
-
-                    <!--Item Row-->
+                    <!-- HTV License Info -->
                     <div class="row mb-3">
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p><b>HTV License</b></p>
-                          <h5>{{ driver.License_No }}</h5>
+                          <h5>{{ driver.license_no }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Issue Date</p>
-                          <h5>{{ driver.HTV_License_Issue_Date }}</h5>
+                          <h5>{{ driver.htv_license_issue_date }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date </p>
-                          <h5>{{ driver.HTV_License_Expiry_Date }} <span class="badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.HTV_License_Expiry_Date_status}} </span></h5>
-
+                          <h5>
+                            {{ driver.htv_license_expiry_date }}
+                            <span class="badge
+                              {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}
+                                badge-warning
+                              {% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}
+                                badge-danger
+                              {% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}
+                                badge-success
+                              {% endif %}"
+                              style="font-size: 0.9em; padding: 0.5em;">
+                              {{ driver.HTV_License_Expiry_Date_status }}
+                            </span>
+                          </h5>
                         </div>
                       </div>
-                       <!--Item-->
-                       <div class="col-md-3">
+                      <div class="col-md-3">
                         <div class="data-items">
                           <p>License Authority</p>
-                          <h5>{{ driver.HTV_License_Authority }}</h5>
+                          <h5>
+                            {% if driver.htv_license_authority %}
+                              {{ driver.htv_license_authority.name }}
+                            {% else %}
+                              N/A
+                            {% endif %}
+                          </h5>
                         </div>
                       </div>
                     </div>
-
-
-                    <!--Item Row-->
+                    <!-- Medical Info -->
                     <div class="row">
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p><b>Medical</b></p>
-                          <h5>{{ driver.Lab_Name }}</h5>
+                          <h5>{{ driver.lab_name }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Issue Date</p>
-                          <h5>{{ driver.Report_Date }}</h5>
+                          <h5>{{ driver.medical_report_date }}</h5>
                         </div>
                       </div>
-                      <!--Item-->
                       <div class="col-md-3">
                         <div class="data-items">
                           <p>Expiry Date</p>
-                          <h5>{{ driver.Expiry_Date }} <span class="badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.Expiry_Date_status }} </span> </h5>
+                          <h5>
+                            {{ driver.medical_expiry_date }}
+                            <span class="badge 
+                              {% if driver.Expiry_Date_status == 'Close to Expiry' %}
+                                badge-warning
+                              {% elif driver.Expiry_Date_status == 'Expired' %}
+                                badge-danger
+                              {% elif driver.Expiry_Date_status == 'Valid' %}
+                                badge-success
+                              {% endif %}"
+                              style="font-size: 0.9em; padding: 0.5em;">
+                              {{ driver.Expiry_Date_status }}
+                            </span>
+                          </h5>
                         </div>
                       </div>
-                        <!--Item-->
-                        <div class="col-md-3">
-                          <div class="data-items">
-                            <p>Medical Health</p>
-                            <h5>{{ driver.Medical_Health }}</h5>
-                          </div>
+                      <div class="col-md-3">
+                        <div class="data-items">
+                          <p>Medical Health</p>
+                          <h5>{{ driver.medical_health }}</h5>
                         </div>
+                      </div>
                     </div>
+                  </div><!-- x_content -->
+                </div><!-- hggc-panel -->
+              </div><!-- col-md-12 -->
+            </div><!-- row -->
 
-                  </div>
-                </div>
-              </div>
-            </div>
-
-             <!--Monthly Training & Drill Attendance-->
-             <div class="row mt-3">
+            <!-- Monthly Training & Drill Attendance -->
+            <div class="row mt-3">
               <div class="col-md-12">
                 <div class="hggc-panel x_panel">
-                  <!--Title-->
                   <div class="x_title">
                     <h2 class="m-0">Monthly Training &amp; Drill Attendance</h2>
                     <ul class="nav navbar-right panel_toolbox">
@@ -403,11 +426,8 @@
                       </li>
                     </ul>
                   </div>
-                  <!--Content-->
                   <div class="x_content mt-0">
-                    <!--Item Row-->
                     <div class="row">
-                      <!--Item-->
                       <div class="col-md-12">
                         <div class="table-responsive">
                           <table class="table table-bordered">
@@ -421,150 +441,106 @@
                               </tr>
                             </thead>
                             <tbody>
-                            {% for drill in driver_attendance %}
+                              {% for drill in driver_attendance %}
                                 <tr>
                                   <th scope="row">1</th>
                                   <td>January</td>
                                   <td>Company Policies</td>
                                   <td>First Aid</td>
-
                                   <td>{{ drill.train1_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">2</th>
                                   <td>Feburary</td>
                                   <td>Product Knowledge</td>
                                   <td>Fire Drill</td>
-
                                   <td>{{ drill.train2_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">3</th>
                                   <td>March</td>
                                   <td>Vehicle Inspection</td>
                                   <td>Law and Order Situation</td>
-
                                   <td>{{ drill.train3_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">4</th>
                                   <td>April</td>
                                   <td>Journey Management</td>
                                   <td>Breakdown Maintainance</td>
-
                                   <td>{{ drill.train4_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">5</th>
                                   <td>May</td>
                                   <td>Emergency Response</td>
                                   <td>Fire Evacuation</td>
-
                                   <td>{{ drill.train5_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">6</th>
                                   <td>June</td>
                                   <td>Internal DDC</td>
                                   <td>Road Accident</td>
-
                                   <td>{{ drill.train6_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">7</th>
                                   <td>July</td>
                                   <td>Vehicle Roll Over Prevention</td>
                                   <td>Heat Stroke</td>
-
                                   <td>{{ drill.train7_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">8</th>
                                   <td>August</td>
                                   <td>ABS Brake System</td>
                                   <td>Spill</td>
-
                                   <td>{{ drill.train8_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">9</th>
                                   <td>September</td>
                                   <td>Loading and Unloading</td>
                                   <td>Heart Attack</td>
-
                                   <td>{{ drill.train9_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">10</th>
                                   <td>October</td>
                                   <td>First Aid Induction</td>
                                   <td>Tyre Burst</td>
-
                                   <td>{{ drill.train10_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">11</th>
                                   <td>November</td>
                                   <td>Fatigue Management</td>
                                   <td>Bomb Threat</td>
-
                                   <td>{{ drill.train11_completed_date }}</td>
                                 </tr>
-
                                 <tr>
                                   <th scope="row">12</th>
                                   <td>December</td>
                                   <td>Fire Extinguisher Use</td>
                                   <td>Mega Drill</td>
-
                                   <td>{{ drill.train12_completed_date }}</td>
                                 </tr>
                               {% endfor %}
                             </tbody>
                           </table>
-                        </div>
-                      </div>
-                    </div>
+                        </div><!-- table-responsive -->
+                      </div><!-- col-md-12 -->
+                    </div><!-- row -->
+                  </div><!-- x_content -->
+                </div><!-- hggc-panel -->
+              </div><!-- col-md-12 -->
+            </div><!-- row -->
 
-                  </div>
-                </div>
-              </div>
-            </div>
-
-             {% comment %} <!--Work History-->
-             <div class="row mt-3 work-history">
-              <!--Item-->
-                <div class="col-md-4">
-                    <h6 class="mb-2">Add Violation<a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                    
-                </div>
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Total Tool Box Meeting <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                 
-                </div>
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Drill Training<a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                  
-                </div>
-              </div>
-             {% endcomment %}
-             <!--Tool Box Meeting Attendance-->
-             <div class="row mt-5">
+            <!-- Tool Box Meeting Attendance -->
+            <div class="row mt-5">
               <div class="col-md-12">
                 <div class="hggc-panel x_panel">
-                  <!--Title-->
                   <div class="x_title">
                     <h2 class="m-0">Tool Box Meeting Attendance</h2>
                     <ul class="nav navbar-right panel_toolbox">
@@ -573,85 +549,88 @@
                       </li>
                     </ul>
                   </div>
-                  <!--Content-->
                   <div class="x_content mt-0">
-                    <!--Item Row-->
                     <div class="row">
-                      <!--Item-->
                       <div class="col-md-12">
                         <canvas id="barChart" height="350"></canvas>
-                              </div>
                       </div>
                     </div>
+                  </div><!-- x_content -->
+                </div><!-- hggc-panel -->
+              </div><!-- col-md-12 -->
+            </div><!-- row -->
 
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+          </div><!-- hggc-box -->
+        </div><!-- col-md-12 -->
+      </div><!-- row -->
 
-          </div>
-          </div>
-          
-        <script>
-          const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
-          
-          // Custom color palette for bars
-          const colorPalette = ['rgb(122,24,24)']
-          
-          // Dummy data
-          const data = {
-            labels: ['Syndicate Sessions', 'Heat Stress Management', 'Pre-load Inspection', 'Safe Decantation at Retail Site', 'Roll Over Prevention', 'Fatigue Management', 'Defensive Driving', 'Unauthorized Passenger', 'Loading & Unloading', '360 Walkabout Process', 'Vehicle Fitness', 'Emergency Response', 'PPE Compliance', 'Duty & Driving Hours', 'On-Road Distraction', 'Security Awareness', 'Manual Handling', 'Working at Height', 'Adverse Weather Condition', 'Static Charge', 'Driver Behavior on Road', 'Foggy Weather', 'Sugarcane Trolleys Hazards and Controls', 'NMPI Reporting', 'Black Spots'],
-            datasets: [
-              {
-                label: 'No. of Times Meeting Attended',
-                data: tbm_data,
-                backgroundColor: colorPalette,
-                borderColor: colorPalette,
-                borderWidth: 1
-              }
-            ]
-          }
-          
-          const options = {
-            scales: {
-              x: {
-                beginAtZero: true,
-                maxRotation: 45,
-                minRotation: 0
-              },
-              y: {
-                beginAtZero: true,
-                stepSize: 1,
-                max: 6
-              }
+      <!-- ChartJS Script -->
+      <script>
+        const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
+        
+        const colorPalette = ['rgb(122,24,24)']
+
+        const data = {
+          labels: [
+            'Syndicate Sessions', 'Heat Stress Management', 'Pre-load Inspection',
+            'Safe Decantation at Retail Site', 'Roll Over Prevention', 'Fatigue Management',
+            'Defensive Driving', 'Unauthorized Passenger', 'Loading & Unloading',
+            '360 Walkabout Process', 'Vehicle Fitness', 'Emergency Response',
+            'PPE Compliance', 'Duty & Driving Hours', 'On-Road Distraction',
+            'Security Awareness', 'Manual Handling', 'Working at Height',
+            'Adverse Weather Condition', 'Static Charge', 'Driver Behavior on Road',
+            'Foggy Weather', 'Sugarcane Trolleys Hazards and Controls', 'NMPI Reporting',
+            'Black Spots'
+          ],
+          datasets: [
+            {
+              label: 'No. of Times Meeting Attended',
+              data: tbm_data,
+              backgroundColor: colorPalette,
+              borderColor: colorPalette,
+              borderWidth: 1
+            }
+          ]
+        }
+
+        const options = {
+          scales: {
+            x: {
+              beginAtZero: true,
+              maxRotation: 45,
+              minRotation: 0
             },
-            responsive: true, // Make the chart responsive
-            maintainAspectRatio: false, // Maintain aspect ratio when resizing
-            plugins: {
-              legend: {
-                display: false // Hide the legend
-              },
-              tooltips: {
-                enabled: true, // Show tooltips on hover
-                mode: 'index',
-                intersect: false
-              }
+            y: {
+              beginAtZero: true,
+              stepSize: 1,
+              max: 6
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false
             }
           }
-          
-          // Create a bar chart
-          const ctx = document.getElementById('barChart').getContext('2d')
-          const myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: options
-          })
-        </script>
+        }
 
-      </div>
-  </div>
+        const ctx = document.getElementById('barChart').getContext('2d')
+        const myBarChart = new Chart(ctx, {
+          type: 'bar',
+          data: data,
+          options: options
+        })
+      </script>
+
+  </div><!-- right_col -->
 </body>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var printButton = document.querySelector('.btn-outline-danger');
@@ -660,10 +639,9 @@
             printButton.addEventListener('click', function () {
                 // Extract user ID from the current URL
                 var pathArray = window.location.pathname.split('/');
-                var userId = pathArray[pathArray.length - 2];  // Access the second-to-last element
+                var userId = pathArray[pathArray.length - 2];  // second-to-last element in the path
                 console.log("====", userId);
 
-                // Check if userId is a valid integer
                 if (!isNaN(userId) && userId !== '') {
                     window.location.href = `/print_user_data_pdf/${userId}/`;
                 } else {
@@ -673,6 +651,4 @@
         }
     });
 </script>
-
-  <!-- /page content -->
 {% endblock %}

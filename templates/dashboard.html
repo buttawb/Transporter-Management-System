@@ -1,7 +1,7 @@
-{% extends 'base/base.html' %}
+{% extends "base/base.html" %}
 
 {% block title %}
-  Dashboad
+  Dashboard
 {% endblock %}
 
 {% block content %}
@@ -14,297 +14,243 @@
     color: #7A1818;
   }
 </style>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- page content -->
-  <div class="right_col" role="main">
+<!-- page content -->
+<div class="right_col" role="main">
     <!-- top tiles -->
     <div class="tile_count">
-      <div class="col-md-12 mt-3">
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-users"></i> Total Man Power</span>
-          <div class="count green">163</div>
-          <span class="count_bottom"><i class="green">4%</i> From last Week</span>
+        <div class="col-md-12 mt-3">
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-users"></i> Total Man Power</span>
+                <div class="count green">163</div>
+                <span class="count_bottom"><i class="green">4%</i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Drivers</span>
+                <div class="count">{{ total_drivers }}</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3%</i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-truck"></i> Total Vehicles</span>
+                <div class="count">{{ total_vehicles }}</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-briefcase"></i> Man Days Worked</span>
+                <div class="count green">{{ man_days_work }}</div>
+                <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12%</i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-exclamation-triangle"></i> Man Days Lost</span>
+                <div class="count">0</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4 tile_stats_count">
+                <span class="count_top"><i class="fa fa-ban"></i> Total Incidents</span>
+                <div class="count">0</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
+            </div>
         </div>
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-user"></i> Total Drivers</span>
-          <div class="count">{{ total_drivers }}</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3%</i> From last Week</span>
-        </div>
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-truck"></i> Total Vehicles</span>
-          <div class="count">{{ total_vehicles }}</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
-        </div>
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-briefcase"></i> Man Days Worked</span>
-          <div class="count green">{{ man_days_work }}</div>
-          <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12%</i> From last Week</span>
-        </div>
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-exclamation-triangle"></i> Man Days Lost</span>
-          <div class="count">0</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
-        </div>
-        <div class="col-md-2 col-sm-4 tile_stats_count">
-          <span class="count_top"><i class="fa fa-ban"></i> Total Incidents</span>
-          <div class="count">0</div>
-          <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34%</i> From last Week</span>
-        </div>
-        {% comment %} <div class="col-md-2 col-sm-4 tile_stats_count">
-          <img src="/static/images/pso.png" alt="" class="img-circle img-fluid" width="100" height="100" />
-        </div> {% endcomment %}
-      </div>
     </div>
     <!-- /top tiles -->
 
-<div class="col-md-12 mt-3">
-<div class="x_panel">
-<div class="x_title">
-<h2>Tool Box Meeting<small>Sessions</small></h2>
-<ul class="nav navbar-right panel_toolbox">
-<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-</li>
+    <div class="col-md-12 mt-3">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Tool Box Meeting <small>Sessions</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12">
+                    <canvas id="barChart" height="350"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</ul>
-<div class="clearfix"></div>
-</div>
-<div class="x_content">
+    <script>
+        const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
 
-  
-   <div class="col-md-12">
-                        <canvas id="barChart" height="350"></canvas>
-                              </div>
- 
+        // Custom color palette for bars
+        const colorPalette = ['rgb(122,24,24)']
 
-
-
-</div>
-</div>
-</div>
-<script>
-          const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
-          
-          // Custom color palette for bars
-          const colorPalette = ['rgb(122,24,24)']
-          
-          // Dummy data
-          const data = {
+        const data = {
             labels: ['Syndicate Sessions', 'Heat Stress Management', 'Pre-load Inspection', 'Safe Decantation at Retail Site', 'Roll Over Prevention', 'Fatigue Management', 'Defensive Driving', 'Unauthorized Passenger', 'Loading & Unloading', '360 Walkabout Process', 'Vehicle Fitness', 'Emergency Response', 'PPE Compliance', 'Duty & Driving Hours', 'On-Road Distraction', 'Security Awareness', 'Manual Handling', 'Working at Height', 'Adverse Weather Condition', 'Static Charge', 'Driver Behavior on Road', 'Foggy Weather', 'Sugarcane Trolleys Hazards and Controls', 'NMPI Reporting', 'Black Spots'],
-            datasets: [
-              {
+            datasets: [{
                 label: 'Meeting attended by Drivers',
                 data: tbm_data,
                 backgroundColor: colorPalette,
                 borderColor: colorPalette,
                 borderWidth: 1
-              }
-            ]
-          }
-          
-          const options = {
+            }]
+        }
+
+        const options = {
             scales: {
-              x: {
-                beginAtZero: true,
-                maxRotation: 25,
-                minRotation: 0
-              },
-              y: {
-                beginAtZero: true,
-                stepSize: 1,
-                max: 150
-              }
+                x: {
+                    beginAtZero: true,
+                    maxRotation: 25,
+                    minRotation: 0
+                },
+                y: {
+                    beginAtZero: true,
+                    stepSize: 1,
+                    max: 150
+                }
             },
-            responsive: true, // Make the chart responsive
-            maintainAspectRatio: false, // Maintain aspect ratio when resizing
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-              legend: {
-                display: true // Hide the legend
-              },
-              tooltips: {
-                enabled: true, // Show tooltips on hover
-                mode: 'index',
-                intersect: false
-              }
+                legend: {
+                    display: true
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'index',
+                    intersect: false
+                }
             }
-          }
-          
-          // Create a bar chart
-          const ctx = document.getElementById('barChart').getContext('2d')
-          const myBarChart = new Chart(ctx, {
+        }
+
+        const ctx = document.getElementById('barChart').getContext('2d')
+        const myBarChart = new Chart(ctx, {
             type: 'bar',
             data: data,
             options: options
-          })
-        </script>
-
-            
+        })
+    </script>
 
     <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <div class="dashboard_graph">
-          
-          <div class="row x_title">
-            
-            <div class="col-md-6">
-              <h3><small></small></h3>
+        <div class="col-md-12 col-sm-12">
+            <div class="dashboard_graph">
+                <div class="row x_title">
+                    <div class="col-md-6">
+                        <h3><small></small></h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                            <i class="glyphicon glyphicon-calendar fa fa-pen"></i>
+                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        <div class="count">179</div>
+                        <h3 class="mb-3">Total Sessions</h3>
+                    </div>
+                </div>
+                <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                        <div class="count">9672</div>
+                        <h3 class="mb-3">Participants</h3>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="col-md-6">
-              <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                <i class="glyphicon glyphicon-calendar fa fa-pen"></i>
-                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-              </div>
-            </div>
-          </div>
-
-
-        <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
-        <div class="tile-stats">
-        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-        <div class="count">179</div>
-        <h3 class="mb-3">Total Sessions</h3>
-
         </div>
-        </div>
-        <div class="animated flipInY col-lg-6 col-md-6 col-sm-6 ">
-        <div class="tile-stats">
-        <div class="icon"><i class="fa fa-check-square-o"></i></div>
-        <div class="count">9672</div>
-        <h3 class="mb-3">Participants</h3>
-
-        </div>
-        </div>
-
-          <div class="clearfix"></div>
-        </div>
-      </div>
     </div>
     <br />
 
+    <!-- Expired Lists -->
     <div class="row">
-      <!-- start of weather widget -->
       <div class="col-md-3 col-sm-3">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Expired CNIC</h2>
-            <ul class="nav navbar-right panel_toolbox"></ul>
-            <div class="clearfix"></div>
+          <div class="x_panel">
+              <div class="x_title">
+                  <h2>Expired CNIC</h2>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                  <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
+                      {% for driver in expired_cnic_list %}
+                          <li class="media event">
+                              <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
+                              <div class="media-body">
+                                  <a class="title" href="{% url 'driverview' driver_id=driver.id %}">{{ driver.name }}</a>
+                                  <p><strong>{{ driver.driver_number }} |</strong> {{ driver.cnic_validity }}</p>
+                                  <p><small><span class="badge badge-danger">Expired</span></small></p>
+                              </div>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </div>
           </div>
-          <div class="x_content">
-            <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
-              {% for driver in expired_cnic_list %}
-                <li class="media event">
-                  <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
-                  <div class="media-body">
-                    <a class="title" href="{% url 'driverview' driver_id=driver.D_ID %}">{{ driver.D_Name }}</a>
-                    <p>
-                      <strong>{{ driver.D_Number }} |</strong> {{ driver.CNIC_Validity }}
-                    </p>
-                    <p>
-                      <small><span class="badge badge-danger" style="font-size: 0.9em; padding: 0.5em;">Expired</span></small>
-                    </p>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-        </div>
       </div>
 
-      <!-- start of weather widget -->
       <div class="col-md-3 col-sm-3">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Expired DDC</h2>
-            <ul class="nav navbar-right panel_toolbox"></ul>
-            <div class="clearfix"></div>
+          <div class="x_panel">
+              <div class="x_title">
+                  <h2>Expired DDC</h2>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                  <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
+                      {% for driver in expired_ddc_list %}
+                          <li class="media event">
+                              <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
+                              <div class="media-body">
+                                  <a class="title" href="{% url 'driverview' driver_id=driver.id %}">{{ driver.name }}</a>
+                                  <p><strong>{{ driver.driver_number }} |</strong> {{ driver.ddc_expiry }}</p>
+                                  <p><small><span class="badge badge-danger">Expired</span></small></p>
+                              </div>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </div>
           </div>
-          <div class="x_content">
-            <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
-              {% for driver in expired_ddc_list %}
-                <li class="media event">
-                  <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
-                  <div class="media-body">
-                    <a class="title" href="{% url 'driverview' driver_id=driver.D_ID %}">{{ driver.D_Name }}</a>
-                    <p>
-                      <strong>{{ driver.D_Number }} |</strong> {{ driver.CNIC_Validity }}
-                    </p>
-                    <p>
-                      <small><span class="badge badge-danger" style="font-size: 0.9em; padding: 0.5em;">Expired</span></small>
-                    </p>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-        </div>
       </div>
       <div class="col-md-3 col-sm-3">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Expired Medical</h2>
-            <ul class="nav navbar-right panel_toolbox"></ul>
-            <div class="clearfix"></div>
+          <div class="x_panel">
+              <div class="x_title">
+                  <h2>Expired Medical</h2>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                  <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
+                      {% for driver in expired_general_list %}
+                          <li class="media event">
+                              <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
+                              <div class="media-body">
+                                  <a class="title" href="{% url 'driverview' driver_id=driver.id %}">{{ driver.name }}</a>
+                                  <p><strong>{{ driver.driver_number }} |</strong> {{ driver.medical_expiry }}</p>
+                                  <p><small><span class="badge badge-danger">Expired</span></small></p>
+                              </div>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </div>
           </div>
-          <div class="x_content">
-            <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
-              {% for driver in expired_general_list %}
-                <li class="media event">
-                  <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
-                  <div class="media-body">
-                    <a class="title" href="{% url 'driverview' driver_id=driver.D_ID %}">{{ driver.D_Name }}</a>
-                    <p>
-                      <strong>{{ driver.D_Number }} |</strong> {{ driver.CNIC_Validity }}
-                    </p>
-                    <p>
-                      <small><span class="badge badge-danger" style="font-size: 0.9em; padding: 0.5em;">Expired</span></small>
-                    </p>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-        </div>
       </div>
       <div class="col-md-3 col-sm-3">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Expired HTV License</h2>
-            <ul class="nav navbar-right panel_toolbox"></ul>
-            <div class="clearfix"></div>
+          <div class="x_panel">
+              <div class="x_title">
+                  <h2>Expired HTV License</h2>
+                  <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                  <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
+                      {% for driver in expired_htv_license_list %}
+                          <li class="media event">
+                              <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
+                              <div class="media-body">
+                                  <a class="title" href="{% url 'driverview' driver_id=driver.id %}">{{ driver.name }}</a>
+                                  <p><strong>{{ driver.driver_number }} |</strong> {{ driver.htv_license_expiry }}</p>
+                                  <p><small><span class="badge badge-danger">Expired</span></small></p>
+                              </div>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </div>
           </div>
-          <div class="x_content">
-            <ul class="list-unstyled top_profiles scroll-view" style="max-height: 260px; overflow-y: auto;">
-              {% for driver in expired_htv_license_list %}
-                <li class="media event">
-                  <a class="pull-left border-red profile_thumb"><i class="fa fa-user red"></i></a>
-                  <div class="media-body">
-                    <a class="title" href="{% url 'driverview' driver_id=driver.D_ID %}">{{ driver.D_Name }}</a>
-                    <p>
-                      <strong>{{ driver.D_Number }} |</strong> {{ driver.CNIC_Validity }}
-                    </p>
-                    <p>
-                      <small><span class="badge badge-danger" style="font-size: 0.9em; padding: 0.5em;">Expired</span></small>
-                    </p>
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-        </div>
       </div>
-    </div>
-
-    <!-- end of weather widget -->
   </div>
+</div>
 
-<script src="path/to/jquery.js"></script>
-    <script src="path/to/raphael.js"></script>
-    <script src="path/to/morris.js"></script>
-
-  <!-- /page content -->
 {% endblock %}
