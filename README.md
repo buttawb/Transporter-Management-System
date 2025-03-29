@@ -1,6 +1,5 @@
 # HGGC Transporter Management System
 
-**Project Duration:** May 2024 - Present
 
 ## Overview
 
