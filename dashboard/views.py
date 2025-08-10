@@ -17,6 +17,7 @@ from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
+from django.shortcuts import render
 
 from dashboard.models import (
     Company,
@@ -1169,6 +1170,11 @@ def get_emergency_procedures(request):
 
 def get_policies(request):
     return render(request, 'static_content/policies.html')
+
+def get_hse_page(request):
+    return render(request, 'hse_page.html') 
+
+
 
 
 # def print_user_data_pdf(request, user_id):

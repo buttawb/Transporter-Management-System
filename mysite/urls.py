@@ -90,6 +90,8 @@ urlpatterns = [
     path('procedures', views.get_procedures),
     path('policies', views.get_policies),
     path('emergencyprocedures', views.get_emergency_procedures),
+    path('hsepage', views.get_hse_page),
+
 
 
 
@@ -101,3 +103,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+  
