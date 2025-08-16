@@ -87,7 +87,12 @@ urlpatterns = [
     path('addtraining/<int:D_ID>/', views.add_driver_training, name="add_driver_training"),
     # path('update_driver_ages/', views.update_driver_ages, name='update_driver_ages'),
 
-    path('procedures', views.get_procedures),
+    path('procedures/', views.get_procedures, name='get_procedures'),
+    path('drivermanagement/', views.get_dm, name='get_dm'),
+    path('vehiclemanagement/', views.get_vm, name='get_vm'),
+    path('hseprocedures/', views.get_hsep, name='get_hsep'),
+    path('operationprocedures/', views.get_op, name='get_op'),
+
     path('policies', views.get_policies),
     path('emergencyprocedures', views.get_emergency_procedures),
 

@@ -1,0 +1,432 @@
+{% extends "base/base.html" %}
+
+
+{% block title %}Procedures{% endblock %}
+
+
+{% block content %}
+   
+
+
+
+
+
+
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Vehicle Management Procedures</h3>
+        </div>
+
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+
+
+
+
+        <div class="col-md-12 col-sm-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><i class="fa fa-align-left"></i> Procedures <small></small></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                
+              
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+                  <div class="x_content">
+              <div
+                class="accordion"
+                id="accordion1"
+                role="tablist"
+                aria-multiselectable="true"
+              >
+                <div class="panel">
+                  <a
+                    class="panel-heading collapsed d-flex justify-content-between align-items-center"
+                    role="tab"
+                    data-toggle="collapse"
+                    data-parent="#accordion1"
+                    href="#collapseInspection"
+                    aria-expanded="false"
+                    aria-controls="collapseInspection"
+                  >
+                    <h4 class="panel-title">Vehicle Inspection Procedure</h4>
+                    <span
+                      class="glyphicon glyphicon-download-alt"
+                      data-toggle="tooltip"
+                      data-placement="left"
+                      data-original-title="Download Procedure"
+                      id="pr21"
+                      aria-hidden="true"
+                      style="font-size: 1.5em"
+                    ></span>
+                  </a>
+                  <div
+                    id="collapseInspection"
+                    class="panel-collapse collapse ml-3 mr-3"
+                    role="tabpanel"
+                    aria-labelledby="headingInspection"
+                  >
+                    <div class="panel-body">
+                      <ol>
+                        <li>
+                          <strong>Inspection Types</strong>
+                          <ul>
+                            <li>Driver Daily Inspection</li>
+                            <li>Pre-Load Inspection (STL)</li>
+                            <li>Monthly Inspection</li>
+                            <li>Bi-Annual 3rd Party Inspection</li>
+                            <li>Annual 3rd Party Inspection</li>
+                            <li>Spot Checks</li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Daily Inspection</strong>
+                          <ul>
+                            <li>
+                              Driver checks:
+                              <ul>
+                                <li>HTV license and CNIC</li>
+                                <li>Vehicle registration</li>
+                                <li>Explosive license</li>
+                                <li>Route permits</li>
+                                <li>Fitness certificate</li>
+                              </ul>
+                            </li>
+                            <li>Complete daily inspection checklist</li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Pre-Load Inspection</strong>
+                          <ul>
+                            <li>Maintenance Supervisor performs inspection</li>
+                            <li>
+                              Safety-critical items marked red in checklist
+                            </li>
+                            <li>Stop work authority for unsafe conditions</li>
+                            <li>
+                              Block driver if regulatory requirements not met
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Spot Checks</strong>
+                          <ul>
+                            <li>Minimum 1 spot check per month</li>
+                            <li>Conducted by managerial staff</li>
+                            <li>
+                              Locations:
+                              <ul>
+                                <li>Within city</li>
+                                <li>Outside city</li>
+                                <li>Highways</li>
+                                <li>Retail/customer sites</li>
+                              </ul>
+                            </li>
+                            <li>
+                              Critical observations may suspend driver/vehicle
+                            </li>
+                          </ul>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="x_content">
+              <div
+                class="accordion"
+                id="accordion1"
+                role="tablist"
+                aria-multiselectable="true"
+              >
+                <div class="panel">
+                  <a
+                    class="panel-heading collapsed d-flex justify-content-between align-items-center"
+                    role="tab"
+                    data-toggle="collapse"
+                    data-parent="#accordion1"
+                    href="#collapseMaintenance"
+                    aria-expanded="false"
+                    aria-controls="collapseMaintenance"
+                  >
+                    <h4 class="panel-title">Vehicle Maintenance Management</h4>
+                    <span
+                      class="glyphicon glyphicon-download-alt"
+                      data-toggle="tooltip"
+                      data-placement="left"
+                      data-original-title="Download Procedure"
+                      id="pr22"
+                      aria-hidden="true"
+                      style="font-size: 1.5em"
+                    ></span>
+                  </a>
+                  <div
+                    id="collapseMaintenance"
+                    class="panel-collapse collapse ml-3 mr-3"
+                    role="tabpanel"
+                    aria-labelledby="headingMaintenance"
+                  >
+                    <div class="panel-body">
+                      <ol>
+                        <li>
+                          <strong>Maintenance Types</strong>
+                          <ul>
+                            <li>Preventive Maintenance (PMP)</li>
+                            <li>Corrective Maintenance</li>
+                            <li>Breakdown Maintenance</li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Preventive Maintenance</strong>
+                          <ul>
+                            <li>Follow OEM recommendations</li>
+                            <li>Monthly inspection checklist</li>
+                            <li>Annual PMP shared with operations</li>
+                            <li>Monthly progress reporting</li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Breakdown Maintenance</strong>
+                          <ul>
+                            <li>On-route maintenance up to 100,000 PKR</li>
+                            <li>Use approved vendor (ATS) when possible</li>
+                            <li>Remote areas may use local workshops</li>
+                            <li>Inspect repairs upon return to base</li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>High Risk Jobs</strong>
+                          <ul>
+                            <li>
+                              Hot Work:
+                              <ul>
+                                <li>Check LEL percentage</li>
+                                <li>Remove flammable materials</li>
+                                <li>Emergency equipment in place</li>
+                              </ul>
+                            </li>
+                            <li>
+                              Confined Space:
+                              <ul>
+                                <li>O2 levels 20.5%-23%</li>
+                                <li>LEL below 10%</li>
+                                <li>No toxic gases</li>
+                              </ul>
+                            </li>
+                            <li>
+                              Work at Height:
+                              <ul>
+                                <li>Above 2m requires permit</li>
+                                <li>Fall protection required</li>
+                                <li>Barricade work area</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Tire Management</strong>
+                          <ul>
+                            <li>120,000 KM mileage standard</li>
+                            <li>
+                              Minimum tread depth:
+                              <ul>
+                                <li>4mm front wheels</li>
+                                <li>3mm other positions</li>
+                              </ul>
+                            </li>
+                            <li>No refurbished tires allowed</li>
+                            <li>Check manufacturing date</li>
+                          </ul>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="x_content">
+              <div
+                class="accordion"
+                id="accordion1"
+                role="tablist"
+                aria-multiselectable="true"
+              >
+                <div class="panel">
+                  <a
+                    class="panel-heading collapsed d-flex justify-content-between align-items-center"
+                    role="tab"
+                    data-toggle="collapse"
+                    data-parent="#accordion1"
+                    href="#collapseProcurement"
+                    aria-expanded="false"
+                    aria-controls="collapseProcurement"
+                  >
+                    <h4 class="panel-title">Vehicle Procurement Procedure</h4>
+                    <span
+                      class="glyphicon glyphicon-download-alt"
+                      data-toggle="tooltip"
+                      data-placement="left"
+                      data-original-title="Download Procedure"
+                      id="pr23"
+                      aria-hidden="true"
+                      style="font-size: 1.5em"
+                    ></span>
+                  </a>
+                  <div
+                    id="collapseProcurement"
+                    class="panel-collapse collapse ml-3 mr-3"
+                    role="tabpanel"
+                    aria-labelledby="headingProcurement"
+                  >
+                    <div class="panel-body">
+                      <ol>
+                        <li>
+                          <strong>New Vehicle Procurement</strong>
+                          <ol type="a">
+                            <li>Get client approval/requirements</li>
+                            <li>
+                              Obtain quotations from approved manufacturers
+                            </li>
+                            <li>
+                              Review costs, features and delivery timelines
+                            </li>
+                            <li>
+                              Consider investment policy and market conditions
+                            </li>
+                            <li>Issue purchase order to selected vendor</li>
+                            <li>Send prime mover to bowser manufacturer</li>
+                            <li>
+                              Conduct 3rd party inspection (Velosi/BVQI/SGS)
+                            </li>
+                            <li>
+                              Maintenance Manager reviews inspection report
+                            </li>
+                          </ol>
+                        </li>
+                        <li>
+                          <strong>Standard Requirements</strong>
+                          <ul>
+                            <li>Comply with PATROM and OGRA SRO 2009</li>
+                            <li>3rd party inspection report review</li>
+                            <li>NHA requirements fulfillment</li>
+                            <li>
+                              Valid vehicle documentation:
+                              <ul>
+                                <li>Registration book</li>
+                                <li>Tax receipt</li>
+                                <li>Insurance</li>
+                                <li>Explosive license</li>
+                                <li>Fitness certificate</li>
+                                <li>Route permits</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <strong>Vehicle Induction</strong>
+                          <ul>
+                            <li>
+                              Client approves induction after document review
+                            </li>
+                            <li>Update operational vehicle list</li>
+                            <li>Create new vehicle file for records</li>
+                          </ul>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+      </div>
+        </div>
+    
+
+      </div>
+
+
+      </div>
+
+      </div>
+        </div>
+
+      </div>
+      <div class="clearfix"></div>
+
+
+      </div>
+    
+
+      <!-- Add a script to handle the download logic -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add a click event listener for the download icon
+    document.getElementById("pr21").addEventListener("click", function (event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+
+      // Call the downloadFile function with the corresponding file name
+      downloadFile("vip.pdf");
+    });
+
+    document.getElementById("pr22").addEventListener("click", function (event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+
+      // Call the downloadFile function with the corresponding file name
+      downloadFile("vmm.pdf");
+    });
+
+    document.getElementById("pr23").addEventListener("click", function (event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+
+      // Call the downloadFile function with the corresponding file name
+      downloadFile("vpp.pdf");
+    });
+
+
+
+  // Add more similar event listeners for other policies
+
+  // Function to handle the download logic
+  function downloadFile(fileName) {
+      // Construct the file path based on your Django project structure
+      var filePath = '/static/pdf/' + fileName;
+
+      // Create an anchor element
+      var link = document.createElement('a');
+
+      // Set the download attribute and href
+      link.download = fileName;
+      link.href = filePath;
+
+      // Simulate a click on the anchor element to trigger the download
+      link.click();
+  }
+});
+</script>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
