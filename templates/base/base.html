@@ -105,6 +105,7 @@
 
             <!-- menu profile quick info -->
             <div class="profile clearfix">
+
               <div class="profile_pic">
                 
                 <img src="{% user_profile_image user %}" alt="{{ user.first_name }}'s Profile Picture" class="img-circle profile_img" style="width: 60px; height:60px;">
@@ -149,7 +150,15 @@
                       <li><a><i class="fa fa-briefcase"></i>Safe System of Work<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="/policies">Policies</a></li>
-                          <li><a href="/procedures">Procedures</a></li>
+                          <li><a>Procedures<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                              <li><a href="{% url 'get_procedures' %}">All Procedures</a></li>
+                              <li><a href="{% url 'get_dm' %}">Driver Management</a></li>
+                              <li><a href="{% url 'get_hsep' %}">HSE</a></li>
+                              <li><a href="{% url 'get_vm' %}">Vehicle Management</a></li>
+                              <li><a href="{% url 'get_op' %}">Operation Procedure</a></li>
+                            </ul>
+                          </li>
                           <li><a href="/emergencyprocedures">Emergency Procedures</a></li>
                         </ul>
                       </li>
