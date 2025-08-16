@@ -1,4 +1,5 @@
-{% extends "base/base.html" %} {% block title %}Procedures{% endblock %} {%block content %}
+{% extends "base/base.html" %} {% block title %}Procedures{% endblock %}
+{% block content %}
 
 <div class="right_col" role="main">
   <div class="">
@@ -3104,6 +3105,91 @@
                 </div>
               </div>
             </div>
+            <div class="x_content">
+              <div
+                class="accordion"
+                id="accordionERP"
+                role="tablist"
+                aria-multiselectable="true"
+              >
+                <div class="panel">
+                  <a
+                    class="panel-heading collapsed d-flex justify-content-between align-items-center"
+                    role="tab"
+                    data-toggle="collapse"
+                    data-parent="#accordionERP"
+                    href="#collapseERP"
+                    aria-expanded="false"
+                    aria-controls="collapseERP"
+                  >
+                    <h4 class="panel-title">Emergency Response Procedure</h4>
+                    <span
+                      class="glyphicon glyphicon-download-alt"
+                      data-toggle="tooltip"
+                      data-placement="left"
+                      data-original-title="Download ERP Procedure"
+                      id="pr26"
+                      aria-hidden="true"
+                      style="font-size: 1.5em"
+                    ></span>
+                  </a>
+                  <div
+                    id="collapseERP"
+                    class="panel-collapse collapse ml-3 mr-3"
+                    role="tabpanel"
+                  >
+                    <div class="panel-body">
+                      <ul>
+                        <li>
+                          <strong> Product Spillage:</strong> Park safely, shut
+                          engine, inform ERP/client/fire brigade, use spill kit,
+                          cordon area. ERP to arrange resources, HSEQ to
+                          investigate & report, CEO to oversee.
+                        </li>
+                        <li>
+                          <strong> Fire:</strong> Try extinguishing, inform
+                          ERP/fire brigade, cordon area. ERP arranges transfer &
+                          logs, HSEQ reports, CEO supports.
+                        </li>
+                        <li>
+                          <strong> Medical Emergency:</strong> Provide first aid
+                          or call ambulance, inform ERP. ERP arranges resources,
+                          HSEQ/CEO investigate & support.
+                        </li>
+                        <li>
+                          <strong> Vehicle Collision/Rollover:</strong> Treat
+                          injuries, shut engine, control spill, cordon area. ERP
+                          contacts authorities & arranges transfer, HSEQ/CEO
+                          investigate & support.
+                        </li>
+                        <li>
+                          <strong> Vehicle Breakdown:</strong> Park safely,
+                          cordon area, inform ERP. ERP calls maintenance/towing,
+                          HSEQ updates management, CEO provides support.
+                        </li>
+                        <li>
+                          <strong> Brake Failure:</strong> Park safely, cordon
+                          area, inform ERP. ERP sends maintenance/transfer
+                          truck, HSEQ/CEO support & monitor.
+                        </li>
+                        <li>
+                          <strong> Hijacking/Terrorism:</strong> Driver not to
+                          resist, move to safety, inform ERP. ERP coordinates
+                          with police/tracking, HSEQ informs management, CEO
+                          oversees reputation.
+                        </li>
+                        <li>
+                          <strong> Law & Order Situation:</strong> Park safely,
+                          inform ERP, calm mob, seek police help. ERP
+                          coordinates with authorities, HSEQ updates, CEO
+                          supports.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -3302,6 +3388,13 @@
 
       // Call the downloadFile function with the corresponding file name
       downloadFile("srp.pdf");
+    });
+    document.getElementById("pr26").addEventListener("click", function (event) {
+      // Prevent the default action of the anchor element
+      event.preventDefault();
+
+      // Call the downloadFile function with the corresponding file name
+      downloadFile("erp.pdf");
     });
 
     // Add more similar event listeners for other policies

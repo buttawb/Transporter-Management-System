@@ -1,53 +1,30 @@
-{% extends "base/base.html" %}
-
-
-{% block title %}Procedures{% endblock %}
-
-
-{% block content %}
-   
-
-
-
-
-
+{% extends "base/base.html" %} {% block title %}Procedures{% endblock %} {%block content %}
 
 <div class="right_col" role="main">
-    <div class="">
-      <div class="page-title">
-        <div class="title_left">
-          <h3>Health Safety Environment Procedures</h3>
-        </div>
-
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Health Safety Environment Procedures</h3>
       </div>
+    </div>
 
-      <div class="clearfix"></div>
+    <div class="clearfix"></div>
 
-      <div class="row">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><i class="fa fa-align-left"></i> Procedures <small></small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li>
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
 
-
-
-
-        <div class="col-md-12 col-sm-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2><i class="fa fa-align-left"></i> Procedures <small></small></h2>
-              <ul class="nav navbar-right panel_toolbox">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                
-              
-              </ul>
-              <div class="clearfix"></div>
-            </div>
-
-    
-            <div class="x_content">
-            <div
-              class="accordion"
-              role="tablist"
-              aria-multiselectable="true"
-            >
+          <div class="x_content">
+            <div class="accordion" role="tablist" aria-multiselectable="true">
               <div class="panel">
                 <a
                   class="panel-heading collapsed d-flex justify-content-between align-items-center"
@@ -125,11 +102,7 @@
             </div>
           </div>
           <div class="x_content">
-            <div
-              class="accordion"
-              role="tablist"
-              aria-multiselectable="true"
-            >
+            <div class="accordion" role="tablist" aria-multiselectable="true">
               <div class="panel">
                 <a
                   class="panel-heading collapsed d-flex justify-content-between align-items-center"
@@ -193,11 +166,7 @@
             </div>
           </div>
           <div class="x_content">
-            <div
-              class="accordion"
-              role="tablist"
-              aria-multiselectable="true"
-            >
+            <div class="accordion" role="tablist" aria-multiselectable="true">
               <div class="panel">
                 <a
                   class="panel-heading collapsed d-flex justify-content-between align-items-center"
@@ -1035,7 +1004,6 @@
               </div>
             </div>
 
-           
             <div class="x_content">
               <div
                 class="accordion"
@@ -1057,7 +1025,7 @@
                     <span
                       class="glyphicon glyphicon-download-alt"
                       data-toggle="tooltip"
-                      id = "pr11"
+                      id="pr11"
                       title="Download Procedure"
                       style="font-size: 1.5em"
                     ></span>
@@ -1133,7 +1101,7 @@
                     <span
                       class="glyphicon glyphicon-download-alt"
                       data-toggle="tooltip"
-                      id = "pr12"
+                      id="pr12"
                       title="Download Procedure"
                       style="font-size: 1.5em"
                     ></span>
@@ -1575,7 +1543,7 @@
                 </div>
               </div>
             </div>
-        <div class="x_content">
+            <div class="x_content">
               <div
                 class="accordion"
                 id="accordion1"
@@ -1643,31 +1611,48 @@
                 </div>
               </div>
             </div>
-
-      </div>
+          </div>
+          <div class="x_content">
+              <div class="accordion" id="accordionERP" role="tablist" aria-multiselectable="true">
+                <div class="panel">
+                  <a class="panel-heading collapsed d-flex justify-content-between align-items-center"
+                    role="tab" data-toggle="collapse" data-parent="#accordionERP"
+                    href="#collapseERP" aria-expanded="false" aria-controls="collapseERP">
+                    <h4 class="panel-title">Emergency Response Procedure</h4>
+                    <span class="glyphicon glyphicon-download-alt" data-toggle="tooltip"
+                          data-placement="left" data-original-title="Download ERP Procedure"
+                          id="pr26" aria-hidden="true" style="font-size: 1.5em"></span>
+                  </a>
+                  <div id="collapseERP" class="panel-collapse collapse ml-3 mr-3" role="tabpanel">
+                    <div class="panel-body">
+                      <ul>
+                        <li><strong> Product Spillage:</strong> Park safely, shut engine, inform ERP/client/fire brigade, use spill kit, cordon area. ERP to arrange resources, HSEQ to investigate & report, CEO to oversee.</li>
+                        <li><strong> Fire:</strong> Try extinguishing, inform ERP/fire brigade, cordon area. ERP arranges transfer & logs, HSEQ reports, CEO supports.</li>
+                        <li><strong> Medical Emergency:</strong> Provide first aid or call ambulance, inform ERP. ERP arranges resources, HSEQ/CEO investigate & support.</li>
+                        <li><strong> Vehicle Collision/Rollover:</strong> Treat injuries, shut engine, control spill, cordon area. ERP contacts authorities & arranges transfer, HSEQ/CEO investigate & support.</li>
+                        <li><strong> Vehicle Breakdown:</strong> Park safely, cordon area, inform ERP. ERP calls maintenance/towing, HSEQ updates management, CEO provides support.</li>
+                        <li><strong> Brake Failure:</strong> Park safely, cordon area, inform ERP. ERP sends maintenance/transfer truck, HSEQ/CEO support & monitor.</li>
+                        <li><strong> Hijacking/Terrorism:</strong> Driver not to resist, move to safety, inform ERP. ERP coordinates with police/tracking, HSEQ informs management, CEO oversees reputation.</li>
+                        <li><strong> Law & Order Situation:</strong> Park safely, inform ERP, calm mob, seek police help. ERP coordinates with authorities, HSEQ updates, CEO supports.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
-    
-
       </div>
+    </div>
+  </div>
 
+</div>
+<div class="clearfix"></div>
 
-      </div>
-
-      </div>
-        </div>
-
-      </div>
-      <div class="clearfix"></div>
-
-
-      </div>
-    
-
-      <!-- Add a script to handle the download logic -->
+<!-- Add a script to handle the download logic -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Add a click event listener for the download icon
-  document.getElementById("pr4").addEventListener("click", function (event) {
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add a click event listener for the download icon
+    document.getElementById("pr4").addEventListener("click", function (event) {
       // Prevent the default action of the anchor element
       event.preventDefault();
 
@@ -1717,7 +1702,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Call the downloadFile function with the corresponding file name
       downloadFile("ss.pdf");
     });
-     document.getElementById("pr11").addEventListener("click", function (event) {
+    document.getElementById("pr11").addEventListener("click", function (event) {
       // Prevent the default action of the anchor element
       event.preventDefault();
 
@@ -1756,23 +1741,24 @@ document.addEventListener('DOMContentLoaded', function() {
       // Call the downloadFile function with the corresponding file name
       downloadFile("rhm.doc");
     });
-    document.getElementById("pr17").addEventListener("click", function (event) {
+  
+    document.getElementById("pr26").addEventListener("click", function (event) {
       // Prevent the default action of the anchor element
       event.preventDefault();
 
       // Call the downloadFile function with the corresponding file name
-      downloadFile("jmp.pdf");
+      downloadFile("erp.pdf");
     });
 
-  // Add more similar event listeners for other policies
+    // Add more similar event listeners for other policies
 
-  // Function to handle the download logic
-  function downloadFile(fileName) {
+    // Function to handle the download logic
+    function downloadFile(fileName) {
       // Construct the file path based on your Django project structure
-      var filePath = '/static/pdf/' + fileName;
+      var filePath = "/static/pdf/" + fileName;
 
       // Create an anchor element
-      var link = document.createElement('a');
+      var link = document.createElement("a");
 
       // Set the download attribute and href
       link.download = fileName;
@@ -1780,17 +1766,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Simulate a click on the anchor element to trigger the download
       link.click();
-  }
-});
+    }
+  });
 </script>
 
-
-
-
-
 {% endblock %}
-
-
-
-
-
