@@ -85,13 +85,11 @@
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb {
-        background: #6c7ae0;
+        background: #4a5568;
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: #5a6fd8;
-    }
-        box-shadow: 0 0 5px #1e40af;
+        background: #374151;
     }
     @media print {
       .noprint {
@@ -313,6 +311,250 @@
        color: #2c3e50 !important;
    }
 
+   /* Modern Top Navigation Bar Styling */
+   .top_nav {
+       background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+       border-bottom: 1px solid #e9ecef !important;
+       backdrop-filter: blur(10px) !important;
+       -webkit-backdrop-filter: blur(10px) !important;
+       min-height: 60px !important;
+       z-index: 1000 !important;
+   }
+   
+   .nav_menu {
+       padding: 0 20px !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: space-between !important;
+       height: 60px !important;
+   }
+   
+   /* Menu Toggle Button - Simplified */
+   .nav.toggle a {
+       background: transparent !important;
+       color: #4a5568 !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 6px !important;
+       padding: 6px 8px !important;
+       transition: all 0.3s ease !important;
+       box-shadow: none !important;
+       text-decoration: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: center !important;
+       font-size: 14px !important;
+       width: 32px !important;
+       height: 32px !important;
+   }
+   
+   .nav.toggle a:hover {
+       background: #f8f9fa !important;
+       border-color: #d1d5db !important;
+       color: #2c3e50 !important;
+       transform: none !important;
+       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+       text-decoration: none !important;
+   }
+   
+   .nav.toggle a:focus,
+   .nav.toggle a:active {
+       outline: none !important;
+       text-decoration: none !important;
+       color: #2c3e50 !important;
+       background: #f1f5f9 !important;
+   }
+   
+   /* Simple Logout Icon with Tooltip */
+   .logout-icon {
+       background: transparent !important;
+       color: #4a5568 !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 6px !important;
+       padding: 8px 10px !important;
+       transition: all 0.3s ease !important;
+       box-shadow: none !important;
+       text-decoration: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: center !important;
+       font-size: 16px !important;
+       width: 36px !important;
+       height: 36px !important;
+       position: relative !important;
+   }
+   
+   .logout-icon:hover {
+       background: #fee2e2 !important;
+       border-color: #fca5a5 !important;
+       color: #dc2626 !important;
+       transform: none !important;
+       box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15) !important;
+       text-decoration: none !important;
+   }
+   
+   .logout-icon:focus,
+   .logout-icon:active {
+       outline: none !important;
+       text-decoration: none !important;
+       color: #dc2626 !important;
+       background: #fef2f2 !important;
+   }
+   
+   /* Tooltip for logout */
+   .logout-icon::after {
+       content: 'Logout';
+       position: absolute;
+       bottom: -30px;
+       left: 50%;
+       transform: translateX(-50%);
+       background: #374151;
+       color: white;
+       padding: 4px 8px;
+       border-radius: 4px;
+       font-size: 12px;
+       white-space: nowrap;
+       opacity: 0;
+       visibility: hidden;
+       transition: all 0.3s ease;
+       z-index: 1000;
+   }
+   
+   .logout-icon:hover::after {
+       opacity: 1;
+       visibility: visible;
+   }
+   
+   /* Dropdown Menu - Fixed Positioning and Visibility */
+   .dropdown-usermenu {
+       background: white !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 8px !important;
+       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+       padding: 4px 0 !important;
+       margin-top: 4px !important;
+       min-width: 180px !important;
+       overflow: hidden !important;
+       position: absolute !important;
+       top: calc(100% + 4px) !important;
+       right: 0 !important;
+       left: auto !important;
+       z-index: 1050 !important;
+       display: none !important;
+   }
+   
+   /* Show dropdown when parent has open class */
+   .nav-item.dropdown.open .dropdown-usermenu,
+   .nav-item.dropdown.show .dropdown-usermenu {
+       display: block !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item {
+       padding: 8px 16px !important;
+       color: #4a5568 !important;
+       font-weight: 500 !important;
+       font-size: 14px !important;
+       transition: all 0.2s ease !important;
+       border: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: space-between !important;
+       text-decoration: none !important;
+       white-space: nowrap !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item:hover {
+       background: #f7d794 !important;
+       color: #2c3e50 !important;
+       transform: none !important;
+       text-decoration: none !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item:focus,
+   .dropdown-usermenu .dropdown-item:active {
+       text-decoration: none !important;
+       color: #2c3e50 !important;
+       outline: none !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item i {
+       font-size: 12px !important;
+       color: #6c7ae0 !important;
+       margin-left: 8px !important;
+   }
+   
+   /* Top bar container fix */
+   .navbar-right {
+       margin-right: 0 !important;
+   }
+   
+   .navbar-right > li {
+       margin-left: 10px !important;
+   }
+   
+   /* Remove default bootstrap navbar styles */
+   .top_nav .navbar-nav {
+       margin: 0 !important;
+       padding: 0 !important;
+   }
+   
+   .top_nav .nav-item {
+       margin: 0 !important;
+   }
+   
+   /* Brand/Logo area enhancement */
+   .nav_menu .nav.toggle {
+       display: flex !important;
+       align-items: center !important;
+   }
+   
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+       .nav_menu {
+           padding: 0 15px !important;
+       }
+       
+       .user-profile {
+           padding: 4px 12px 4px 4px !important;
+           font-size: 14px !important;
+       }
+       
+       .user-profile img {
+           width: 28px !important;
+           height: 28px !important;
+       }
+   }
+   
+   /* Fix dropdown positioning */
+   .nav-item.dropdown {
+       position: relative !important;
+   }
+   
+   .dropdown-menu {
+       position: absolute !important;
+       top: 100% !important;
+       right: 0 !important;
+       left: auto !important;
+       z-index: 1050 !important;
+       display: none !important;
+   }
+   
+   /* Ensure proper dropdown toggle behavior */
+   .dropdown-toggle::after {
+       display: none !important;
+   }
+   
+   /* Only show dropdown when open class is present */
+   .nav-item.dropdown.open .dropdown-menu,
+   .nav-item.dropdown.show .dropdown-menu {
+       display: block !important;
+   }
+   
+   /* Hide dropdown by default */
+   .dropdown-menu:not(.show) {
+       display: none !important;
+   }
+
      
  
     </style>
@@ -523,19 +765,11 @@
               </div>
               <nav class="nav navbar-nav">
               <ul class=" navbar-right">
-                <li class="nav-item dropdown open" style="padding-left: 15px;">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% user_profile_image user %}" alt="{{ user.first_name }}'s Profile Picture" style="width: 30px; height:30px;">{{ request.user.first_name }} {{ request.user.last_name }}
+                <li class="nav-item" style="padding-left: 15px;">
+                  <a href="{% url 'logout' %}" class="logout-icon" title="Logout">
+                    <i class="fa fa-sign-out"></i>
                   </a>
-                  <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item"  href="javascript:;"> Profile</a>
-                      
-                 
-                    <a class="dropdown-item"  href="{% url 'logout' %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
-                  </div>
                 </li>
-
-                
               </ul>
             </nav>
           </div>
