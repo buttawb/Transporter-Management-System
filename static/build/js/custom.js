@@ -194,7 +194,7 @@ $(document).ready(function () {
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
         elems.forEach(function (html) {
             var switchery = new Switchery(html, {
-                color: '#7a1818'
+                color: '#2563eb'
             });
         });
     }
@@ -525,7 +525,7 @@ function init_flot_chart() {
                 monotonicFit: true
             }
         },
-        colors: ["#7a1818"],
+        colors: ["#2563eb"],
         grid: {
             borderWidth: {
                 top: 0,
@@ -702,7 +702,7 @@ function init_chart_doughnut() {
                         "#BDC3C7",
                         "#9B59B6",
                         "#E74C3C",
-                        "#7a1818",
+                        "#2563eb",
                         "#3498DB"
                     ],
                     hoverBackgroundColor: [
@@ -810,7 +810,7 @@ function init_sparklines() {
             '7': '#a1a1a1'
         },
         barSpacing: 2,
-        barColor: '#7a1818'
+        barColor: '#2563eb'
     });
 
 
@@ -822,7 +822,7 @@ function init_sparklines() {
             '7': '#a1a1a1'
         },
         barSpacing: 2,
-        barColor: '#7a1818'
+        barColor: '#2563eb'
     });
 
 
@@ -830,11 +830,11 @@ function init_sparklines() {
         type: 'line',
         width: '200',
         height: '40',
-        lineColor: '#7a1818',
+        lineColor: '#2563eb',
         fillColor: 'rgba(223, 223, 223, 0.57)',
         lineWidth: 2,
-        spotColor: '#7a1818',
-        minSpotColor: '#7a1818'
+        spotColor: '#2563eb',
+        minSpotColor: '#2563eb'
     });
 
 
@@ -846,7 +846,7 @@ function init_sparklines() {
             '7': '#a1a1a1'
         },
         barSpacing: 2,
-        barColor: '#7a1818'
+        barColor: '#2563eb'
     });
 
 
@@ -854,11 +854,11 @@ function init_sparklines() {
         type: 'line',
         height: '40',
         width: '200',
-        lineColor: '#7a1818',
+        lineColor: '#2563eb',
         fillColor: '#ffffff',
         lineWidth: 3,
-        spotColor: '#187A18',
-        minSpotColor: '#187A18'
+        spotColor: '#059669',
+        minSpotColor: '#059669'
     });
 
 
@@ -867,14 +867,14 @@ function init_sparklines() {
         colorMap: {
             '7': '#a1a1a1'
         },
-        barColor: '#7a1818'
+        barColor: '#2563eb'
     });
 
 
     $(".sparkline_area").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
         type: 'line',
-        lineColor: '#7a1818',
-        fillColor: '#7a1818',
+        lineColor: '#2563eb',
+        fillColor: '#2563eb',
         spotColor: '#4578a0',
         minSpotColor: '#728fb2',
         maxSpotColor: '#6d93c4',
@@ -887,24 +887,24 @@ function init_sparklines() {
 
     $(".sparkline_line").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5], {
         type: 'line',
-        lineColor: '#7a1818',
+        lineColor: '#2563eb',
         fillColor: '#ffffff',
         width: 85,
-        spotColor: '#187A18',
-        minSpotColor: '#187A18'
+        spotColor: '#059669',
+        minSpotColor: '#059669'
     });
 
 
     $(".sparkline_pie").sparkline([1, 1, 2, 1], {
         type: 'pie',
-        sliceColors: ['#7a1818', '#ccc', '#75BCDD', '#D66DE2']
+        sliceColors: ['#2563eb', '#ccc', '#75BCDD', '#D66DE2']
     });
 
 
     $(".sparkline_discreet").sparkline([4, 6, 7, 7, 4, 3, 2, 1, 4, 4, 2, 4, 3, 7, 8, 9, 7, 6, 4, 3], {
         type: 'discrete',
         barWidth: 3,
-        lineColor: '#7a1818',
+        lineColor: '#2563eb',
         width: '85',
     });
 
@@ -1904,7 +1904,7 @@ function init_EasyPieChart() {
     $('.chart').easyPieChart({
         easing: 'easeOutElastic',
         delay: 3000,
-        barColor: '#7a1818',
+        barColor: '#2563eb',
         trackColor: '#fff',
         scaleColor: false,
         lineWidth: 20,
@@ -2180,7 +2180,7 @@ function init_charts() {
                 labels: ["January", "February", "March", "April", "May", "June", "July"],
                 datasets: [{
                     label: '# of Votes',
-                    backgroundColor: "#7a1818",
+                    backgroundColor: "#2563eb",
                     data: [51, 30, 40, 28, 92, 50, 45]
                 }, {
                     label: '# of Votes',
@@ -2222,11 +2222,11 @@ function init_charts() {
                     "#455C73",
                     "#9B59B6",
                     "#BDC3C7",
-                    "#7a1818",
+                    "#2563eb",
                     "#3498DB"
                 ],
                 hoverBackgroundColor: [
-                    "#187A18",
+                    "#059669",
                     "#B370CF",
                     "#CFD4D8",
                     "#36CAAB",
@@ -2291,7 +2291,7 @@ function init_charts() {
                     "#455C73",
                     "#9B59B6",
                     "#BDC3C7",
-                    "#7a1818",
+                    "#2563eb",
                     "#3498DB"
                 ],
                 label: 'My dataset' // for legend
@@ -2328,7 +2328,7 @@ function init_charts() {
                     "#455C73",
                     "#9B59B6",
                     "#BDC3C7",
-                    "#7a1818",
+                    "#2563eb",
                     "#3498DB"
                 ],
                 label: 'My dataset'
@@ -2587,7 +2587,7 @@ function init_morris_charts() {
             ykeys: ['geekbench'],
             labels: ['Geekbench'],
             barRatio: 0.4,
-            barColors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            barColors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             xLabelAngle: 35,
             hideHover: 'auto',
             resize: true
@@ -2612,7 +2612,7 @@ function init_morris_charts() {
                 { "period": "2016-09-10", "licensed": 2115, "sorned": 1022 }
             ],
             xkey: 'period',
-            barColors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            barColors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             ykeys: ['licensed', 'sorned'],
             labels: ['Licensed', 'SORN'],
             hideHover: 'auto',
@@ -2634,7 +2634,7 @@ function init_morris_charts() {
             ],
             xkey: 'x',
             ykeys: ['y', 'z', 'a'],
-            barColors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            barColors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             hideHover: 'auto',
             labels: ['Y', 'Z', 'A'],
             resize: true
@@ -2662,7 +2662,7 @@ function init_morris_charts() {
             ],
             xkey: 'period',
             ykeys: ['iphone', 'ipad', 'itouch'],
-            lineColors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            lineColors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             labels: ['iPhone', 'iPad', 'iPod Touch'],
             pointSize: 2,
             hideHover: 'auto',
@@ -2681,7 +2681,7 @@ function init_morris_charts() {
                 { label: 'Custard', value: 25 },
                 { label: 'Sugar', value: 10 }
             ],
-            colors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            colors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             formatter: function (y) {
                 return y + "%";
             },
@@ -2698,7 +2698,7 @@ function init_morris_charts() {
             ykeys: ['value'],
             labels: ['Value'],
             hideHover: 'auto',
-            lineColors: ['#7a1818', '#187A18', '#ACADAC', '#3498DB'],
+            lineColors: ['#2563eb', '#059669', '#ACADAC', '#3498DB'],
             data: [
                 { year: '2012', value: 20 },
                 { year: '2013', value: 10 },
@@ -2730,7 +2730,7 @@ function init_echarts() {
 
     var theme = {
         color: [
-            '#7a1818', '#187A18', '#BDC3C7', '#3498DB',
+            '#2563eb', '#059669', '#BDC3C7', '#3498DB',
             '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
         ],
 
@@ -4440,7 +4440,7 @@ function init_echarts() {
                 text: ['High', 'Low'],
                 realtime: false,
                 calculable: true,
-                color: ['#087E65', '#7a1818', '#CBEAE3']
+                color: ['#087E65', '#2563eb', '#CBEAE3']
             },
             series: [{
                 name: 'World Population (2010)',

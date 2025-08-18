@@ -9,7 +9,7 @@
 <body class="watermark">
   <style>
     .hggc-header{
-      background-color: #42070b;
+      background-color: #2563eb;
       padding: 24px 24px;
       border-radius: 8px 8px 0 0;
       display: flex;
@@ -62,7 +62,7 @@
     .data-items  > p{
       margin-bottom: 2px;
       text-transform: uppercase;
-      color: #7a1818;
+      color: #2563eb;
       font-weight: 500;
     }
     .user-items .items:not(:last-child) {
@@ -78,7 +78,7 @@
 
     .hggc-panel{
       border-radius: 8px;
-      border: 2px solid #7a1818;
+      border: 2px solid #2563eb;
       padding: 0;
     }
     .hggc-panel .x_title{
@@ -125,7 +125,7 @@
         <div class="col-md-12 col-sm-12">
           <div class="hggc-box">
             <div class="hggc-header">
-                <img src="/static/images/hggc-logo.png" alt="" />
+                {% comment %} <img src="/static/images/hggc-logo.png" alt="" /> {% endcomment %}
                 {% if vehicle.OMC.cname == "Attock Petroleum Limited" %}
                     <img src="/static/images/attock-logo.png" alt="" />
                 {% elif vehicle.OMC.cname == 'GO' %}
@@ -154,9 +154,9 @@
                 <div class="col-md-6 text-right" style="display: flex; flex-direction: column; justify-content: space-between;">
                   <div class="btns noprint">
                      
-                        <button type="button" class="btn btn-outline-danger">
+                        {% comment %} <button type="button" class="btn btn-outline-danger">
                             <i class="fa fa-print m-right-xs"></i> Print as PDF
-                        </button>
+                        </button> {% endcomment %}
                       </a>
                       <a href="{% url 'edit_vehicle' vehicle_id=vehicle.id %}">
                         <button type="button" class="btn custom-button">

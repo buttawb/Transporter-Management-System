@@ -88,10 +88,10 @@
 
   &.picker_1 {
     color: #fff;
-    background: #187A18;
+    background: #059669;
 
     .calendar-table {
-      background: #187A18;
+      background: #059669;
 
       thead {
         & tr {
@@ -99,17 +99,17 @@
         }
 
         & tr:first-child {
-          background: #7A1818;
+          background: #2563eb;
         }
       }
 
       td.off {
-        background: #187A18;
+        background: #059669;
         color: #999;
       }
 
       td.available:hover {
-        color: #187A18;
+        color: #059669;
       }
     }
   }
@@ -118,7 +118,7 @@
     .calendar-table {
       thead {
         & tr {
-          color: #7A1818;
+          color: #2563eb;
         }
 
         & tr:first-child {
@@ -133,7 +133,7 @@
       thead {
         & tr:first-child {
           color: #fff;
-          background: #7A1818;
+          background: #2563eb;
         }
       }
     }
@@ -144,7 +144,7 @@
       thead {
         & tr:first-child {
           color: #fff;
-          background: #187A18;;
+          background: #059669;;
         }
       }
 
@@ -155,7 +155,7 @@
       }
 
       td.active {
-        background: #187A18;
+        background: #059669;
       }
     }
   }
@@ -177,7 +177,7 @@
     }
 
     &.picker_1 {
-      background: #187A18;
+      background: #059669;
     }
   }
 
