@@ -41,20 +41,55 @@
      <link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
      <link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
      <style>
+      /* Modern Enhancements */
       .custom-button {
-          background-color: #7a1818;
-          color: white; /* Text color */
-          border: 1px solid #3C0C0C;
-          transition: background-color 0.3s;
-          outline: none;
+          background: linear-gradient(135deg, #6c7ae0, #5a6fd8);
+          padding: 10px 20px;
+          border: none;
+          border-radius: 8px;
+          color: white;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(108, 122, 224, 0.3);
       }
-  
       .custom-button:hover {
-          background-color: #611313;
+          background: linear-gradient(135deg, #5a6fd8, #4c63d2);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(108, 122, 224, 0.4);
           color: white;
       }
       .custom-button:active {
-        box-shadow: 0 0 5px #A15D5D;
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(108, 122, 224, 0.4);
+    }
+    
+    /* Modern Card Styling */
+    .x_panel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Modern Navigation */
+    .nav.side-menu > li > a {
+        margin: 2px 8px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    /* Smooth Scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #4a5568;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #374151;
     }
     @media print {
       .noprint {
@@ -83,6 +118,443 @@
       
    }
 
+   /* Golden Yellow Hover & Active Theme Enhancement */
+   .btn:hover,
+   .btn:focus,
+   .btn.btn-primary:hover,
+   .btn.btn-info:hover {
+       background-color: #f7d794 !important;
+       border-color: #f7d794 !important;
+       color: #2c3e50 !important;
+       transition: all 0.3s ease;
+   }
+   
+   .btn.btn-primary.focus, 
+   .btn.btn-primary:focus {
+       background-color: #f7d794 !important;
+       border-color: #f7d794 !important;
+       box-shadow: 0 0 0 0.2rem rgba(247, 215, 148, 0.25) !important;
+   }
+   
+   /* Enhanced Sidebar Navigation Styling */
+   .nav.side-menu > li > a:hover {
+       background-color: #f7d794 !important;
+       color: #2c3e50 !important;
+       border-radius: 8px !important;
+       margin: 2px 8px !important;
+       transition: all 0.3s ease !important;
+       transform: translateX(5px) !important;
+       border: none !important;
+       box-shadow: none !important;
+   }
+   
+   /* Remove any conflicting blue styles */
+   .nav.side-menu > li > a:hover,
+   .nav.side-menu > li > a:focus {
+       background: #f7d794 !important;
+       border-color: transparent !important;
+   }
+   
+   /* Active/Current Page Highlighting - ONLY for the actual current page */
+   .nav.side-menu > li.current-active-only {
+       background-color: #f7d794 !important;
+       border-right: 4px solid #e6c77a !important;
+       border-radius: 8px !important;
+       margin: 2px 8px !important;
+   }
+   
+   .nav.side-menu > li.current-active-only > a {
+       background-color: #f7d794 !important;
+       color: #2c3e50 !important;
+       font-weight: 600 !important;
+       border-radius: 8px !important;
+       border: none !important;
+       box-shadow: none !important;
+   }
+   
+   /* Child Menu Hover - ONLY individual items */
+   .nav.child_menu li:hover {
+       background-color: #f7d794 !important;
+       border-radius: 6px !important;
+       margin: 1px 0 !important;
+   }
+   
+   /* Child Menu Active - ONLY the specific active child */
+   .nav.child_menu li.current-child-active {
+       background-color: #f7d794 !important;
+       border-left: 3px solid #e6c77a !important;
+       border-radius: 6px !important;
+   }
+   
+   .nav.child_menu li:hover a,
+   .nav.child_menu li.current-child-active a {
+       color: #2c3e50 !important;
+       font-weight: 500 !important;
+   }
+   
+   /* Remove default active/current-page classes to prevent conflicts */
+   .nav.side-menu > li.active,
+   .nav.side-menu > li.current-page {
+       background-color: transparent !important;
+       border-right: none !important;
+       border-radius: none !important;
+       margin: inherit !important;
+   }
+   
+   .nav.side-menu > li.active > a,
+   .nav.side-menu > li.current-page > a {
+       background-color: transparent !important;
+       color: inherit !important;
+       font-weight: inherit !important;
+       border-radius: none !important;
+   }
+   
+   .nav.child_menu li.active {
+       background-color: transparent !important;
+       border-left: none !important;
+       border-radius: none !important;
+   }
+   
+   .nav.child_menu li.active a {
+       color: inherit !important;
+       font-weight: inherit !important;
+   }
+   
+   /* Override any blue/purple theme conflicts */
+   .nav.side-menu > li > a:focus,
+   .nav.side-menu > li > a:active {
+       background-color: #f7d794 !important;
+       background: #f7d794 !important;
+       color: #2c3e50 !important;
+       border-color: transparent !important;
+       outline: none !important;
+       box-shadow: none !important;
+   }
+   
+   /* Prevent Bootstrap button classes from interfering */
+   .nav.side-menu a.btn-primary,
+   .nav.side-menu a.btn-info,
+   .nav.side-menu a.btn-primary:hover,
+   .nav.side-menu a.btn-info:hover,
+   .nav.side-menu a.btn-primary:focus,
+   .nav.side-menu a.btn-info:focus {
+       background-color: #f7d794 !important;
+       background: #f7d794 !important;
+       border-color: #f7d794 !important;
+       color: #2c3e50 !important;
+   }
+   
+   /* Nested Child Menu (3rd level) */
+   .nav.child_menu .nav.child_menu li:hover {
+       background-color: #f7d794 !important;
+       border-left: 3px solid #e6c77a !important;
+       border-radius: 4px !important;
+       margin-left: 10px !important;
+   }
+   
+   /* Menu Section Headers */
+   .menu_section h3 {
+       color: #6c7ae0 !important;
+       font-weight: 600 !important;
+   }
+   
+   /* Icons in navigation */
+   .nav.side-menu > li > a i {
+       color: inherit !important;
+       margin-right: 8px !important;
+   }
+   
+   .nav.side-menu > li.active > a i,
+   .nav.side-menu > li:hover > a i {
+       color: #2c3e50 !important;
+   }
+   
+   /* Table hover effects */
+   .table-hover tbody tr:hover {
+       background-color: #f7d794 !important;
+       color: #2c3e50 !important;
+   }
+   
+   /* Form input focus */
+   .form-control:focus {
+       border-color: #f7d794 !important;
+       box-shadow: 0 0 0 0.2rem rgba(247, 215, 148, 0.25) !important;
+   }
+   
+   /* Dropdown hover */
+   .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+       background-color: #f7d794 !important;
+       color: #2c3e50 !important;
+   }
+   
+   /* Panel toolbox hover */
+   .panel_toolbox > li > a:hover {
+       background-color: #f7d794 !important;
+       color: #2c3e50 !important;
+       border-radius: 4px;
+   }
+   
+   /* Pagination hover */
+   .pagination > li > a:hover,
+   .pagination > li > span:hover {
+       background-color: #f7d794 !important;
+       border-color: #f7d794 !important;
+       color: #2c3e50 !important;
+   }
+   
+   /* Active pagination */
+   .pagination > .active > a,
+   .pagination > .active > span {
+       background-color: #f7d794 !important;
+       border-color: #f7d794 !important;
+       color: #2c3e50 !important;
+   }
+
+   /* Modern Top Navigation Bar Styling */
+   .top_nav {
+       background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+       border-bottom: 1px solid #e9ecef !important;
+       backdrop-filter: blur(10px) !important;
+       -webkit-backdrop-filter: blur(10px) !important;
+       min-height: 60px !important;
+       z-index: 1000 !important;
+   }
+   
+   .nav_menu {
+       padding: 0 20px !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: space-between !important;
+       height: 60px !important;
+   }
+   
+   /* Menu Toggle Button - Simplified */
+   .nav.toggle a {
+       background: transparent !important;
+       color: #4a5568 !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 6px !important;
+       padding: 6px 8px !important;
+       transition: all 0.3s ease !important;
+       box-shadow: none !important;
+       text-decoration: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: center !important;
+       font-size: 14px !important;
+       width: 32px !important;
+       height: 32px !important;
+   }
+   
+   .nav.toggle a:hover {
+       background: #f8f9fa !important;
+       border-color: #d1d5db !important;
+       color: #2c3e50 !important;
+       transform: none !important;
+       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+       text-decoration: none !important;
+   }
+   
+   .nav.toggle a:focus,
+   .nav.toggle a:active {
+       outline: none !important;
+       text-decoration: none !important;
+       color: #2c3e50 !important;
+       background: #f1f5f9 !important;
+   }
+   
+   /* Simple Logout Icon with Tooltip */
+   .logout-icon {
+       background: transparent !important;
+       color: #4a5568 !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 6px !important;
+       padding: 8px 10px !important;
+       transition: all 0.3s ease !important;
+       box-shadow: none !important;
+       text-decoration: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: center !important;
+       font-size: 16px !important;
+       width: 36px !important;
+       height: 36px !important;
+       position: relative !important;
+   }
+   
+   .logout-icon:hover {
+       background: #fee2e2 !important;
+       border-color: #fca5a5 !important;
+       color: #dc2626 !important;
+       transform: none !important;
+       box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15) !important;
+       text-decoration: none !important;
+   }
+   
+   .logout-icon:focus,
+   .logout-icon:active {
+       outline: none !important;
+       text-decoration: none !important;
+       color: #dc2626 !important;
+       background: #fef2f2 !important;
+   }
+   
+   /* Tooltip for logout */
+   .logout-icon::after {
+       content: 'Logout';
+       position: absolute;
+       bottom: -30px;
+       left: 50%;
+       transform: translateX(-50%);
+       background: #374151;
+       color: white;
+       padding: 4px 8px;
+       border-radius: 4px;
+       font-size: 12px;
+       white-space: nowrap;
+       opacity: 0;
+       visibility: hidden;
+       transition: all 0.3s ease;
+       z-index: 1000;
+   }
+   
+   .logout-icon:hover::after {
+       opacity: 1;
+       visibility: visible;
+   }
+   
+   /* Dropdown Menu - Fixed Positioning and Visibility */
+   .dropdown-usermenu {
+       background: white !important;
+       border: 1px solid #e2e8f0 !important;
+       border-radius: 8px !important;
+       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+       padding: 4px 0 !important;
+       margin-top: 4px !important;
+       min-width: 180px !important;
+       overflow: hidden !important;
+       position: absolute !important;
+       top: calc(100% + 4px) !important;
+       right: 0 !important;
+       left: auto !important;
+       z-index: 1050 !important;
+       display: none !important;
+   }
+   
+   /* Show dropdown when parent has open class */
+   .nav-item.dropdown.open .dropdown-usermenu,
+   .nav-item.dropdown.show .dropdown-usermenu {
+       display: block !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item {
+       padding: 8px 16px !important;
+       color: #4a5568 !important;
+       font-weight: 500 !important;
+       font-size: 14px !important;
+       transition: all 0.2s ease !important;
+       border: none !important;
+       display: flex !important;
+       align-items: center !important;
+       justify-content: space-between !important;
+       text-decoration: none !important;
+       white-space: nowrap !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item:hover {
+       background: #f7d794 !important;
+       color: #2c3e50 !important;
+       transform: none !important;
+       text-decoration: none !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item:focus,
+   .dropdown-usermenu .dropdown-item:active {
+       text-decoration: none !important;
+       color: #2c3e50 !important;
+       outline: none !important;
+   }
+   
+   .dropdown-usermenu .dropdown-item i {
+       font-size: 12px !important;
+       color: #6c7ae0 !important;
+       margin-left: 8px !important;
+   }
+   
+   /* Top bar container fix */
+   .navbar-right {
+       margin-right: 0 !important;
+   }
+   
+   .navbar-right > li {
+       margin-left: 10px !important;
+   }
+   
+   /* Remove default bootstrap navbar styles */
+   .top_nav .navbar-nav {
+       margin: 0 !important;
+       padding: 0 !important;
+   }
+   
+   .top_nav .nav-item {
+       margin: 0 !important;
+   }
+   
+   /* Brand/Logo area enhancement */
+   .nav_menu .nav.toggle {
+       display: flex !important;
+       align-items: center !important;
+   }
+   
+   /* Responsive adjustments */
+   @media (max-width: 768px) {
+       .nav_menu {
+           padding: 0 15px !important;
+       }
+       
+       .user-profile {
+           padding: 4px 12px 4px 4px !important;
+           font-size: 14px !important;
+       }
+       
+       .user-profile img {
+           width: 28px !important;
+           height: 28px !important;
+       }
+   }
+   
+   /* Fix dropdown positioning */
+   .nav-item.dropdown {
+       position: relative !important;
+   }
+   
+   .dropdown-menu {
+       position: absolute !important;
+       top: 100% !important;
+       right: 0 !important;
+       left: auto !important;
+       z-index: 1050 !important;
+       display: none !important;
+   }
+   
+   /* Ensure proper dropdown toggle behavior */
+   .dropdown-toggle::after {
+       display: none !important;
+   }
+   
+   /* Only show dropdown when open class is present */
+   .nav-item.dropdown.open .dropdown-menu,
+   .nav-item.dropdown.show .dropdown-menu {
+       display: block !important;
+   }
+   
+   /* Hide dropdown by default */
+   .dropdown-menu:not(.show) {
+       display: none !important;
+   }
+
      
  
     </style>
@@ -98,7 +570,7 @@
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
               <a href="/" class="site_title"><img style="border-radius: 50%;
-                max-width: 45px;" class="logo-abbr" src="/static/images/logo.png" alt="" /><span> HGGC</span></a>
+                max-width: 45px;" class="logo-abbr" src="/static/images/logo.jpeg" alt="" /><span> TMS</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -146,7 +618,7 @@
                   <h3>Main</h3>
                     <ul class="nav side-menu">
 
-                      <li><a><i class="fa fa-briefcase"></i>Safe System of Work<span class="fa fa-chevron-down"></span></a>
+                      <li><a><i class="fa fa-briefcase"></i>System of Work<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="/policies">Policies</a></li>
                           <li><a href="/procedures">Procedures</a></li>
@@ -235,7 +707,7 @@
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-warning"></i>Vehicle Tracking System<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-warning"></i>Vehicle Tracking<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="n">Yet to be decided</a></li>
                       <li><a href="n">Yet to be decided</a></li>
@@ -293,19 +765,11 @@
               </div>
               <nav class="nav navbar-nav">
               <ul class=" navbar-right">
-                <li class="nav-item dropdown open" style="padding-left: 15px;">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% user_profile_image user %}" alt="{{ user.first_name }}'s Profile Picture" style="width: 30px; height:30px;">{{ request.user.first_name }} {{ request.user.last_name }}
+                <li class="nav-item" style="padding-left: 15px;">
+                  <a href="{% url 'logout' %}" class="logout-icon" title="Logout">
+                    <i class="fa fa-sign-out"></i>
                   </a>
-                  <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item"  href="javascript:;"> Profile</a>
-                      
-                 
-                    <a class="dropdown-item"  href="{% url 'logout' %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
-                  </div>
                 </li>
-
-                
               </ul>
             </nav>
           </div>
@@ -396,6 +860,108 @@
     <script src="/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <script src="/static/vendors/raphael/raphael.min.js"></script>
     <script src="/static//vendors/morris.js/morris.min.js"></script>
+
+    <!-- Navigation Active State Script -->
+    <script>
+        $(document).ready(function() {
+            // Get current page URL
+            var currentUrl = window.location.pathname;
+            
+            // Remove ALL existing active classes completely
+            $('.nav.side-menu li').removeClass('active current-page current-active-only');
+            $('.nav.child_menu li').removeClass('active current-page current-child-active');
+            
+            var foundExactMatch = false;
+            
+            // First, try to find EXACT matches only
+            $('.nav.side-menu a, .nav.child_menu a').each(function() {
+                var linkUrl = $(this).attr('href');
+                
+                // Only exact matches or very close matches
+                if (linkUrl && currentUrl === linkUrl) {
+                    foundExactMatch = true;
+                    
+                    // Check if this is a child menu item
+                    if ($(this).closest('.nav.child_menu').length > 0) {
+                        // It's a child menu item - only highlight the child
+                        $(this).closest('li').addClass('current-child-active');
+                        
+                        // Show the parent menu but DON'T highlight the parent
+                        var parentMenu = $(this).closest('.nav.child_menu').closest('li');
+                        if (parentMenu.length > 0) {
+                            parentMenu.find('.nav.child_menu').show();
+                            // DON'T add active class to parent - just show the submenu
+                        }
+                    } else {
+                        // It's a main menu item - highlight only this one
+                        $(this).closest('li').addClass('current-active-only');
+                    }
+                }
+            });
+            
+            // Handle homepage specifically
+            if ((currentUrl === '/' || currentUrl === '/dashboard' || currentUrl === '') && !foundExactMatch) {
+                $('.nav.side-menu a[href="/"]').closest('li').addClass('current-active-only');
+            }
+            
+            // Enhanced hover effects - remove any blue conflicts
+            $('.nav.side-menu > li > a').hover(
+                function() {
+                    // Remove any existing bootstrap or theme classes that might interfere
+                    $(this).removeClass('btn-primary btn-info');
+                    $(this).css({
+                        'transform': 'translateX(5px)',
+                        'background-color': '#f7d794 !important',
+                        'background': '#f7d794 !important',
+                        'color': '#2c3e50 !important',
+                        'border-radius': '8px',
+                        'margin': '2px 8px',
+                        'border': 'none !important',
+                        'box-shadow': 'none !important'
+                    });
+                },
+                function() {
+                    // Only reset if not currently active
+                    if (!$(this).closest('li').hasClass('current-active-only')) {
+                        $(this).css({
+                            'transform': 'translateX(0)',
+                            'background-color': '',
+                            'background': '',
+                            'color': '',
+                            'border-radius': '',
+                            'margin': '',
+                            'border': '',
+                            'box-shadow': ''
+                        });
+                    }
+                }
+            );
+            
+            // Child menu hover effects
+            $('.nav.child_menu li a').hover(
+                function() {
+                    $(this).closest('li').css({
+                        'background-color': '#f7d794 !important',
+                        'border-radius': '6px'
+                    });
+                    $(this).css({
+                        'color': '#2c3e50 !important'
+                    });
+                },
+                function() {
+                    if (!$(this).closest('li').hasClass('current-child-active')) {
+                        $(this).closest('li').css({
+                            'background-color': '',
+                            'border-radius': ''
+                        });
+                        $(this).css({
+                            'color': ''
+                        });
+                    }
+                }
+            );
+        });
+    </script>
 
 
 

@@ -8,113 +8,656 @@
 
 <body class="watermark">
   <style>
-    .hggc-header{
-      background-color: #42070b;
-      padding: 20px 20px;
-      border-radius: 8px 8px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .hggc-header > img{
-      height: 64px;
-    }
-    .hggc-header > img:last-of-type{
-      border-radius: 6px;
-    }
-    .hggc-body{
-      padding: 24px;
-      background: #fff;
-    }
-    .hggc-body .user-box{
-      display: flex;
-      align-items: center;
-    }
-    .hggc-body .user-box > img{
-      width: 112px;
-      height: 112px;
-      border-radius: 50%;
-      border: 3px solid #42080b;
-    }
-    .hggc-body .user-content{
-      padding-left: 20px;
-      line-height: 1;
-    }
-    .hggc-body .user-content > h5{
-      font-size: 24px;
-      color: #141414;
-    }
-    .hggc-body .user-content > p{
-      font-size: 16px;
-      color: #5e5e5e;
-      margin-bottom: 0;
-    }
-    .hggc-body .user-content > p:first-of-type{
-      margin-bottom: 6px;
-    }
-    .user-items{
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 32px;
-    }
-    .user-items .items  > p,
-    .data-items  > p{
-      margin-bottom: 2px;
-      text-transform: uppercase;
-      color: #7a1818;
-      font-weight: 500;
-    }
-    .user-items .items:not(:last-child) {
-      border-right: 1px solid #d8d8d8;
-      padding-right: 32px;
-    }
-    .user-items .items  > h5{
-      margin-bottom: 0;
-    }
-    .data-items > .badge{
-      font-size: 1.25rem;
-    }
-
-    .hggc-panel{
-      border-radius: 8px;
-      border: 2px solid #7a1818;
-      padding: 0;
-    }
-    .hggc-panel .x_title{
-      padding: 16px;
-      margin: 0;
-      border-radius: 8px 8px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-    .hggc-panel .x_title > h2{
-      font-weight: 500;
-      font-size: 20px;
-    }
-    .hggc-panel .x_content{
-      padding: 16px;
-    }
-    .hggc-panel .panel_toolbox {
-      min-width: initial;
-    }
-    .seperation{
-      width: 100%;
-      border-top: 1px dashed #c9c9c9;
-      margin: 16px 0;
-    }
-    .work-history{
-      padding: 16px;
-      background: #f7f7f7;
-      margin: -24px;
-    }
-    .work-history h6 > a{
-      font-size: 22px;
+    /* Modern Driver Profile Styling - Compact */
+    .modern-profile-container {
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8effe 100%);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
     }
     
-  
+    .profile-header {
+      background: linear-gradient(135deg, #6c7ae0 0%, #5a67d8 100%);
+      padding: 15px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 120px;
+      height: 120px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    
+    .profile-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 100px;
+      height: 100px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    
+    .company-logo {
+      height: 40px;
+      background: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    
+    .profile-content {
+      padding: 20px;
+      background: white;
+      position: relative;
+    }
+    
+    .driver-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      object-fit: cover;
+    }
+    
+    .driver-info {
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .driver-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    
+    .driver-details {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+    
+    .driver-details i {
+      color: #6c7ae0;
+      margin-right: 8px;
+      width: 16px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: linear-gradient(135deg, #f7d794, #f5d577);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(247, 215, 148, 0.3);
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(247, 215, 148, 0.3);
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: #8b5a00;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .modern-btn {
+      background: linear-gradient(135deg, #6c7ae0, #5a67d8);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(108, 122, 224, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    
+    .modern-btn:hover {
+      background: linear-gradient(135deg, #5a67d8, #4c63d2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(108, 122, 224, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+    
+    .modern-btn i {
+      font-size: 1rem;
+    }
+    
+    .quick-actions {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 15px;
+      margin: 20px -20px -20px -20px;
+      border-top: 1px solid #dee2e6;
+    }
+    
+    .quick-actions h4 {
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .quick-actions h4 i {
+      color: #6c7ae0;
+      font-size: 1rem;
+    }
+    
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    
+    .action-card {
+      background: white;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .action-card:hover {
+      background: #f7d794;
+      border-color: #f7d794;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    .action-card h6 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    
+    .action-card .fa-plus-circle {
+      color: #6c7ae0;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .action-card:hover .fa-plus-circle {
+      color: #2c3e50;
+      transform: rotate(90deg);
+    }
+    
+    .modern-panel {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .panel-header {
+      background: linear-gradient(135deg, #6c7ae0, #5a67d8);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .panel-header h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .panel-header i {
+      font-size: 1rem;
+    }
+    
+    .panel-content {
+      padding: 20px;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .info-item {
+      position: relative;
+    }
+    
+    .info-label {
+      font-size: 0.75rem;
+      color: #6c7ae0;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-value {
+      font-size: 0.95rem;
+      color: #2c3e50;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .status-badge {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .badge-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+    
+    .badge-danger {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+      margin: 15px 0;
+    }
+    
+    .modern-table {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+      border: 1px solid #e2e8f0;
+    }
+    
+    .modern-table table {
+      margin: 0;
+    }
+    
+    .modern-table thead {
+      background: linear-gradient(135deg, #6c7ae0, #5a67d8);
+    }
+    
+    .modern-table thead th {
+      color: white;
+      font-weight: 600;
+      padding: 10px 15px;
+      border: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .modern-table tbody td {
+      padding: 10px 15px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+    
+    .modern-table tbody tr:hover {
+      background: #f7d794;
+      color: #2c3e50;
+    }
+    
+    /* Modern Tabbed Interface Styling */
+    .info-tabs-container {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+    }
+    
+    .tab-navigation {
+      display: flex;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-bottom: 1px solid #dee2e6;
+      overflow-x: auto;
+    }
+    
+    .tab-nav-item {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 16px;
+      text-align: center;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .tab-nav-item:hover {
+      color: #6c7ae0;
+      background: rgba(108, 122, 224, 0.05);
+    }
+    
+    .tab-nav-item.active {
+      color: #6c7ae0;
+      background: white;
+      font-weight: 600;
+      border-bottom: 3px solid #f7d794;
+    }
+    
+    .tab-nav-item i {
+      font-size: 0.9rem;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 25px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Info Cards Styling */
+    .info-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    
+    .info-card {
+      background: linear-gradient(135deg, #f8f9ff, #f1f3ff);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(45deg, #6c7ae0, #f7d794);
+    }
+    
+    .info-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(108, 122, 224, 0.15);
+      border-color: #6c7ae0;
+    }
+    
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .info-card-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #6c7ae0, #5a67d8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.9rem;
+    }
+    
+    .info-card-title {
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    
+    .info-card-value {
+      color: #4a5568;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.4;
+    }
+    
+    /* Status Timeline Styling */
+    .status-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .timeline-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .timeline-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 1rem;
+      color: white;
+    }
+    
+    .timeline-content {
+      flex: 1;
+    }
+    
+    .timeline-title {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    
+    .timeline-subtitle {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-bottom: 6px;
+    }
+    
+    .timeline-date {
+      color: #4a5568;
+      font-weight: 500;
+    }
+    
+    .timeline-status {
+      margin-left: auto;
+    }
+    
+    /* Progress Bars for Certifications */
+    .cert-progress-container {
+      margin-top: 8px;
+    }
+    
+    .cert-progress-bar {
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .cert-progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+    
+    .cert-progress-fill.valid {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      width: 100%;
+    }
+    
+    .cert-progress-fill.warning {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      width: 60%;
+    }
+    
+    .cert-progress-fill.expired {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+      width: 0%;
+    }
+    
+    /* Medical Health Indicator */
+    .health-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .health-indicator.excellent {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    
+    .health-indicator.good {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #93c5fd;
+    }
+    
+    .health-indicator.fair {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-content {
+        padding: 15px;
+      }
+      
+      .driver-info {
+        margin-left: 0;
+        margin-top: 15px;
+        text-align: center;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      
+      .action-buttons {
+        justify-content: center;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      
+      .quick-actions {
+        margin: 15px -15px -15px -15px;
+        padding: 12px;
+      }
+    }
+    
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -123,268 +666,307 @@
 
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <div class="hggc-box">
-            <div class="hggc-header">
-                <img src="/static/images/hggc-logo.png" alt="" />
+          <!-- Modern Profile Header -->
+          <div class="modern-profile-container">
+            <div class="profile-header">
                 {% if driver.Oil_Marketing_Company.cname == "Attock Petroleum Limited" %}
-                    <img src="/static/images/attock-logo.png" alt="" />
+                    <img class="company-logo" src="/static/images/attock-logo.png" alt="Attock Petroleum" />
                 {% elif driver.Oil_Marketing_Company.cname == 'GO' %}
-                    <img src="/static/images/go.png" alt="" />
+                    <img class="company-logo" src="/static/images/go.png" alt="GO" />
                 {% else %}
-                    <img src="/static/images/total.png" alt="" />
+                    <img class="company-logo" src="/static/images/total.png" alt="Total" />
                 {% endif %}
-
             </div>
-            <div class="hggc-body">
+            
+            <div class="profile-content">
               <div class="row">
-                <div class="col-md-6">
-                  <div class="user-box">
-                    <img class="img-responsive avatar-view" 
+                <div class="col-md-8">
+                  <div class="d-flex align-items-center">
+                    <img class="driver-avatar" 
                       src="{% if driver.D_Image %}{{ driver.D_Image.url }}{% else %}/static/images/user.png{% endif %}" 
-                      alt="Avatar" title="Change the avatar"/>
-                      <div class="user-content">
-                        <h5>{{ driver.D_Name }}</h5>
-                        <p>{{ driver.Address }}</p>
-                        <p>{{ driver.Cell_Phone_Num }}</p>
+                      alt="{{ driver.D_Name }}" />
+                    <div class="driver-info">
+                      <h1 class="driver-name">{{ driver.D_Name }}</h1>
+                      <div class="driver-details">
+                        <i class="fa fa-map-marker"></i>{{ driver.Address }}
                       </div>
+                      <div class="driver-details">
+                        <i class="fa fa-phone"></i>{{ driver.Cell_Phone_Num }}
+                      </div>
+                      <div class="driver-details">
+                        <i class="fa fa-id-badge"></i>Employee ID: {{ driver.D_Number }}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6 text-right" style="display: flex; flex-direction: column; justify-content: space-between;">
-                  <div class="btns noprint">
-                      
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="fa fa-print m-right-xs"></i> Print as PDF
-                        </button>
-                      </a>
-                      <a href="{% url 'editdriver' driver_id=driver.D_ID %}">
-                        <button type="button" class="btn custom-button">
-                            <i class="fa fa-edit m-right-xs"></i> Edit Profile
-                        </button>
-                      </a>
+                <div class="col-md-4 text-right">
+                  <div class="action-buttons">
+                    <a href="{% url 'editdriver' driver_id=driver.D_ID %}" class="modern-btn">
+                      <i class="fa fa-edit"></i>Edit Profile
+                    </a>
                   </div>
-                  <div class="user-header-info">
-                    <div class="user-items">
-                      <div class="items">
-                        <p>Driver Age</p>
-                        <h5>{{ driver.age }} Years</h5>
-                      </div>
-                      <div class="items">
-                        <p>Total Experience</p>
-                        <h5>{{ driver.Experience }} Years</h5>
-                      </div>
-                      <div class="items">
-                        <p>Employee ID</p>
-                        <h5>{{ driver.D_Number }}</h5>
-                      </div>
+                  
+                  <div class="stats-grid">
+                    <div class="stat-item">
+                      <div class="stat-label">Age</div>
+                      <div class="stat-value">{{ driver.age }}</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-label">Experience</div>
+                      <div class="stat-value">{{ driver.Experience }}y</div>
+                    </div>
                   </div>
+                </div>
+              </div>
+              
+              <!-- Quick Actions -->
+              <div class="quick-actions">
+                <h4><i class="fa fa-bolt"></i>Quick Actions</h4>
+                <div class="action-grid">
+                  <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="action-card">
+                    <h6>Add Training & Drill Records</h6>
+                    <i class="fa fa-plus-circle"></i>
+                  </a>
+                  <a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="action-card">
+                    <h6>Report Violation</h6>
+                    <i class="fa fa-plus-circle"></i>
+                  </a>
                 </div>
               </div>
             </div>
- <div class="mt-3 mb-3 row mt-3 work-history">
-              <!--Item-->
-                
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Total Tool Box Meeting & Drill Training <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                 
-                </div>
-                <div class="col-md-4">
-                    <h6 class="mb-2">Add Violation against {{ driver.D_Name }} <a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                    
-                </div>
-                <!--Item-->
-                {% comment %} <div class="col-md-4">
-                  <h6 class="mb-2">Add Drill Training<a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                  
-                </div> {% endcomment %}
-              </div>
-            <!--Personal Information-->
+          </div>
+            <!--Personal Information - Modern Tabbed Interface-->
             <div class="row mt-4">
               <div class="col-md-12">
-                <div class="hggc-panel x_panel">
-                  <!--Title-->
-                  <div class="x_title">
-                    <h2 class="m-0">Personal Information</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                    </ul>
+                <div class="modern-panel">
+                  <!--Header-->
+                  <div class="panel-header">
+                    <h2><i class="fa fa-user"></i>Personal Information</h2>
+                    <a class="collapse-link" style="color: white;"><i class="fa fa-chevron-up"></i></a>
                   </div>
-                  <!--Content-->
-                  <div class="x_content mt-0">
-                    <!--Item Row-->
-                    <div class="row mb-3">
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Father Name</p>
-                          <h5>{{ driver.Father_Name }}</h5>
-                        </div>
+                  <!--Content with Tabs-->
+                  <div class="panel-content">
+                    <div class="info-tabs-container">
+                      <!-- Tab Navigation -->
+                      <div class="tab-navigation">
+                        <button class="tab-nav-item active" data-tab="basic">
+                          <i class="fa fa-user"></i>Basic Info
+                        </button>
+                        <button class="tab-nav-item" data-tab="documents">
+                          <i class="fa fa-file-text"></i>Documents
+                        </button>
+                        <button class="tab-nav-item" data-tab="certifications">
+                          <i class="fa fa-certificate"></i>Certifications
+                        </button>
+                        <button class="tab-nav-item" data-tab="medical">
+                          <i class="fa fa-heartbeat"></i>Medical
+                        </button>
                       </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Date Of Birth</p>
-                          <h5>{{ driver.DOB }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Education</p>
-                          <h5>{{ driver.Education }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Blood Group</p>
-                          <h5>{{ driver.Blood_Group }}</h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                       <!--Item-->
-                       <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Previous Company</p>
-                          <h5>{{ driver.Previous_Company }}</h5>
-                        </div>
-                      </div>
-                        <!--Item-->
-                    <div class="col-md-3">
-                      <div class="data-items">
-                        <p>Tank Lorry</p>
-                        <h5>{{ driver.Tank_Lorry }}</h5>
-                      </div>
-                    </div>
-                    </div>
-                    <!--Seperation-->
-                    <div class="row seperation"></div>
-
-                    <!--Item Row-->
-                    <div class="row mb-3">
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p><b>CNIC</b></p>
-                          <h5>{{ driver.CNIC }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Issue Date</p>
-                          <h5>None</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Expiry Date</p>
-                          <h5>{{ driver.CNIC_Validity }} <span class="badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% elif driver.CNIC_Validity_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.CNIC_Validity_status }} </span></h5>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--Item Row-->
-                    <div class="row mb-3">
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p><b>DDC</b></p>
-                          <h5>{{ driver.Motorway_Trained }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Issue Date</p>
-                          <h5>{{ driver.DDC_Issue_Date }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Expiry Date</p>
-                         
-                           <h5> {{ driver.DDC_Expiry_Date }} <span class="badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% elif driver.DDC_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.DDC_Date_status }} </span></h5>
-                       
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--Item Row-->
-                    <div class="row mb-3">
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p><b>HTV License</b></p>
-                          <h5>{{ driver.License_No }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Issue Date</p>
-                          <h5>{{ driver.HTV_License_Issue_Date }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Expiry Date </p>
-                          <h5>{{ driver.HTV_License_Expiry_Date }} <span class="badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.HTV_License_Expiry_Date_status}} </span></h5>
-
-                        </div>
-                      </div>
-                       <!--Item-->
-                       <div class="col-md-3">
-                        <div class="data-items">
-                          <p>License Authority</p>
-                          <h5>{{ driver.HTV_License_Authority }}</h5>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <!--Item Row-->
-                    <div class="row">
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p><b>Medical</b></p>
-                          <h5>{{ driver.Lab_Name }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Issue Date</p>
-                          <h5>{{ driver.Report_Date }}</h5>
-                        </div>
-                      </div>
-                      <!--Item-->
-                      <div class="col-md-3">
-                        <div class="data-items">
-                          <p>Expiry Date</p>
-                          <h5>{{ driver.Expiry_Date }} <span class="badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="font-size: 0.9em; padding: 0.5em;">
-                            {{ driver.Expiry_Date_status }} </span> </h5>
-                        </div>
-                      </div>
-                        <!--Item-->
-                        <div class="col-md-3">
-                          <div class="data-items">
-                            <p>Medical Health</p>
-                            <h5>{{ driver.Medical_Health }}</h5>
+                      
+                      <!-- Tab Contents -->
+                      <!-- Basic Info Tab -->
+                      <div class="tab-content active" id="basic">
+                        <div class="info-cards-grid">
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-user"></i>
+                              </div>
+                              <h4 class="info-card-title">Father Name</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Father_Name }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-birthday-cake"></i>
+                              </div>
+                              <h4 class="info-card-title">Date of Birth</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.DOB }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-graduation-cap"></i>
+                              </div>
+                              <h4 class="info-card-title">Education</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Education }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-tint"></i>
+                              </div>
+                              <h4 class="info-card-title">Blood Group</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Blood_Group }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-building"></i>
+                              </div>
+                              <h4 class="info-card-title">Previous Company</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Previous_Company|default:"Not specified" }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon">
+                                <i class="fa fa-truck"></i>
+                              </div>
+                              <h4 class="info-card-title">Tank Lorry</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Tank_Lorry }}</p>
                           </div>
                         </div>
+                      </div>
+                      
+                      <!-- Documents Tab -->
+                      <div class="tab-content" id="documents">
+                        <div class="status-timeline">
+                          <div class="timeline-item">
+                            <div class="timeline-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                              <i class="fa fa-id-card"></i>
+                            </div>
+                            <div class="timeline-content">
+                              <div class="timeline-title">National Identity Card (CNIC)</div>
+                              <div class="timeline-subtitle">{{ driver.CNIC }}</div>
+                              <div class="timeline-date">Expires: {{ driver.CNIC_Validity }}</div>
+                              <div class="cert-progress-container">
+                                <div class="cert-progress-bar">
+                                  <div class="cert-progress-fill {% if driver.CNIC_Validity_status == 'Valid' %}valid{% elif driver.CNIC_Validity_status == 'Close to Expiry' %}warning{% else %}expired{% endif %}"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="timeline-status">
+                              <span class="status-badge {% if driver.CNIC_Validity_status == 'Close to Expiry' %}badge-warning{% elif driver.CNIC_Validity_status == 'Expired' %}badge-danger{% elif driver.CNIC_Validity_status == 'Valid' %}badge-success{% endif %}">
+                                {{ driver.CNIC_Validity_status }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Certifications Tab -->
+                      <div class="tab-content" id="certifications">
+                        <div class="status-timeline">
+                          <div class="timeline-item">
+                            <div class="timeline-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                              <i class="fa fa-certificate"></i>
+                            </div>
+                            <div class="timeline-content">
+                              <div class="timeline-title">Dangerous Driving Certificate (DDC)</div>
+                              <div class="timeline-subtitle">Status: {{ driver.Motorway_Trained }}</div>
+                              <div class="timeline-date">
+                                <strong>Issued:</strong> {{ driver.DDC_Issue_Date|default:"N/A" }} | 
+                                <strong>Expires:</strong> {{ driver.DDC_Expiry_Date }}
+                              </div>
+                              <div class="cert-progress-container">
+                                <div class="cert-progress-bar">
+                                  <div class="cert-progress-fill {% if driver.DDC_Date_status == 'Valid' %}valid{% elif driver.DDC_Date_status == 'Close to Expiry' %}warning{% else %}expired{% endif %}"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="timeline-status">
+                              <span class="status-badge {% if driver.DDC_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.DDC_Date_status == 'Expired' %}badge-danger{% elif driver.DDC_Date_status == 'Valid' %}badge-success{% endif %}">
+                                {{ driver.DDC_Date_status }}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div class="timeline-item">
+                            <div class="timeline-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                              <i class="fa fa-id-badge"></i>
+                            </div>
+                            <div class="timeline-content">
+                              <div class="timeline-title">Heavy Transport Vehicle License</div>
+                              <div class="timeline-subtitle">License No: {{ driver.License_No }}</div>
+                              <div class="timeline-date">
+                                <strong>Authority:</strong> {{ driver.HTV_License_Authority }}<br>
+                                <strong>Issued:</strong> {{ driver.HTV_License_Issue_Date }} | 
+                                <strong>Expires:</strong> {{ driver.HTV_License_Expiry_Date }}
+                              </div>
+                              <div class="cert-progress-container">
+                                <div class="cert-progress-bar">
+                                  <div class="cert-progress-fill {% if driver.HTV_License_Expiry_Date_status == 'Valid' %}valid{% elif driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}warning{% else %}expired{% endif %}"></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="timeline-status">
+                              <span class="status-badge {% if driver.HTV_License_Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.HTV_License_Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.HTV_License_Expiry_Date_status == 'Valid' %}badge-success{% endif %}">
+                                {{ driver.HTV_License_Expiry_Date_status }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Medical Tab -->
+                      <div class="tab-content" id="medical">
+                        <div class="info-cards-grid">
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                <i class="fa fa-hospital-o"></i>
+                              </div>
+                              <h4 class="info-card-title">Medical Laboratory</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Lab_Name }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                              <h4 class="info-card-title">Report Date</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Report_Date }}</p>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon" style="background: linear-gradient(135deg, #f43f5e, #e11d48);">
+                                <i class="fa fa-clock-o"></i>
+                              </div>
+                              <h4 class="info-card-title">Medical Expiry</h4>
+                            </div>
+                            <p class="info-card-value">{{ driver.Expiry_Date }}</p>
+                            <div class="cert-progress-container">
+                              <div class="cert-progress-bar">
+                                <div class="cert-progress-fill {% if driver.Expiry_Date_status == 'Valid' %}valid{% elif driver.Expiry_Date_status == 'Close to Expiry' %}warning{% else %}expired{% endif %}"></div>
+                              </div>
+                            </div>
+                            <span class="status-badge {% if driver.Expiry_Date_status == 'Close to Expiry' %}badge-warning{% elif driver.Expiry_Date_status == 'Expired' %}badge-danger{% elif driver.Expiry_Date_status == 'Valid' %}badge-success{% endif %}" style="margin-top: 8px; display: inline-block;">
+                              {{ driver.Expiry_Date_status }}
+                            </span>
+                          </div>
+                          
+                          <div class="info-card">
+                            <div class="info-card-header">
+                              <div class="info-card-icon" style="background: linear-gradient(135deg, #84cc16, #65a30d);">
+                                <i class="fa fa-heartbeat"></i>
+                              </div>
+                              <h4 class="info-card-title">Health Status</h4>
+                            </div>
+                            <div class="info-card-value">
+                              <span class="health-indicator {% if driver.Medical_Health == 'Excellent' %}excellent{% elif driver.Medical_Health == 'Good' %}good{% else %}fair{% endif %}">
+                                <i class="fa fa-check-circle"></i>
+                                {{ driver.Medical_Health }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -393,201 +975,138 @@
              <!--Monthly Training & Drill Attendance-->
              <div class="row mt-3">
               <div class="col-md-12">
-                <div class="hggc-panel x_panel">
-                  <!--Title-->
-                  <div class="x_title">
-                    <h2 class="m-0">Monthly Training &amp; Drill Attendance</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                    </ul>
+                <div class="modern-panel">
+                  <!--Header-->
+                  <div class="panel-header">
+                    <h2><i class="fa fa-graduation-cap"></i>Monthly Training &amp; Drill Attendance</h2>
+                    <a class="collapse-link" style="color: white;"><i class="fa fa-chevron-up"></i></a>
                   </div>
                   <!--Content-->
-                  <div class="x_content mt-0">
-                    <!--Item Row-->
-                    <div class="row">
-                      <!--Item-->
-                      <div class="col-md-12">
-                        <div class="table-responsive">
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Offered Month</th>
-                                <th>Trainings</th>
-                                <th>Drills</th>
-                                <th>Attendance Date</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {% for drill in driver_attendance %}
-                                <tr>
-                                  <th scope="row">1</th>
-                                  <td>January</td>
-                                  <td>Company Policies</td>
-                                  <td>First Aid</td>
-
-                                  <td>{{ drill.train1_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">2</th>
-                                  <td>Feburary</td>
-                                  <td>Product Knowledge</td>
-                                  <td>Fire Drill</td>
-
-                                  <td>{{ drill.train2_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">3</th>
-                                  <td>March</td>
-                                  <td>Vehicle Inspection</td>
-                                  <td>Law and Order Situation</td>
-
-                                  <td>{{ drill.train3_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">4</th>
-                                  <td>April</td>
-                                  <td>Journey Management</td>
-                                  <td>Breakdown Maintainance</td>
-
-                                  <td>{{ drill.train4_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">5</th>
-                                  <td>May</td>
-                                  <td>Emergency Response</td>
-                                  <td>Fire Evacuation</td>
-
-                                  <td>{{ drill.train5_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">6</th>
-                                  <td>June</td>
-                                  <td>Internal DDC</td>
-                                  <td>Road Accident</td>
-
-                                  <td>{{ drill.train6_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">7</th>
-                                  <td>July</td>
-                                  <td>Vehicle Roll Over Prevention</td>
-                                  <td>Heat Stroke</td>
-
-                                  <td>{{ drill.train7_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">8</th>
-                                  <td>August</td>
-                                  <td>ABS Brake System</td>
-                                  <td>Spill</td>
-
-                                  <td>{{ drill.train8_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">9</th>
-                                  <td>September</td>
-                                  <td>Loading and Unloading</td>
-                                  <td>Heart Attack</td>
-
-                                  <td>{{ drill.train9_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">10</th>
-                                  <td>October</td>
-                                  <td>First Aid Induction</td>
-                                  <td>Tyre Burst</td>
-
-                                  <td>{{ drill.train10_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">11</th>
-                                  <td>November</td>
-                                  <td>Fatigue Management</td>
-                                  <td>Bomb Threat</td>
-
-                                  <td>{{ drill.train11_completed_date }}</td>
-                                </tr>
-
-                                <tr>
-                                  <th scope="row">12</th>
-                                  <td>December</td>
-                                  <td>Fire Extinguisher Use</td>
-                                  <td>Mega Drill</td>
-
-                                  <td>{{ drill.train12_completed_date }}</td>
-                                </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
+                  <div class="panel-content">
+                    <div class="modern-table">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Month</th>
+                            <th>Training Topic</th>
+                            <th>Drill Exercise</th>
+                            <th>Completion Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for drill in driver_attendance %}
+                            <tr>
+                              <td>1</td>
+                              <td>January</td>
+                              <td>Company Policies</td>
+                              <td>First Aid</td>
+                              <td>{{ drill.train1_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>2</td>
+                              <td>February</td>
+                              <td>Product Knowledge</td>
+                              <td>Fire Drill</td>
+                              <td>{{ drill.train2_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>3</td>
+                              <td>March</td>
+                              <td>Vehicle Inspection</td>
+                              <td>Law and Order Situation</td>
+                              <td>{{ drill.train3_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>4</td>
+                              <td>April</td>
+                              <td>Journey Management</td>
+                              <td>Breakdown Maintenance</td>
+                              <td>{{ drill.train4_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>5</td>
+                              <td>May</td>
+                              <td>Emergency Response</td>
+                              <td>Fire Evacuation</td>
+                              <td>{{ drill.train5_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>6</td>
+                              <td>June</td>
+                              <td>Internal DDC</td>
+                              <td>Road Accident</td>
+                              <td>{{ drill.train6_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>7</td>
+                              <td>July</td>
+                              <td>Vehicle Roll Over Prevention</td>
+                              <td>Heat Stroke</td>
+                              <td>{{ drill.train7_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>8</td>
+                              <td>August</td>
+                              <td>ABS Brake System</td>
+                              <td>Spill</td>
+                              <td>{{ drill.train8_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>9</td>
+                              <td>September</td>
+                              <td>Loading and Unloading</td>
+                              <td>Heart Attack</td>
+                              <td>{{ drill.train9_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>10</td>
+                              <td>October</td>
+                              <td>First Aid Induction</td>
+                              <td>Tyre Burst</td>
+                              <td>{{ drill.train10_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>11</td>
+                              <td>November</td>
+                              <td>Fatigue Management</td>
+                              <td>Bomb Threat</td>
+                              <td>{{ drill.train11_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                            <tr>
+                              <td>12</td>
+                              <td>December</td>
+                              <td>Fire Extinguisher Use</td>
+                              <td>Mega Drill</td>
+                              <td>{{ drill.train12_completed_date|default:"Not Completed" }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
 
-             {% comment %} <!--Work History-->
-             <div class="row mt-3 work-history">
-              <!--Item-->
-                <div class="col-md-4">
-                    <h6 class="mb-2">Add Violation<a href="{% url 'add_driver_violation' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                    
-                </div>
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Total Tool Box Meeting <a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                 
-                </div>
-                <!--Item-->
-                <div class="col-md-4">
-                  <h6 class="mb-2">Add Drill Training<a href="{% url 'add_driver_training' D_ID=driver.D_ID %}" class="pull-right"><i class="fa fa-plus-circle"></i></a></h6>
-                  
-                </div>
-              </div>
-             {% endcomment %}
              <!--Tool Box Meeting Attendance-->
-             <div class="row mt-5">
+             <div class="row mt-3">
               <div class="col-md-12">
-                <div class="hggc-panel x_panel">
-                  <!--Title-->
-                  <div class="x_title">
-                    <h2 class="m-0">Tool Box Meeting Attendance</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                    </ul>
+                <div class="modern-panel">
+                  <!--Header-->
+                  <div class="panel-header">
+                    <h2><i class="fa fa-bar-chart"></i>Tool Box Meeting Attendance</h2>
+                    <a class="collapse-link" style="color: white;"><i class="fa fa-chevron-up"></i></a>
                   </div>
                   <!--Content-->
-                  <div class="x_content mt-0">
-                    <!--Item Row-->
-                    <div class="row">
-                      <!--Item-->
-                      <div class="col-md-12">
-                        <canvas id="barChart" height="350"></canvas>
-                              </div>
-                      </div>
+                  <div class="panel-content">
+                    <div class="chart-container">
+                      <canvas id="barChart" height="350"></canvas>
                     </div>
-
                   </div>
                 </div>
               </div>
-            </div>
+            )
             
 
           </div>
@@ -596,8 +1115,9 @@
         <script>
           const tbm_data = JSON.parse('{{ tbm_data|escapejs }}')
           
-          // Custom color palette for bars
-          const colorPalette = ['rgb(122,24,24)']
+          // Custom color palette for bars with golden yellow theme
+          const colorPalette = ['rgba(247, 215, 148, 0.8)']
+          const borderColorPalette = ['rgba(247, 215, 148, 1)']
           
           // Dummy data
           const data = {
@@ -607,8 +1127,10 @@
                 label: 'No. of Times Meeting Attended',
                 data: tbm_data,
                 backgroundColor: colorPalette,
-                borderColor: colorPalette,
-                borderWidth: 1
+                borderColor: borderColorPalette,
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(247, 215, 148, 1)',
+                hoverBorderColor: 'rgba(247, 215, 148, 1)'
               }
             ]
           }
@@ -640,13 +1162,53 @@
             }
           }
           
-          // Create a bar chart
-          const ctx = document.getElementById('barChart').getContext('2d')
-          const myBarChart = new Chart(ctx, {
+          // Chart configuration with golden yellow theme
+          var ctx = document.getElementById("barChart").getContext('2d');
+          var barChart = new Chart(ctx, {
             type: 'bar',
             data: data,
             options: options
           })
+
+          // Tab functionality for Personal Information section
+          document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-nav-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                // Show corresponding content
+                const tabId = button.getAttribute('data-tab');
+                const targetContent = document.getElementById(tabId);
+                if (targetContent) {
+                  targetContent.classList.add('active');
+                }
+              });
+            });
+          });
+
+          // Panel collapse functionality
+          $(document).ready(function() {
+            $('.collapse-link').click(function() {
+              var panel = $(this).closest('.modern-panel').find('.panel-content');
+              var icon = $(this).find('i');
+              
+              if (panel.is(':visible')) {
+                panel.slideUp();
+                icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+              } else {
+                panel.slideDown();
+                icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+              }
+            });
+          });
         </script>
 
       </div>
