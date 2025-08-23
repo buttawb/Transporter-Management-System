@@ -26,7 +26,9 @@ SECRET_KEY = "django-insecure-3k&!fhvd0r#@it8#&c28n_s=hpkavs_@$r(90q^+=*04))&olx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 
 # Application definition
@@ -51,6 +53,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     "dashboard.middleware.LoginRequiredMiddleware",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app"
 ]
 
 ROOT_URLCONF = "mysite.urls"

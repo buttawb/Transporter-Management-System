@@ -29,7 +29,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
   
   .stat-card {
@@ -37,7 +37,7 @@
     backdrop-filter: blur(10px);
     border-radius: 10px;
     padding: 15px;
-    text-align: center;
+    text-align: left;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
@@ -52,6 +52,7 @@
     font-size: 1.8rem;
     color: #6c7ae0;
     margin-bottom: 8px;
+    display: none;
   }
   
   .stat-number {
@@ -64,7 +65,7 @@
   .stat-label {
     color: #666;
     font-size: 0.8rem;
-    margin-bottom: 6px;
+    /* margin-bottom: 6px; */
   }
   
   .stat-change {
@@ -73,6 +74,10 @@
     border-radius: 8px;
     background: #e8f5e8;
     color: #27ae60;
+    width: fit-content;
+    position: absolute;
+    right: 12px;
+    top: 12px;
   }
   
   /* Dashboard specific hover enhancements */
@@ -155,7 +160,7 @@
   
   .expired-sections {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 15px;
   }
   
@@ -173,13 +178,15 @@
   }
   
   .expired-header {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-    color: white;
+    /* background: linear-gradient(135deg, #ff6b6b, #ee5a52); */
+    /* color: white; */
     padding: 12px 15px;
     font-weight: 600;
     font-size: 0.9rem;
   }
-  
+  .expired-header > .fa{
+    display: none;
+  }
   .expired-content {
     max-height: 250px;
     overflow-y: auto;
@@ -215,7 +222,9 @@
     margin-right: 12px;
     font-size: 0.8rem;
   }
-  
+  .expired-sections .expired-avatar{
+    display: none;
+  }
   .expired-details h6 {
     margin: 0 0 3px 0;
     color: #2c3e50;
@@ -230,14 +239,16 @@
   }
   
   .danger-badge {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-    color: white;
+    /* background: linear-gradient(135deg, #ff6b6b, #ee5a52); */
+    background: #ff6b6b1f;
+    color: #ff6b6b;
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: 500;
     margin-left: auto;
   }
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -247,7 +258,7 @@
   
   <!-- Modern Stats Section -->
   <div class="dashboard-stats">
-    <h2 style="margin-bottom: 15px; font-weight: 300; font-size: 1.3rem;">System Overview</h2>
+    {% comment %} <h2 style="margin-bottom: 15px; font-weight: 300; font-size: 1.3rem;">System Overview</h2> {% endcomment %}
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon">
@@ -284,7 +295,9 @@
         <div class="stat-label">Man Days Worked</div>
         <div class="stat-change" style="background: #ffe8e8; color: #e74c3c;">-12% from last week</div>
       </div>
-      
+     
+    </div>
+    <div class="stats-grid mb-0">
       <div class="stat-card">
         <div class="stat-icon">
           <i class="fa fa-exclamation-triangle"></i>
@@ -300,6 +313,19 @@
         </div>
         <div class="stat-number">0</div>
         <div class="stat-label">Total Incidents</div>
+        <div class="stat-change">+0% from last week</div>
+      </div>
+
+       <div class="stat-card">
+      
+        <div class="stat-number">0</div>
+        <div class="stat-label">Total Sessions</div>
+        <div class="stat-change">+0% from last week</div>
+      </div>
+
+       <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Participants</div>
         <div class="stat-change">+0% from last week</div>
       </div>
     </div>
@@ -323,7 +349,7 @@
   </div>
 
   <!-- Summary Cards -->
-  <div class="summary-cards">
+  <!-- <div class="summary-cards">
     <div class="summary-card">
       <div class="stat-icon" style="color: white; margin-bottom: 8px; font-size: 1.5rem;">
         <i class="fa fa-caret-square-o-right"></i>
@@ -339,7 +365,7 @@
       <div style="font-size: 1.8rem; font-weight: bold; margin-bottom: 3px;">9,672</div>
       <div style="font-size: 0.9rem;">Participants</div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Expired Documents Section -->
   <div class="expired-sections">
