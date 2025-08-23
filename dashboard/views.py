@@ -1162,6 +1162,18 @@ def get_tppl(request):
 def get_procedures(request):
     return render(request, 'static_content/procedures.html')
 
+def get_dm(request):
+    return render(request, 'static_content/dm.html')
+
+def get_hsep(request):
+    return render(request, 'static_content/hsep.html')
+
+def get_vm(request):
+    return render(request, 'static_content/vm.html')
+
+def get_op(request):
+    return render(request, 'static_content/op.html')
+
 
 def get_emergency_procedures(request):
     return render(request, 'static_content/eprocedures.html')
